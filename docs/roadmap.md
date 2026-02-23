@@ -106,11 +106,11 @@ assets/
 
 ### Acceptance Criteria
 
-- [x] `npx expo start` succeeds on iOS Simulator
-- [x] `npx expo start` succeeds on Android Emulator
-- [x] Supabase project accessible, anon key configured
-- [x] Fonts (Fredoka One, Nunito) render correctly
-- [x] Git repo initialized with clean first commit
+- [ ] `npx expo start` succeeds on iOS Simulator
+- [ ] `npx expo start` succeeds on Android Emulator
+- [ ] Supabase project accessible, anon key configured
+- [ ] Fonts (Fredoka One, Nunito) render correctly
+- [ ] Git repo initialized with clean first commit
 
 ---
 
@@ -138,12 +138,12 @@ assets/
 
 ### Acceptance Criteria
 
-- [x] Google OAuth flow works end-to-end (sign in → profile created in Supabase)
+- [ ] Google OAuth flow works end-to-end (sign in → profile created in Supabase)
 - [ ] Apple OAuth flow works end-to-end
-- [x] Anonymous mode works (no sign-in, profile saved locally)
-- [x] Onboarding screen appears on first launch only
-- [x] Expo Router redirects correctly based on auth + profile state
-- [x] Sign-out returns to Sign-In screen
+- [ ] Anonymous mode works (no sign-in, profile saved locally)
+- [ ] Onboarding screen appears on first launch only
+- [ ] Expo Router redirects correctly based on auth + profile state
+- [ ] Sign-out returns to Sign-In screen
 
 ---
 
@@ -171,11 +171,11 @@ assets/
 
 ### Acceptance Criteria
 
-- [x] Supabase tables created with correct constraints and RLS
-- [x] All services work against Supabase when authenticated
-- [x] All services fall back to local Expo SQLite when anonymous/offline
-- [x] `SyncService` queues a write when offline and replays it when connectivity returns
-- [x] Unit tests pass for all service methods
+- [ ] Supabase tables created with correct constraints and RLS
+- [ ] All services work against Supabase when authenticated
+- [ ] All services fall back to local Expo SQLite when anonymous/offline
+- [ ] `SyncService` queues a write when offline and replays it when connectivity returns
+- [ ] Unit tests pass for all service methods
 
 ---
 
@@ -202,12 +202,12 @@ assets/
 
 ### Acceptance Criteria
 
-- [x] Home screen displays 3 habit cards
-- [x] Cards show correct completion status based on today's logs
-- [x] Gold Bolt counter shows correct balance
-- [x] Daily progress bar updates as habits are completed
-- [x] Navigation to Mission, Settings, and Reward Shop works
-- [x] UI is vibrant, playful, and uses the correct fonts
+- [ ] Home screen displays 3 habit cards
+- [ ] Cards show correct completion status based on today's logs
+- [ ] Gold Bolt counter shows correct balance
+- [ ] Daily progress bar updates as habits are completed
+- [ ] Navigation to Mission, Settings, and Reward Shop works
+- [ ] UI is vibrant, playful, and uses the correct fonts
 
 ---
 
@@ -456,10 +456,10 @@ assets/
 
 | Phase | Name                      | Duration  | Depends On | Status         |
 | :---- | :------------------------ | :-------- | :--------- | :------------- |
-| 0     | Project Scaffolding       | 2–3 days  | —          | ✅ Complete    |
-| 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ✅ Complete    |
-| 2     | Core Data Layer           | 4–5 days  | Phase 1    | ✅ Complete    |
-| 3     | Home Screen               | 3–4 days  | Phase 2    | ✅ Complete    |
+| 0     | Project Scaffolding       | 2–3 days  | —          | ⬜ Not Started |
+| 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ⬜ Not Started |
+| 2     | Core Data Layer           | 4–5 days  | Phase 1    | ⬜ Not Started |
+| 3     | Home Screen               | 3–4 days  | Phase 2    | ⬜ Not Started |
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ⬜ Not Started |
 | 5     | Reward System             | 3–4 days  | Phase 4    | ⬜ Not Started |
 | 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ⬜ Not Started |
