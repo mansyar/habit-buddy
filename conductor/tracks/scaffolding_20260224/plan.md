@@ -7,7 +7,7 @@
 - [x] Task: Install Core Dependencies 4076f93
     - [ ] Install `zustand`, `@supabase/supabase-js`, `expo-sqlite`, `expo-secure-store`, `expo-av`, `react-native-svg`, `date-fns`, `uuid`, `@react-native-community/netinfo`
     - [ ] Install `@expo-google-fonts/fredoka-one`, `@expo-google-fonts/nunito`
-- [ ] Task: Configure TypeScript Path Aliases
+- [x] Task: Configure TypeScript Path Aliases d2fdfd1
     - [ ] Update `tsconfig.json` with `baseUrl` and `paths` (`@/*` -> `src/*`)
 - [ ] Task: Set up ESLint & Prettier
     - [ ] Install `eslint`, `prettier`, `eslint-config-prettier`, `eslint-plugin-react`, `eslint-plugin-react-native`
