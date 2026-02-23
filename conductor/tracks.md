@@ -7,3 +7,8 @@ This file records all tracks created during the development process.
 ## In Progress
 
 ## Planned
+
+---
+
+- [ ] **Track: Phase 0: Project Scaffolding**
+*Link: [./tracks/scaffolding_20260224/](./tracks/scaffolding_20260224/)*
