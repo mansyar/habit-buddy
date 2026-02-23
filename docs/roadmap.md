@@ -35,13 +35,13 @@ Phase 8   ░░░░░░░░░░░░░░░░░░██  Polish, 
 
 | #   | Task                      | Details                                                                        |
 | :-- | :------------------------ | :----------------------------------------------------------------------------- |
-| 0.1 | Create Expo project       | `npx create-expo-app habit_buddy --template tabs`                              |
+| 0.1 | Create Expo project       | `pnpm dlx create-expo-app habit_buddy --template tabs`                      |
 | 0.2 | Define folder structure   | See §Structure below                                                           |
 | 0.3 | Install core dependencies | See §Dependencies below                                                        |
 | 0.4 | Create Supabase project   | Provision on [supabase.com](https://supabase.com), note project URL + anon key |
 | 0.5 | Configure flavors / env   | Separate `dev` and `prod` Supabase URLs via `.env` and `app.config.js`         |
 | 0.6 | Set up linting            | `eslint` and `prettier`                                                        |
-| 0.7 | Verify clean build        | `npx expo start` on both iOS Simulator and Android Emulator                    |
+| 0.7 | Verify clean build        | `pnpm expo start` on both iOS Simulator and Android Emulator                    |
 | 0.8 | Initialize Git repo       | `.gitignore`, initial commit, branch strategy (`main` + `develop`)             |
 
 ### Folder Structure
@@ -106,8 +106,8 @@ assets/
 
 ### Acceptance Criteria
 
-- [ ] `npx expo start` succeeds on iOS Simulator
-- [ ] `npx expo start` succeeds on Android Emulator
+- [ ] `pnpm expo start` succeeds on iOS Simulator
+- [ ] `pnpm expo start` succeeds on Android Emulator
 - [ ] Supabase project accessible, anon key configured
 - [ ] Fonts (Fredoka One, Nunito) render correctly
 - [ ] Git repo initialized with clean first commit
