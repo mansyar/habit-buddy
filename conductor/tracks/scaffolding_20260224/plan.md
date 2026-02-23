@@ -16,10 +16,9 @@
 - [x] Task: Set up Husky & lint-staged 257a77a
   - [ ] Initialize Husky
   - [ ] Configure `lint-staged` in `package.json` to run `eslint --fix` on staged files
-- [ ] Task: Initialize Vitest and React Testing Library
+- [x] Task: Initialize Vitest and React Testing Library 14a2811
   - [ ] Install `vitest`, `@testing-library/react-native`, `@testing-library/jest-native`
-  - [ ] Configure `vitest.config.ts` for React Native
-  - [ ] Create a "Hello World" test to verify setup
+  - [ ] Configure `vitest.config.ts` for React Native - [ ] Create a "Hello World" test to verify setup
 - [ ] Task: Initialize Supabase CLI & Basic .env
   - [ ] Run `npx supabase init`
   - [ ] Create `.env.example` and `.env` with placeholder Supabase URL/Key
