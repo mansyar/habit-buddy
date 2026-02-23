@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "building-native-ui": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "5ebc7d734c169ee8d4ece12f2ee9ccd569136bcc32235b42c2b0a15b54d6474e"
+    },
+    "native-data-fetching": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "b42e924c0297d74657c078f8c06b96f0c34078d6ad89b2a5302c2c70fe362fe8"
+    },
+    "react-native-best-practices": {
+      "source": "callstackincubator/agent-skills",
+      "sourceType": "github",
+      "computedHash": "83eede7791ad562470273545256092fe08ebcbc0b52d91c950fabb41692427d0"
+    },
+    "react-native-reanimated": {
+      "source": "dralgorhythm/claude-agentic-framework",
+      "sourceType": "github",
+      "computedHash": "e5374c8343415417f28617b534589af427d28954999ce02bbe35cc94ac33bb32"
+    }
+  }
+}
