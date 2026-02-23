@@ -6,7 +6,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@expo-google-fonts/fredoka-one": "^0.2.3",
@@ -41,6 +43,13 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "eslint": "^10.0.1",
+    "eslint-config-expo": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-native": "^5.0.0",
+    "prettier": "^3.8.1",
     "react-test-renderer": "19.1.0",
     "typescript": "~5.9.2"
   },
