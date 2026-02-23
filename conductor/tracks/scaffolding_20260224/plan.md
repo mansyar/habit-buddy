@@ -19,10 +19,9 @@
 - [x] Task: Initialize Vitest and React Testing Library 14a2811
   - [ ] Install `vitest`, `@testing-library/react-native`, `@testing-library/jest-native`
   - [ ] Configure `vitest.config.ts` for React Native - [ ] Create a "Hello World" test to verify setup
-- [ ] Task: Initialize Supabase CLI & Basic .env
+- [x] Task: Initialize Supabase CLI & Basic .env c056d49
   - [ ] Run `npx supabase init`
-  - [ ] Create `.env.example` and `.env` with placeholder Supabase URL/Key
-  - [ ] Add `.env` to `.gitignore`
+  - [ ] Create `.env.example` and `.env` with placeholder Supabase URL/Key - [ ] Add `.env` to `.gitignore`
 - [ ] Task: Verify Clean Build
   - [ ] Run `pnpm expo start` and ensure no startup errors
 - [ ] Task: Update `docs/roadmap.md`
