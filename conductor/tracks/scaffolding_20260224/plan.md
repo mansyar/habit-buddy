@@ -1,7 +1,7 @@
 # Implementation Plan - Phase 0: Project Scaffolding
 
 ## Phase 1: Foundation & Tooling
-- [ ] Task: Initialize Folder Structure
+- [x] Task: Initialize Folder Structure ab34cb1
     - [ ] Create `src/components`, `src/lib`, `src/store`, `src/theme`, `src/types`, `src/utils`
     - [ ] Create `assets/audio/music`, `assets/audio/sfx`, `assets/audio/vo`, `assets/props`
 - [ ] Task: Install Core Dependencies
