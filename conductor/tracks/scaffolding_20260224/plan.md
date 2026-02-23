@@ -9,7 +9,7 @@
     - [ ] Install `@expo-google-fonts/fredoka-one`, `@expo-google-fonts/nunito`
 - [x] Task: Configure TypeScript Path Aliases d2fdfd1
     - [ ] Update `tsconfig.json` with `baseUrl` and `paths` (`@/*` -> `src/*`)
-- [ ] Task: Set up ESLint & Prettier
+- [x] Task: Set up ESLint & Prettier 3bf387f
     - [ ] Install `eslint`, `prettier`, `eslint-config-prettier`, `eslint-plugin-react`, `eslint-plugin-react-native`
     - [ ] Create `.eslintrc.js` and `.prettierrc`
 - [ ] Task: Set up Husky & lint-staged
