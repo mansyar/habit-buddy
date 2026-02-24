@@ -28,9 +28,9 @@ Goal: Build the abstract services that toggle between Supabase and SQLite.
 - [x] Task: Refactor `ProfileService` to support both Supabase and SQLite. (4a270f0)
   - [x] Task: Write failing tests for `ProfileService` (online/offline modes). (4a270f0)
   - [x] Task: Implement `getProfile`, `createProfile`, and `updateProfile`. (4a270f0)
-- [ ] Task: Implement `HabitLogService`.
-  - [ ] Task: Write failing tests for `HabitLogService`.
-  - [ ] Task: Implement `logCompletion`, `getTodaysLogs`, and `getStreakData`.
+- [x] Task: Implement `HabitLogService`. (e4045b0)
+  - [x] Task: Write failing tests for `HabitLogService`. (e4045b0)
+  - [x] Task: Implement `logCompletion`, `getTodaysLogs`, and `getStreakData`. (e4045b0)
 - [ ] Task: Implement `CouponService`.
   - [ ] Task: Write failing tests for `CouponService`.
   - [ ] Task: Implement `getCoupons`, `createCoupon`, and `redeemCoupon`.
