@@ -59,7 +59,7 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-function RootLayoutNav() {
+export function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const { user, profile, isLoading, setUser, setProfile, setLoading } = useAuthStore();
   const router = useRouter();
@@ -117,8 +117,11 @@ function RootLayoutNav() {
   useEffect(() => {
     if (isLoading) return;
 
-    const inAuthGroup = segments[0] === '(auth)';
-    const inOnboarding = segments[0] === 'onboarding';
+    const inAuthGroup = segments.includes('(auth)');
+    const inOnboarding = segments.includes('onboarding');
+    const isLoginCallback = segments.includes('login-callback');
+
+    if (isLoginCallback) return;
 
     const isAuthenticated = !!user || (!!profile && profile.is_guest);
 
