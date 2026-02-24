@@ -18,7 +18,7 @@
 - [x] Task: Implement `BoltCounter` component with TDD. [a7942f0]
   - [x] Write tests in `src/components/__tests__/BoltCounter.test.tsx`.
   - [x] Implement `src/components/BoltCounter.tsx` with Reanimated bounce effect.
-- [ ] Task: Implement `CautionTapeProgress` component with TDD.
+- [~] Task: Implement `CautionTapeProgress` component with TDD.
   - [ ] Write tests in `src/components/__tests__/CautionTapeProgress.test.tsx`.
   - [ ] Implement `src/components/CautionTapeProgress.tsx` with Reanimated scrolling.
 - [ ] Task: Conductor - User Manual Verification 'UI Components' (Protocol in workflow.md)
