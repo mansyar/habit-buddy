@@ -1,12 +1,15 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { supabase } from '@/lib/supabase';
+import { useAuthStore } from '@/store/auth_store';
+import { profileService } from '@/lib/profile_service';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,11 +50,64 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const { user, profile, isLoading, setUser, setProfile, setLoading } = useAuthStore();
+  const router = useRouter();
+  const segments = useSegments();
+
+  useEffect(() => {
+    // Initial fetch of user and profile
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      const initialUser = session?.user ?? null;
+      setUser(initialUser);
+      if (initialUser) {
+        const profileData = await profileService.getProfile(initialUser.id);
+        setProfile(profileData);
+      }
+      setLoading(false);
+    });
+
+    // Listen for auth state changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      const newUser = session?.user ?? null;
+      setUser(newUser);
+
+      if (newUser) {
+        const profileData = await profileService.getProfile(newUser.id);
+        setProfile(profileData);
+      } else {
+        setProfile(null);
+      }
+
+      setLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (!user && !inAuthGroup) {
+      // For now, if no user, we go to sign-in. Guest mode will set a 'guest' user/profile state.
+      router.replace('/sign-in');
+    } else if (user && !profile && segments[0] !== '(auth)' && segments[0] !== 'onboarding') {
+      router.replace('/onboarding');
+    } else if (user && profile && inAuthGroup) {
+      router.replace('/(tabs)');
+    }
+  }, [user, profile, isLoading, segments]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
