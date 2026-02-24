@@ -22,10 +22,10 @@
 
 ## Phase 3: Onboarding Flow [checkpoint: onboarding_implementation]
 
-- [~] Task: Build Onboarding Screen
-  - [ ] Write Tests: Create `app/(auth)/__tests__/onboarding.test.tsx` for input and avatar selection.
-  - [ ] Implement: Create `app/(auth)/onboarding.tsx` with name input and avatar selection.
-- [ ] Task: Implement Navigation Logic
+- [x] Task: Build Onboarding Screen 44864c6
+  - [x] Write Tests: Create `app/(auth)/__tests__/onboarding.test.tsx` for input and avatar selection.
+  - [x] Implement: Create `app/(auth)/onboarding.tsx` with name input and avatar selection.
+- [~] Task: Implement Navigation Logic
   - [ ] Write Tests: Create `app/__tests__/navigation.test.tsx` to verify redirects.
   - [ ] Implement: Configure Expo Router redirects based on auth and profile state.
 - [ ] Task: Conductor - User Manual Verification 'Onboarding Flow' (Protocol in workflow.md)
