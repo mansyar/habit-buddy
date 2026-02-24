@@ -26,3 +26,7 @@
   - [ ] Run `pnpm expo start` and ensure no startup errors- [x] Task: Update `docs/roadmap.md` 8ec8217
   - [ ] Mark Phase 0 as completed in the roadmap file.
 - [x] Task: Conductor - User Manual Verification 'Project Scaffolding' (Protocol in workflow.md) 6f98ca9
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions 406b7aa
