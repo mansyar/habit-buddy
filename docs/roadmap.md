@@ -10,7 +10,7 @@
 ## Overview
 
 ```
-Phase 0   ████████████████████  Project Scaffolding
+Phase 0   ✅✅✅✅✅✅✅✅✅✅  Project Scaffolding
 Phase 1   ░░██░░░░░░░░░░░░░░░░  Auth & Onboarding
 Phase 2   ░░░░██░░░░░░░░░░░░░░  Core Data Layer
 Phase 3   ░░░░░░██░░░░░░░░░░░░  Home Screen
@@ -35,13 +35,13 @@ Phase 8   ░░░░░░░░░░░░░░░░░░██  Polish, 
 
 | #   | Task                      | Details                                                                        |
 | :-- | :------------------------ | :----------------------------------------------------------------------------- |
-| 0.1 | Create Expo project       | `pnpm dlx create-expo-app habit_buddy --template tabs`                      |
+| 0.1 | Create Expo project       | `pnpm dlx create-expo-app habit_buddy --template tabs`                         |
 | 0.2 | Define folder structure   | See §Structure below                                                           |
 | 0.3 | Install core dependencies | See §Dependencies below                                                        |
 | 0.4 | Create Supabase project   | Provision on [supabase.com](https://supabase.com), note project URL + anon key |
 | 0.5 | Configure flavors / env   | Separate `dev` and `prod` Supabase URLs via `.env` and `app.config.js`         |
 | 0.6 | Set up linting            | `eslint` and `prettier`                                                        |
-| 0.7 | Verify clean build        | `pnpm expo start` on both iOS Simulator and Android Emulator                    |
+| 0.7 | Verify clean build        | `pnpm expo start` on Android Emulator                                          |
 | 0.8 | Initialize Git repo       | `.gitignore`, initial commit, branch strategy (`main` + `develop`)             |
 
 ### Folder Structure
@@ -106,7 +106,6 @@ assets/
 
 ### Acceptance Criteria
 
-- [ ] `pnpm expo start` succeeds on iOS Simulator
 - [ ] `pnpm expo start` succeeds on Android Emulator
 - [ ] Supabase project accessible, anon key configured
 - [ ] Fonts (Fredoka One, Nunito) render correctly
@@ -116,7 +115,7 @@ assets/
 
 ## Phase 1: Auth & Onboarding
 
-**Goal:** A parent can sign in with Google/Apple or continue anonymously. First-run onboarding collects the child's name.
+**Goal:** A parent can sign in with Google or continue anonymously. First-run onboarding collects the child's name.
 
 **Duration:** 3–5 days  
 **Depends on:** Phase 0
@@ -125,10 +124,10 @@ assets/
 
 | #    | Task                       | Details                                                                       |
 | :--- | :------------------------- | :---------------------------------------------------------------------------- |
-| 1.1  | Configure Supabase Auth    | Enable Google + Apple OAuth providers in Supabase dashboard                   |
+| 1.1  | Configure Supabase Auth    | Enable Google OAuth provider in Supabase dashboard                            |
 | 1.2  | Initialize Supabase client | `createClient` in `src/lib/supabase.ts` with env-based URL/key                |
-| 1.3  | Build Sign-In screen       | Google + Apple buttons, "Continue without account" link (PRD §6, Screen 9)    |
-| 1.4  | Implement OAuth flow       | `supabase.auth.signInWithOAuth()` for Google and Apple                        |
+| 1.3  | Build Sign-In screen       | Google button, "Continue without account" link (PRD §6, Screen 9)             |
+| 1.4  | Implement OAuth flow       | `supabase.auth.signInWithOAuth()` for Google                                  |
 | 1.5  | Implement anonymous mode   | Create a local profile without Supabase auth — store in local DB              |
 | 1.6  | Build Onboarding screen    | Child name input, friendly buddy illustration, "Let's Go!" button (Screen 2)  |
 | 1.7  | Create Profile type        | `Profile` TypeScript interface matching PRD §7.1 schema                       |
@@ -139,7 +138,6 @@ assets/
 ### Acceptance Criteria
 
 - [ ] Google OAuth flow works end-to-end (sign in → profile created in Supabase)
-- [ ] Apple OAuth flow works end-to-end
 - [ ] Anonymous mode works (no sign-in, profile saved locally)
 - [ ] Onboarding screen appears on first launch only
 - [ ] Expo Router redirects correctly based on auth + profile state
@@ -393,7 +391,7 @@ assets/
 | #    | Task                     | Details                                                                      |
 | :--- | :----------------------- | :--------------------------------------------------------------------------- |
 | 8A.1 | Splash screen            | Animated Animal logo using Reanimated (or static fallback), 2-second minimum |
-| 8A.2 | App icon                 | Generate iOS + Android icons from 1024×1024 master                           |
+| 8A.2 | App icon                 | Generate Android icons from 1024×1024 master                                 |
 | 8A.3 | Color palette refinement | Vibrant, toddler-friendly palette. Test on tablet screens.                   |
 | 8A.4 | Micro-animations         | Button press feedback, bolt counter increment, card completion check-mark    |
 | 8A.5 | Loading states           | Skeleton screens or playful loading indicators (bouncing buddy?)             |
@@ -425,7 +423,7 @@ assets/
 | 8D.1 | Unit tests            | Models, repositories, state machine, services                  |
 | 8D.2 | Component tests       | Key screens: Home, Mission, Reward Shop                        |
 | 8D.3 | Integration tests     | Full mission flow (start → done → bolt awarded → home updated) |
-| 8D.4 | Manual QA             | Test on real iOS device + real Android device                  |
+| 8D.4 | Manual QA             | Test on real Android device                                    |
 | 8D.5 | Performance profiling | Check FPS during Reanimated animations, cold start time        |
 
 ### Sub-Phase 8E: Release Prep (1 day)
@@ -435,8 +433,8 @@ assets/
 | 8E.1 | Privacy Policy          | Draft and host (e.g., GitHub Pages). Link in app Settings.              |
 | 8E.2 | App Store metadata      | Screenshots, app description, keywords, age rating (4+)                 |
 | 8E.3 | COPPA compliance review | Final audit: no child data collected, no tracking SDKs, VOs pre-bundled |
-| 8E.4 | Build release APK/IPA   | `eas build --platform android` + `eas build --platform ios`             |
-| 8E.5 | Submit to stores        | Google Play Console + Apple App Store Connect                           |
+| 8E.4 | Build release APK       | `eas build --platform android`                                          |
+| 8E.5 | Submit to stores        | Google Play Console                                                     |
 
 ### Acceptance Criteria
 
@@ -446,7 +444,7 @@ assets/
 - [ ] All tap targets ≥ 48×48dp
 - [ ] Screen reader works on parent-facing screens
 - [ ] Privacy policy accessible in-app
-- [ ] Release builds succeed for both platforms
+- [ ] Release build succeeds for Android
 - [ ] All tests pass
 - [ ] Manual QA complete on real devices
 
@@ -456,7 +454,7 @@ assets/
 
 | Phase | Name                      | Duration  | Depends On | Status         |
 | :---- | :------------------------ | :-------- | :--------- | :------------- |
-| 0     | Project Scaffolding       | 2–3 days  | —          | ⬜ Not Started |
+| 0     | Project Scaffolding       | 2–3 days  | —          | ✅ Complete    |
 | 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ⬜ Not Started |
 | 2     | Core Data Layer           | 4–5 days  | Phase 1    | ⬜ Not Started |
 | 3     | Home Screen               | 3–4 days  | Phase 2    | ⬜ Not Started |
@@ -487,14 +485,13 @@ Assets can be produced **in parallel** with development. Here's when each asset 
 
 ## Risk Register
 
-| Risk                                                 | Impact | Likelihood | Mitigation                                                                                                                                                                        |
-| :--------------------------------------------------- | :----- | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Reanimated math complexity                           | Medium | Low        | Start with simple bounces. Use `withSpring` for everything toddler-friendly. Adjust scaling and translates slowly.                                                                |
-| ElevenLabs free tier character limit                 | Low    | Medium     | Pre-write all VO scripts (PRD lists ~6 lines ≈ 300 chars). Free tier allows 10k chars — plenty for MVP.                                                                           |
-| Apple OAuth requires paid developer account ($99/yr) | Medium | Certain    | Budget for Apple Developer Program. Required for TestFlight and App Store anyway.                                                                                                 |
-| Supabase free tier limits                            | Low    | Low        | Free tier: 500MB DB, 1GB storage, 2GB bandwidth. More than enough for MVP.                                                                                                        |
-| Offline sync conflicts                               | Medium | Medium     | Keep conflict resolution simple (last-write-wins). Habit logs are append-only, so conflicts are rare.                                                                             |
-| App Store rejection (children's category)            | High   | Medium     | Follow COPPA strictly. No ads, no tracking, no user-generated content from children. Review Apple's [Kids Category guidelines](https://developer.apple.com/app-store/kids-apps/). |
+| Risk                                       | Impact | Likelihood | Mitigation                                                                                                                 |
+| :----------------------------------------- | :----- | :--------- | :------------------------------------------------------------------------------------------------------------------------- |
+| Reanimated math complexity                 | Medium | Low        | Start with simple bounces. Use `withSpring` for everything toddler-friendly. Adjust scaling and translates slowly.         |
+| ElevenLabs free tier character limit       | Low    | Medium     | Pre-write all VO scripts (PRD lists ~6 lines ≈ 300 chars). Free tier allows 10k chars — plenty for MVP.                    |
+| Supabase free tier limits                  | Low    | Low        | Free tier: 500MB DB, 1GB storage, 2GB bandwidth. More than enough for MVP.                                                 |
+| Offline sync conflicts                     | Medium | Medium     | Keep conflict resolution simple (last-write-wins). Habit logs are append-only, so conflicts are rare.                      |
+| Play Store rejection (children's category) | High   | Medium     | Follow COPPA strictly. No ads, no tracking, no user-generated content from children. Review Google Play's Families policy. |
 
 ---
 
@@ -510,4 +507,4 @@ The MVP is complete when:
 - [ ] Parent Dashboard shows accurate daily progress and streak
 - [ ] All PRD §9 error states are handled
 - [ ] App passes COPPA compliance review
-- [ ] Release builds submitted to Google Play and Apple App Store
+- [ ] Release build submitted to Google Play
