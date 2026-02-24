@@ -31,9 +31,9 @@ Goal: Build the abstract services that toggle between Supabase and SQLite.
 - [x] Task: Implement `HabitLogService`. (e4045b0)
   - [x] Task: Write failing tests for `HabitLogService`. (e4045b0)
   - [x] Task: Implement `logCompletion`, `getTodaysLogs`, and `getStreakData`. (e4045b0)
-- [ ] Task: Implement `CouponService`.
-  - [ ] Task: Write failing tests for `CouponService`.
-  - [ ] Task: Implement `getCoupons`, `createCoupon`, and `redeemCoupon`.
+- [x] Task: Implement `CouponService`. (adaa8a4)
+  - [x] Task: Write failing tests for `CouponService`. (adaa8a4)
+  - [x] Task: Implement `getCoupons`, `createCoupon`, and `redeemCoupon`. (adaa8a4)
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Service Layer (Repositories)' (Protocol in workflow.md)
 
 ## Phase 4: Network & Synchronization
