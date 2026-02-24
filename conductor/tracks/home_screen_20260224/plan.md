@@ -2,7 +2,7 @@
 
 ## Phase 1: Foundation & State Management
 
-- [ ] Task: Define Core Habits and `Habit` type.
+- [~] Task: Define Core Habits and `Habit` type.
   - [ ] Create `src/types/habit.ts`.
   - [ ] Create `src/constants/habits.ts` with the 3 core habits.
 - [ ] Task: Create `useHabitStore` with TDD.
