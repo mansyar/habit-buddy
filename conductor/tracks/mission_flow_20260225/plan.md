@@ -5,9 +5,9 @@
 - [x] Task: Update Onboarding Screen for Buddy Selection (7fb85f8)
   - [x] Add `selected_buddy` field to `profiles` state and `ProfileService`.
   - [x] Build `BuddySelector` component in `app/(auth)/onboarding.tsx` (Dino vs. Bear).
-- [ ] Task: Scaffold Mission Screen Layout
-  - [ ] Create `app/mission/[id].tsx` with basic container and components.
-  - [ ] Implement `BuddyArea` and `ControlsArea` layout (60/40 split).
+- [x] Task: Scaffold Mission Screen Layout (29f5e54)
+  - [x] Create `app/mission/[id].tsx` with basic container and components.
+  - [x] Implement `BuddyArea` and `ControlsArea` layout (60/40 split).
 - [ ] Task: Conductor - User Manual Verification 'Phase 4A: Onboarding Update & Mission Layout' (Protocol in workflow.md)
 
 ## Phase 4B: Mission Timer & Controls
