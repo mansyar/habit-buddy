@@ -40,3 +40,7 @@
 - [x] Task: Perform manual E2E tests on iOS/Android emulators 9f977a0
 - [x] Task: Verify Supabase dashboard for new user profiles 9f977a0
 - [x] Task: Conductor - User Manual Verification 'Phase 5: E2E Verification' (Protocol in workflow.md) 9f977a0
+
+## Phase 6: Review Fixes [checkpoint: 8916446]
+
+- [x] Task: Apply review suggestions and refine web support 8916446
