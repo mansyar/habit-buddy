@@ -9,13 +9,13 @@
   - [x] Confirm `.env` contains necessary secrets
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Setup' (Protocol in workflow.md) a5bca4c
 
-## Phase 2: Auth Store Enhancement (TDD)
+## Phase 2: Auth Store Enhancement (TDD) [checkpoint: 8435ec2]
 
 - [x] Task: Write tests for `signInWithGoogle` and `signOut` in `src/store/__tests__/auth_store.test.ts` ef76124
 - [x] Task: Implement `signInWithGoogle` and `signOut` in `src/store/auth_store.ts` ef76124
   - [x] Add session state management
   - [x] Integrate Supabase `signInWithOAuth` logic
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Auth Store' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Auth Store' (Protocol in workflow.md) 8435ec2
 
 ## Phase 3: Sign-In UI Integration
 
