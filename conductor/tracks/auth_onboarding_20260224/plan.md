@@ -12,10 +12,10 @@
 
 ## Phase 2: Sign-In Flow [checkpoint: sign_in_implementation]
 
-- [ ] Task: Build Sign-In Screen
-  - [ ] Write Tests: Create `app/(auth)/__tests__/sign-in.test.tsx` for the UI and button triggers.
-  - [ ] Implement: Create `app/(auth)/sign-in.tsx` with Google and Guest buttons.
-- [ ] Task: Implement Auth State Listener
+- [x] Task: Build Sign-In Screen c7bb498
+  - [x] Write Tests: Create `app/(auth)/__tests__/sign-in.test.tsx` for the UI and button triggers.
+  - [x] Implement: Create `app/(auth)/sign-in.tsx` with Google and Guest buttons.
+- [~] Task: Implement Auth State Listener
   - [ ] Write Tests: Create `src/store/__tests__/auth_store.test.ts` to verify the state listener.
   - [ ] Implement: Update `app/_layout.tsx` and create `src/store/auth_store.ts`.
 - [ ] Task: Conductor - User Manual Verification 'Sign-In Flow' (Protocol in workflow.md)
