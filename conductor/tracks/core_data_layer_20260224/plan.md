@@ -8,7 +8,7 @@ Goal: Provision the remote database and enforce data isolation.
 
 - [x] Task: Create Supabase migration for `profiles`, `habits_log`, and `coupons` tables. (d8ae8b2)
 - [x] Task: Implement Row-Level Security (RLS) policies for all tables. (02a294d)
-- [ ] Task: Verify RLS policies with manual SQL tests in Supabase dashboard.
+- [x] Task: Verify RLS policies with manual SQL tests in Supabase dashboard. (9e0a1b2)
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Supabase Schema & Security' (Protocol in workflow.md)
 
 ## Phase 2: Local SQLite Foundation
