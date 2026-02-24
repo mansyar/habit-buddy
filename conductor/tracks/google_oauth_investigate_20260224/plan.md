@@ -1,0 +1,29 @@
+# Plan: Investigate if Google OAuth is implemented
+
+## Phase 1: Backend and Configuration Audit
+
+- [ ] Task: Audit Supabase Auth configuration
+  - [ ] Examine `supabase/config.toml` for Google provider settings.
+  - [ ] Review `supabase/migrations/` for any auth-related custom roles or logic.
+- [ ] Task: Audit environment and project configuration
+  - [ ] Check `.env.example` for Google OAuth keys (Client ID, Secret).
+  - [ ] Inspect `app.json` (or `app.config.js`) for Expo-specific Google configuration.
+- [ ] Task: Conductor - User Manual Verification 'Backend and Configuration Audit' (Protocol in workflow.md)
+
+## Phase 2: Frontend Code Audit
+
+- [ ] Task: Audit dependencies and core auth logic
+  - [ ] Check `package.json` for `expo-auth-session`, `expo-google-app-auth`, or similar.
+  - [ ] Examine `src/store/auth_store.ts` for Google sign-in methods or placeholders.
+- [ ] Task: Audit UI components and screens
+  - [ ] Search `app/(auth)/` for Google login buttons or related UI components.
+  - [ ] Trace `sign-in.tsx` logic to see if Google OAuth is integrated into the flow.
+- [ ] Task: Conductor - User Manual Verification 'Frontend Code Audit' (Protocol in workflow.md)
+
+## Phase 3: Synthesis and Gap Analysis
+
+- [ ] Task: Compile Investigation Report
+  - [ ] Document findings from Backend, Frontend, and Configuration audits.
+  - [ ] Identify missing requirements for functional Google OAuth.
+  - [ ] Propose a sequence of tasks for full implementation in a future track.
+- [ ] Task: Conductor - User Manual Verification 'Synthesis and Gap Analysis' (Protocol in workflow.md)
