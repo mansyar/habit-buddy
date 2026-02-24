@@ -22,6 +22,7 @@
 ## 4. UI & Animation
 
 - **React Native Reanimated**: Code-driven, programmatic animations used for the buddy state machine and micro-interactions. No pre-rendered video formats.
+- **Lucide React Native**: Modern, friendly, stroke-based icon library used for consistent iconography throughout the application.
 
 ## 5. Assets & Media
 

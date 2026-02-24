@@ -12,7 +12,7 @@
 
 ## Phase 2: UI Components
 
-- [ ] Task: Implement `HabitCard` component with TDD.
+- [~] Task: Implement `HabitCard` component with TDD.
   - [ ] Write tests in `src/components/__tests__/HabitCard.test.tsx`.
   - [ ] Implement `src/components/HabitCard.tsx` using Lucide icons.
 - [ ] Task: Implement `BoltCounter` component with TDD.
