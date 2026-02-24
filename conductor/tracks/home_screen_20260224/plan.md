@@ -29,7 +29,7 @@
   - [x] Write tests for `HomeScreen` in `app/(tabs)/__tests__/index.test.tsx`.
   - [x] Implement `app/(tabs)/index.tsx`.
   - [x] Integrate `useAuthStore` for child name and `useHabitStore` for cards/progress.
-- [ ] Task: Add placeholder screens for Settings and Reward Shop.
+- [~] Task: Add placeholder screens for Settings and Reward Shop.
   - [ ] Create `app/settings.tsx` and `app/reward-shop.tsx`.
 - [ ] Task: Conductor - User Manual Verification 'Home Screen' (Protocol in workflow.md)
 
