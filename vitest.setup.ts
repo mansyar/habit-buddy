@@ -68,3 +68,18 @@ vi.mock('expo-secure-store', () => ({
   setItemAsync: vi.fn(),
   deleteItemAsync: vi.fn(),
 }));
+
+// Mock NetInfo
+vi.mock('@react-native-community/netinfo', () => {
+  return {
+    __esModule: true,
+    default: {
+      fetch: vi.fn(() => Promise.resolve({ isConnected: true })),
+      addEventListener: vi.fn(() => () => {}),
+      useNetInfo: vi.fn(() => ({ isConnected: true })),
+    },
+    fetch: vi.fn(() => Promise.resolve({ isConnected: true })),
+    addEventListener: vi.fn(() => () => {}),
+    useNetInfo: vi.fn(() => ({ isConnected: true })),
+  };
+});

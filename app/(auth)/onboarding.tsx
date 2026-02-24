@@ -24,16 +24,16 @@ export default function OnboardingScreen() {
     if (!name.trim()) return;
 
     try {
-      const isGuest = !user;
       const profileData = {
-        id: user?.id,
-        name: name.trim(),
-        avatar: selectedAvatar,
+        child_name: name.trim(),
+        avatar_id: selectedAvatar,
       };
 
-      const profile = await profileService.createProfile(profileData, isGuest);
-      setProfile(profile);
-      router.replace('/(tabs)');
+      const profile = await profileService.createProfile(profileData, user?.id || null);
+      if (profile) {
+        setProfile(profile);
+        router.replace('/(tabs)');
+      }
     } catch (error) {
       console.error('Onboarding error:', error);
     }

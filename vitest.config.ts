@@ -15,5 +15,21 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       'react-native': 'react-native-web',
     },
+    deps: {
+      optimizer: {
+        web: {
+          include: ['@react-native-community/netinfo'],
+        },
+      },
+    },
+    transformMode: {
+      web: [/\.[jt]sx?$/],
+    },
+    server: {
+      deps: {
+        inline: ['@react-native-community/netinfo'],
+        external: ['@react-native-community/netinfo'],
+      },
+    },
   },
 });
