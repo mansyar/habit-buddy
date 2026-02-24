@@ -7,3 +7,8 @@ This file records all tracks created during the development process.
 ## In Progress
 
 ## Planned
+
+---
+
+- [ ] **Track: Core Data Layer**
+      _Link: [./tracks/core_data_layer_20260224/](./tracks/core_data_layer_20260224/)_
