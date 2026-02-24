@@ -10,5 +10,5 @@ This file records all tracks created during the development process.
 
 ---
 
-- [ ] **Track: Phase 0: Project Scaffolding**
-*Link: [./tracks/scaffolding_20260224/](./tracks/scaffolding_20260224/)*
+- [~] **Track: Phase 0: Project Scaffolding**
+  _Link: [./tracks/scaffolding_20260224/](./tracks/scaffolding_20260224/)_

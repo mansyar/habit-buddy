@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -8,7 +9,19 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     alias: {
-      '@': '/src',
+      '@': path.resolve(__dirname, './src'),
+    },
+    deps: {
+      optimizer: {
+        web: {
+          include: ['react-native'],
+        },
+      },
+    },
+    server: {
+      deps: {
+        inline: ['react-native', 'expo'],
+      },
     },
   },
 });

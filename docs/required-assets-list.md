@@ -78,11 +78,11 @@
 
 > Used if primary image assets fail to load.
 
-| #   | Asset                | Description                                   |
-| :-- | :------------------- | :-------------------------------------------- |
-| [ ] | `buddy_fallback.png` | Static illustration of Buddy, smiling         |
-| [ ] | `app_icon.png`       | App icon for iOS & Android (1024×1024 master) |
-| [ ] | `splash_logo.png`    | Logo/illustration for splash screen           |
+| #   | Asset                | Description                             |
+| :-- | :------------------- | :-------------------------------------- |
+| [ ] | `buddy_fallback.png` | Static illustration of Buddy, smiling   |
+| [ ] | `app_icon.png`       | App icon for Android (1024×1024 master) |
+| [ ] | `splash_logo.png`    | Logo/illustration for splash screen     |
 
 ---
 

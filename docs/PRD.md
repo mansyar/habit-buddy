@@ -25,9 +25,9 @@ Transform daily routines from "chores" into "missions" for young children (ages 
 
 ## 3. Platform & Tech Stack
 
-### 3.1 Platform: Mobile-First (iOS + Android)
+### 3.1 Platform: Mobile-First (Android)
 
-React Native (Expo) builds for iOS and Android. No PWA or web build in the MVP.
+React Native (Expo) builds for Android. iOS, PWA, or web builds are not in the MVP.
 
 **Rationale:** Toddler apps live on tablets and phones. Smooth programmatic animations (via React Native Reanimated) and layered audio perform best on native platforms. Web/PWA can be considered post-MVP.
 
@@ -84,7 +84,7 @@ The buddy requires the following animation states per habit (see §5.2).
 | ID         | Requirement                                                                                                            |
 | :--------- | :--------------------------------------------------------------------------------------------------------------------- |
 | FR-AUTH-01 | The app must support **anonymous/local-only mode** for first-run. No sign-up required to try the app.                  |
-| FR-AUTH-02 | The app must support **OAuth sign-in** via Google and Apple (Supabase Auth).                                           |
+| FR-AUTH-02 | The app must support **OAuth sign-in** via Google (Supabase Auth).                                                     |
 | FR-AUTH-03 | When a user signs in after using anonymous mode, their local data must be **migrated** to their authenticated account. |
 | FR-AUTH-04 | Auth tokens must be stored securely using Expo SecureStore.                                                            |
 
@@ -181,7 +181,7 @@ The buddy operates as a finite state machine with 4 states per habit using React
 | 6   | **Reward Shop**            | Coupon list, bolt balance, redeem buttons                                  | From home screen        |
 | 7   | **Parent Settings**        | Profile management, coupon CRUD, sign-in/out, timer defaults, audio toggle | From gear icon          |
 | 8   | **Parent Dashboard**       | Today's summary, 7-day streak, bolt stats                                  | Tab or icon on home     |
-| 9   | **Sign-In**                | Google / Apple OAuth buttons, "Continue without account" link              | From settings or prompt |
+| 9   | **Sign-In**                | Google OAuth button, "Continue without account" link                       | From settings or prompt |
 
 ---
 
