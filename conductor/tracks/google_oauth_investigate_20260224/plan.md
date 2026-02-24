@@ -2,13 +2,13 @@
 
 ## Phase 1: Backend and Configuration Audit
 
-- [ ] Task: Audit Supabase Auth configuration
-  - [ ] Examine `supabase/config.toml` for Google provider settings.
-  - [ ] Review `supabase/migrations/` for any auth-related custom roles or logic.
-- [ ] Task: Audit environment and project configuration
-  - [ ] Check `.env.example` for Google OAuth keys (Client ID, Secret).
-  - [ ] Inspect `app.json` (or `app.config.js`) for Expo-specific Google configuration.
-- [ ] Task: Conductor - User Manual Verification 'Backend and Configuration Audit' (Protocol in workflow.md)
+- [x] Task: Audit Supabase Auth configuration b9409e5
+  - [x] Examine `supabase/config.toml` for Google provider settings.
+  - [x] Review `supabase/migrations/` for any auth-related custom roles or logic.
+- [x] Task: Audit environment and project configuration b9409e5
+  - [x] Check `.env.example` for Google OAuth keys (Client ID, Secret).
+  - [x] Inspect `app.json` (or `app.config.js`) for Expo-specific Google configuration.
+- [~] Task: Conductor - User Manual Verification 'Backend and Configuration Audit' (Protocol in workflow.md)
 
 ## Phase 2: Frontend Code Audit
 
