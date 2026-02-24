@@ -11,10 +11,10 @@
 
 ## Phase 2: Auth Store Enhancement (TDD)
 
-- [ ] Task: Write tests for `signInWithGoogle` and `signOut` in `src/store/__tests__/auth_store.test.ts`
-- [ ] Task: Implement `signInWithGoogle` and `signOut` in `src/store/auth_store.ts`
-  - [ ] Add session state management
-  - [ ] Integrate Supabase `signInWithOAuth` logic
+- [x] Task: Write tests for `signInWithGoogle` and `signOut` in `src/store/__tests__/auth_store.test.ts` ef76124
+- [x] Task: Implement `signInWithGoogle` and `signOut` in `src/store/auth_store.ts` ef76124
+  - [x] Add session state management
+  - [x] Integrate Supabase `signInWithOAuth` logic
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Auth Store' (Protocol in workflow.md)
 
 ## Phase 3: Sign-In UI Integration
