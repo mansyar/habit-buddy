@@ -53,5 +53,5 @@ Goal: Ensure all services work together and meet the acceptance criteria.
 
 - [x] Task: Run full integration test suite (Mocked Offline -> Online transition). (3413303)
 - [x] Task: Verify data consistency between local and remote after sync. (3413303)
-- [ ] Task: Update roadmap.md to mark Phase 2 as complete.
+- [x] Task: Update roadmap.md to mark Phase 2 as complete. (63d0cee)
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Final Validation & Integration' (Protocol in workflow.md)
