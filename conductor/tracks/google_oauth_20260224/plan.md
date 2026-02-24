@@ -35,8 +35,8 @@
   - [x] Verify Supabase `onAuthStateChange` listener in root layout
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Redirect Logic' (Protocol in workflow.md) fb70bde
 
-## Phase 5: End-to-End Verification
+## Phase 5: End-to-End Verification [checkpoint: 9f977a0]
 
-- [ ] Task: Perform manual E2E tests on iOS/Android emulators
-- [ ] Task: Verify Supabase dashboard for new user profiles
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: E2E Verification' (Protocol in workflow.md)
+- [x] Task: Perform manual E2E tests on iOS/Android emulators 9f977a0
+- [x] Task: Verify Supabase dashboard for new user profiles 9f977a0
+- [x] Task: Conductor - User Manual Verification 'Phase 5: E2E Verification' (Protocol in workflow.md) 9f977a0
