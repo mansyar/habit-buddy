@@ -10,7 +10,7 @@
   - [x] Implement `src/store/habit_store.ts` using Zustand and `HabitLogService`.
 - [ ] Task: Conductor - User Manual Verification 'Foundation' (Protocol in workflow.md)
 
-## Phase 2: UI Components
+## Phase 2: UI Components [checkpoint: 1844d38]
 
 - [x] Task: Implement `HabitCard` component with TDD. [45e4b31]
   - [x] Write tests in `src/components/__tests__/HabitCard.test.tsx`.
