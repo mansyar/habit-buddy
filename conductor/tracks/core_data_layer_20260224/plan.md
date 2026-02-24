@@ -36,7 +36,7 @@ Goal: Build the abstract services that toggle between Supabase and SQLite.
   - [x] Task: Implement `getCoupons`, `createCoupon`, and `redeemCoupon`. (adaa8a4)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Service Layer (Repositories)' (Protocol in workflow.md) (b3df80e)
 
-## Phase 4: Network & Synchronization
+## Phase 4: Network & Synchronization [checkpoint: 6a2e14b]
 
 Goal: Implement real-time connectivity monitoring and background sync logic.
 
@@ -45,7 +45,7 @@ Goal: Implement real-time connectivity monitoring and background sync logic.
   - [x] Task: Write failing tests for `SyncService` (replaying queued items). (4b44ae8)
   - [x] Task: Implement `processQueue` logic with retry mechanism. (4b44ae8)
 - [x] Task: Hook `SyncService` to network change events. (b8806f1)
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Network & Synchronization' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Network & Synchronization' (Protocol in workflow.md) (6a2e14b)
 
 ## Phase 5: Final Validation & Integration
 
