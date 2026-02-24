@@ -7,7 +7,7 @@ This plan covers the implementation of the complete data layer, including Supaba
 Goal: Provision the remote database and enforce data isolation.
 
 - [x] Task: Create Supabase migration for `profiles`, `habits_log`, and `coupons` tables. (d8ae8b2)
-- [ ] Task: Implement Row-Level Security (RLS) policies for all tables.
+- [x] Task: Implement Row-Level Security (RLS) policies for all tables. (02a294d)
 - [ ] Task: Verify RLS policies with manual SQL tests in Supabase dashboard.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Supabase Schema & Security' (Protocol in workflow.md)
 
