@@ -15,10 +15,25 @@ vi.mock('react-native', () => {
       React.createElement('div', { ...props, 'data-testid': testID, style }, children),
     Text: ({ testID, children, style, ...props }: any) =>
       React.createElement('span', { ...props, 'data-testid': testID, style }, children),
-    TouchableOpacity: ({ testID, onPress, children, style, ...props }: any) =>
+    TouchableOpacity: ({ testID, onPress, children, style, disabled, ...props }: any) =>
       React.createElement(
         'button',
-        { ...props, 'data-testid': testID, onClick: onPress, style },
+        { ...props, 'data-testid': testID, onClick: onPress, style, disabled },
+        children,
+      ),
+    TextInput: ({ testID, value, onChangeText, style, placeholder, ...props }: any) =>
+      React.createElement('input', {
+        ...props,
+        'data-testid': testID,
+        value,
+        onChange: (e: any) => onChangeText(e.target.value),
+        style,
+        placeholder,
+      }),
+    ScrollView: ({ testID, children, contentContainerStyle, ...props }: any) =>
+      React.createElement(
+        'div',
+        { ...props, 'data-testid': testID, style: contentContainerStyle },
         children,
       ),
     StyleSheet: {
@@ -35,6 +50,7 @@ vi.mock('react-native', () => {
 // Mock expo-router
 vi.mock('expo-router', () => ({
   useRouter: vi.fn(() => routerMock),
+  useSegments: vi.fn(() => []),
   Link: 'Link',
   Stack: 'Stack',
   Tabs: 'Tabs',
