@@ -32,3 +32,8 @@
 - [ ] Task: Add placeholder screens for Settings and Reward Shop.
   - [ ] Create `app/settings.tsx` and `app/reward-shop.tsx`.
 - [ ] Task: Conductor - User Manual Verification 'Home Screen' (Protocol in workflow.md)
+
+## Phase 4: Wrap Up
+
+- [ ] Task: Update project roadmap.
+  - [ ] Update `docs/roadmap.md` to reflect Phase 3 completion.
