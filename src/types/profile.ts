@@ -3,6 +3,7 @@ export interface Profile {
   user_id: string | null;
   child_name: string;
   avatar_id: string;
+  selected_buddy: string;
   bolt_balance: number;
   is_guest: boolean;
   created_at: string;

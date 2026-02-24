@@ -14,9 +14,15 @@ const AVATARS = [
   { id: 'koala', name: '🐨' },
 ];
 
+const BUDDIES = [
+  { id: 'dino', name: 'Dino', emoji: '🦖' },
+  { id: 'bear', name: 'Bear', emoji: '🐻' },
+];
+
 export default function OnboardingScreen() {
   const [name, setName] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('dog');
+  const [selectedBuddy, setSelectedBuddy] = useState('dino');
   const router = useRouter();
   const { user, setProfile } = useAuthStore();
 
@@ -27,6 +33,7 @@ export default function OnboardingScreen() {
       const profileData = {
         child_name: name.trim(),
         avatar_id: selectedAvatar,
+        selected_buddy: selectedBuddy,
       };
 
       const profile = await profileService.createProfile(profileData, user?.id || null);
@@ -69,6 +76,21 @@ export default function OnboardingScreen() {
         ))}
       </View>
 
+      <Text style={styles.label}>Pick a Buddy!</Text>
+      <View style={styles.buddyGrid}>
+        {BUDDIES.map((buddy) => (
+          <TouchableOpacity
+            key={buddy.id}
+            testID={`buddy-${buddy.id}`}
+            style={[styles.buddyButton, selectedBuddy === buddy.id && styles.selectedBuddy]}
+            onPress={() => setSelectedBuddy(buddy.id)}
+          >
+            <Text style={styles.buddyEmoji}>{buddy.emoji}</Text>
+            <Text style={styles.buddyName}>{buddy.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       <TouchableOpacity
         style={[styles.goButton, !name.trim() && styles.disabledButton]}
         onPress={handleFinishOnboarding}
@@ -84,9 +106,9 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
+    paddingTop: 60,
     backgroundColor: Colors.light.background,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 32,
@@ -97,22 +119,23 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     color: '#666',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   inputContainer: {
     width: '100%',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: 'bold',
     marginBottom: 10,
     color: Colors.light.text,
+    alignSelf: 'flex-start',
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#DDD',
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 15,
     fontSize: 18,
     backgroundColor: '#FFF',
@@ -121,16 +144,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   avatarButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: '#F0F0F0',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
+    margin: 8,
     borderWidth: 3,
     borderColor: 'transparent',
   },
@@ -139,22 +162,53 @@ const styles = StyleSheet.create({
     backgroundColor: '#E1F5FE',
   },
   avatarEmoji: {
-    fontSize: 40,
+    fontSize: 30,
+  },
+  buddyGrid: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 40,
+    width: '100%',
+  },
+  buddyButton: {
+    flex: 1,
+    maxWidth: 150,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    marginHorizontal: 10,
+    borderWidth: 3,
+    borderColor: 'transparent',
+  },
+  selectedBuddy: {
+    borderColor: '#4CAF50',
+    backgroundColor: '#E8F5E9',
+  },
+  buddyEmoji: {
+    fontSize: 50,
+    marginBottom: 5,
+  },
+  buddyName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.light.text,
   },
   goButton: {
     backgroundColor: '#4CAF50',
-    paddingVertical: 15,
+    paddingVertical: 18,
     paddingHorizontal: 60,
     borderRadius: 30,
     width: '100%',
     alignItems: 'center',
+    marginBottom: 20,
   },
   disabledButton: {
     backgroundColor: '#CCC',
   },
   goButtonText: {
     color: '#FFF',
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
   },
 });

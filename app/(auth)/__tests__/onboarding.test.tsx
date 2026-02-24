@@ -21,11 +21,14 @@ vi.mock('../../../src/store/auth_store', () => ({
 }));
 
 describe('OnboardingScreen', () => {
-  test('renders input and avatar selection', () => {
+  test('renders input, avatar, and buddy selection', () => {
     const { getByPlaceholderText, getByText } = render(<OnboardingScreen />);
 
     expect(getByPlaceholderText("Enter child's name")).toBeTruthy();
     expect(getByText('Select an Avatar')).toBeTruthy();
+    expect(getByText('Pick a Buddy!')).toBeTruthy();
+    expect(getByText('Dino')).toBeTruthy();
+    expect(getByText('Bear')).toBeTruthy();
   });
 
   test('calls createProfile and navigates to home when "Let\'s Go!" is pressed', async () => {
@@ -39,11 +42,19 @@ describe('OnboardingScreen', () => {
     const avatarButton = getByTestId('avatar-dog');
     fireEvent.click(avatarButton);
 
+    // Simulate selecting a buddy
+    const buddyButton = getByTestId('buddy-bear');
+    fireEvent.click(buddyButton);
+
     fireEvent.click(goButton);
 
     await waitFor(() => {
       expect(profileService.createProfile).toHaveBeenCalledWith(
-        expect.objectContaining({ child_name: 'Rex', avatar_id: 'dog' }),
+        expect.objectContaining({
+          child_name: 'Rex',
+          avatar_id: 'dog',
+          selected_buddy: 'bear',
+        }),
         'user123',
       );
     });

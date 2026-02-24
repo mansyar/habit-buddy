@@ -18,6 +18,7 @@ class ProfileService {
       user_id: userId,
       child_name: data.child_name || 'Child',
       avatar_id: data.avatar_id || 'default',
+      selected_buddy: data.selected_buddy || 'dino',
       bolt_balance: data.bolt_balance || 0,
       is_guest: !userId,
       created_at: data.created_at || new Date().toISOString(),
@@ -27,12 +28,13 @@ class ProfileService {
     // Always save to local SQLite first
     const db = await initializeSQLite();
     await db.runAsync(
-      `INSERT INTO profiles (id, user_id, child_name, avatar_id, bolt_balance, is_guest, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       profile.id,
       profile.user_id,
       profile.child_name,
       profile.avatar_id,
+      profile.selected_buddy,
       profile.bolt_balance,
       profile.is_guest ? 1 : 0,
       profile.created_at,
@@ -49,6 +51,7 @@ class ProfileService {
             user_id: profile.user_id,
             child_name: profile.child_name,
             avatar_id: profile.avatar_id,
+            selected_buddy: profile.selected_buddy,
             bolt_balance: profile.bolt_balance,
             created_at: profile.created_at,
             updated_at: profile.updated_at,
@@ -102,12 +105,13 @@ class ProfileService {
       if (!error && remoteProfile) {
         // Cache to local SQLite - set is_guest to 0 as it came from Supabase
         await db.runAsync(
-          `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, bolt_balance, is_guest, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           remoteProfile.id,
           remoteProfile.user_id,
           remoteProfile.child_name,
           remoteProfile.avatar_id,
+          remoteProfile.selected_buddy,
           remoteProfile.bolt_balance,
           0,
           remoteProfile.created_at,
@@ -171,6 +175,7 @@ class ProfileService {
             user_id: updatedProfile.user_id,
             child_name: updatedProfile.child_name,
             avatar_id: updatedProfile.avatar_id,
+            selected_buddy: updatedProfile.selected_buddy,
             bolt_balance: updatedProfile.bolt_balance,
             created_at: updatedProfile.created_at,
             updated_at: updatedProfile.updated_at,

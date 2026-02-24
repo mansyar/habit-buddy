@@ -70,6 +70,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           user_id TEXT,
           child_name TEXT NOT NULL,
           avatar_id TEXT,
+          selected_buddy TEXT DEFAULT 'dino',
           bolt_balance INTEGER DEFAULT 0,
           is_guest INTEGER DEFAULT 0,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
@@ -107,15 +108,19 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
         );
       `);
 
-      // 2. Migration: Ensure is_guest column exists (for users with existing DB)
+      // 2. Migration: Ensure necessary columns exist (for users with existing DB)
       try {
         const tableInfo = (await db.getAllAsync('PRAGMA table_info(profiles)')) as {
           name: string;
         }[];
         const hasIsGuest = tableInfo.some((col) => col.name === 'is_guest');
+        const hasSelectedBuddy = tableInfo.some((col) => col.name === 'selected_buddy');
 
         if (!hasIsGuest) {
           await db.execAsync('ALTER TABLE profiles ADD COLUMN is_guest INTEGER DEFAULT 0');
+        }
+        if (!hasSelectedBuddy) {
+          await db.execAsync("ALTER TABLE profiles ADD COLUMN selected_buddy TEXT DEFAULT 'dino'");
         }
       } catch (e) {
         console.warn('Migration check failed:', e);
