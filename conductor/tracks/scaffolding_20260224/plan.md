@@ -22,8 +22,7 @@
 - [x] Task: Initialize Supabase CLI & Basic .env c056d49
   - [ ] Run `npx supabase init`
   - [ ] Create `.env.example` and `.env` with placeholder Supabase URL/Key - [ ] Add `.env` to `.gitignore`
-- [ ] Task: Verify Clean Build
-  - [ ] Run `pnpm expo start` and ensure no startup errors
-- [ ] Task: Update `docs/roadmap.md`
+- [x] Task: Verify Clean Build 0a453ec
+  - [ ] Run `pnpm expo start` and ensure no startup errors- [ ] Task: Update `docs/roadmap.md`
   - [ ] Mark Phase 0 as completed in the roadmap file.
 - [ ] Task: Conductor - User Manual Verification 'Project Scaffolding' (Protocol in workflow.md)
