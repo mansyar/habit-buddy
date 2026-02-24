@@ -66,9 +66,11 @@ vi.mock('react-native', () => {
 vi.mock('expo-router', () => ({
   useRouter: vi.fn(() => routerMock),
   useSegments: vi.fn(() => []),
-  Link: 'Link',
-  Stack: 'Stack',
-  Tabs: 'Tabs',
+  Link: ({ children }: any) => children,
+  Stack: Object.assign(({ children }: any) => children, {
+    Screen: vi.fn(() => null),
+  }),
+  Tabs: ({ children }: any) => children,
 }));
 
 // Mock expo-font
@@ -116,6 +118,13 @@ vi.mock('expo-sqlite', () => ({
   openDatabaseAsync: vi.fn(async () => mockSQLiteDb),
   SQLiteProvider: ({ children }: any) => children,
   useSQLiteContext: vi.fn(),
+}));
+
+// Mock react-native-safe-area-context
+vi.mock('react-native-safe-area-context', () => ({
+  useSafeAreaInsets: vi.fn(() => ({ top: 0, right: 0, bottom: 0, left: 0 })),
+  SafeAreaProvider: ({ children }: any) => children,
+  SafeAreaView: ({ children }: any) => children,
 }));
 
 // Mock NetInfo

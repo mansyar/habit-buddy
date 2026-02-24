@@ -25,7 +25,7 @@
 
 ## Phase 3: Screen & Integration
 
-- [ ] Task: Implement `HomeScreen` layout.
+- [~] Task: Implement `HomeScreen` layout.
   - [ ] Write tests for `HomeScreen` in `app/(tabs)/__tests__/index.test.tsx`.
   - [ ] Implement `app/(tabs)/index.tsx`.
   - [ ] Integrate `useAuthStore` for child name and `useHabitStore` for cards/progress.
