@@ -5,9 +5,9 @@
 - [x] Task: Define Core Habits and `Habit` type. [1fd7cdb]
   - [x] Create `src/types/habit.ts`.
   - [x] Create `src/constants/habits.ts` with the 3 core habits.
-- [~] Task: Create `useHabitStore` with TDD.
-  - [ ] Write tests for `useHabitStore` in `src/store/__tests__/habit_store.test.ts`.
-  - [ ] Implement `src/store/habit_store.ts` using Zustand and `HabitLogService`.
+- [x] Task: Create `useHabitStore` with TDD. [cd5aad9]
+  - [x] Write tests for `useHabitStore` in `src/store/__tests__/habit_store.test.ts`.
+  - [x] Implement `src/store/habit_store.ts` using Zustand and `HabitLogService`.
 - [ ] Task: Conductor - User Manual Verification 'Foundation' (Protocol in workflow.md)
 
 ## Phase 2: UI Components
