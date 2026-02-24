@@ -1,0 +1,82 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { supabase } from '../../src/lib/supabase';
+import { useRouter } from 'expo-router';
+import { Colors } from '../../src/theme/Colors';
+
+export default function SignInScreen() {
+  const router = useRouter();
+
+  const handleGoogleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+    if (error) {
+      console.error('Google sign-in error:', error.message);
+    }
+  };
+
+  const handleGuestSignIn = () => {
+    router.replace('/onboarding');
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>HabitBuddy</Text>
+
+      <TouchableOpacity
+        testID="google-signin-button"
+        style={styles.googleButton}
+        onPress={handleGoogleSignIn}
+      >
+        <Text style={styles.buttonText}>Sign in with Google</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        testID="guest-signin-button"
+        style={styles.guestButton}
+        onPress={handleGuestSignIn}
+      >
+        <Text style={styles.guestButtonText}>Continue as Guest</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.light.background,
+    padding: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 40,
+    color: Colors.light.text,
+  },
+  googleButton: {
+    backgroundColor: '#4285F4',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: '100%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  guestButton: {
+    paddingVertical: 10,
+  },
+  guestButtonText: {
+    color: Colors.light.tint,
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+});

@@ -10,18 +10,7 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     alias: {
       '@': path.resolve(__dirname, './src'),
-    },
-    deps: {
-      optimizer: {
-        web: {
-          include: ['react-native'],
-        },
-      },
-    },
-    server: {
-      deps: {
-        inline: ['react-native', 'expo'],
-      },
+      'react-native': 'react-native-web',
     },
   },
 });
