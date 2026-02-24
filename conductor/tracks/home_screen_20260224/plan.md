@@ -35,5 +35,5 @@
 
 ## Phase 4: Wrap Up
 
-- [ ] Task: Update project roadmap.
-  - [ ] Update `docs/roadmap.md` to reflect Phase 3 completion.
+- [x] Task: Update project roadmap. [ad16232]
+  - [x] Update `docs/roadmap.md` to reflect Phase 3 completion.

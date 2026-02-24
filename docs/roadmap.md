@@ -13,7 +13,7 @@
 Phase 0   ✅✅✅✅✅✅✅✅✅✅  Project Scaffolding
 Phase 1   ✅✅✅✅✅✅✅✅✅✅  Auth & Onboarding
 Phase 2   ✅✅✅✅✅✅✅✅✅✅  Core Data Layer
-Phase 3   ░░░░░░██░░░░░░░░░░░░  Home Screen
+Phase 3   ✅✅✅✅✅✅✅✅✅✅  Home Screen
 Phase 4   ░░░░░░░░████░░░░░░░░  Mission Flow (core feature)
 Phase 5   ░░░░░░░░░░░░██░░░░░░  Reward System
 Phase 6   ░░░░░░░░░░░░░░██░░░░  Parent Dashboard
@@ -186,26 +186,26 @@ assets/
 
 ### Tasks
 
-| #   | Task                         | Details                                                                                      |
-| :-- | :--------------------------- | :------------------------------------------------------------------------------------------- |
-| 3.1 | Build app shell              | Scaffold with custom app bar (child name, bolt counter, gear icon)                           |
-| 3.2 | Build `HabitCard` component  | Shows habit icon, name, timer, completion status (✅ or "Not done")                          |
-| 3.3 | Create habit definitions     | Constant list of 3 habits with `id`, `name`, `icon`, `defaultTimer`                          |
-| 3.4 | Fetch today's logs           | Zustand selector that loads today's `habits_log` entries                                     |
-| 3.5 | Show completion state        | Cross-reference today's logs with habit definitions → mark cards                             |
-| 3.6 | Build bolt counter component | Animated 🔩 counter in the app bar                                                           |
-| 3.7 | Add navigation               | Tapping a habit card → Mission screen (Phase 4). Gear → Settings. Reward icon → Reward Shop. |
-| 3.8 | Style & theme                | Apply Fredoka One headings, Nunito body, vibrant toddler-friendly colors, rounded cards      |
-| 3.9 | Add daily progress indicator | Construction caution-tape style progress bar (0/3, 1/3, 2/3, 3/3)                            |
+| #   | Task                         | Status | Details                                                                                      |
+| :-- | :--------------------------- | :----- | :------------------------------------------------------------------------------------------- |
+| 3.1 | Build app shell              | ✅     | Scaffold with custom app bar (child name, bolt counter, gear icon)                           |
+| 3.2 | Build `HabitCard` component  | ✅     | Shows habit icon, name, timer, completion status (✅ or "Not done")                          |
+| 3.3 | Create habit definitions     | ✅     | Constant list of 3 habits with `id`, `name`, `icon`, `defaultTimer`                          |
+| 3.4 | Fetch today's logs           | ✅     | Zustand selector that loads today's `habits_log` entries                                     |
+| 3.5 | Show completion state        | ✅     | Cross-reference today's logs with habit definitions → mark cards                             |
+| 3.6 | Build bolt counter component | ✅     | Animated 🔩 counter in the app bar                                                           |
+| 3.7 | Add navigation               | ✅     | Tapping a habit card → Mission screen (Phase 4). Gear → Settings. Reward icon → Reward Shop. |
+| 3.8 | Style & theme                | ✅     | Apply Fredoka One headings, Nunito body, vibrant toddler-friendly colors, rounded cards      |
+| 3.9 | Add daily progress indicator | ✅     | Construction caution-tape style progress bar (0/3, 1/3, 2/3, 3/3)                            |
 
 ### Acceptance Criteria
 
-- [ ] Home screen displays 3 habit cards
-- [ ] Cards show correct completion status based on today's logs
-- [ ] Gold Bolt counter shows correct balance
-- [ ] Daily progress bar updates as habits are completed
-- [ ] Navigation to Mission, Settings, and Reward Shop works
-- [ ] UI is vibrant, playful, and uses the correct fonts
+- [x] Home screen displays 3 habit cards
+- [x] Cards show correct completion status based on today's logs
+- [x] Gold Bolt counter shows correct balance
+- [x] Daily progress bar updates as habits are completed
+- [x] Navigation to Mission, Settings, and Reward Shop works
+- [x] UI is vibrant, playful, and uses the correct fonts
 
 ---
 
@@ -457,7 +457,7 @@ assets/
 | 0     | Project Scaffolding       | 2–3 days  | —          | ✅ Complete    |
 | 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ✅ Complete    |
 | 2     | Core Data Layer           | 4–5 days  | Phase 1    | ✅ Complete    |
-| 3     | Home Screen               | 3–4 days  | Phase 2    | ⬜ Not Started |
+| 3     | Home Screen               | 3–4 days  | Phase 2    | ✅ Complete    |
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ⬜ Not Started |
 | 5     | Reward System             | 3–4 days  | Phase 4    | ⬜ Not Started |
 | 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ⬜ Not Started |
