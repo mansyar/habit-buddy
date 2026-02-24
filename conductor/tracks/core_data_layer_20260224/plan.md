@@ -15,8 +15,8 @@ Goal: Provision the remote database and enforce data isolation.
 
 Goal: Set up the local database using `expo-sqlite/next` to mirror the Supabase schema.
 
-- [ ] Task: Define SQLite schema and initialization logic in `src/lib/sqlite.ts`.
-- [ ] Task: Create a `sync_queue` table in SQLite for offline write tracking.
+- [x] Task: Define SQLite schema and initialization logic in `src/lib/sqlite.ts`. (2fcd708)
+- [x] Task: Create a `sync_queue` table in SQLite for offline write tracking. (2fcd708)
 - [ ] Task: Write tests for SQLite initialization and basic CRUD operations.
 - [ ] Task: Implement SQLite initialization on app startup.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Local SQLite Foundation' (Protocol in workflow.md)
