@@ -9,7 +9,7 @@ values
 
 -- 2. Test Profile Insertion (Should succeed for own profile)
 set local role authenticated;
-set local auth.uid = '00000000-0000-0000-0000-000000000001';
+select set_config('request.jwt.claims', '{"sub": "00000000-0000-0000-0000-000000000001"}', true);
 
 select lives_ok(
     $$ insert into public.profiles (user_id, child_name) values ('00000000-0000-0000-0000-000000000001', 'User 1 Child') $$,
@@ -25,8 +25,6 @@ select throws_ok(
 
 -- 4. Test Habit Log Access (Should succeed for own profile)
 -- Get the profile ID created in step 2
-prepare my_profile as select id from public.profiles where user_id = '00000000-0000-0000-0000-000000000001';
-
 select lives_ok(
     $$ insert into public.habits_log (profile_id, habit_id, status) 
        values ((select id from public.profiles where user_id = '00000000-0000-0000-0000-000000000001'), 'brush_teeth', 'success') $$,
@@ -35,7 +33,7 @@ select lives_ok(
 
 -- 5. Test Habit Log Isolation (Should fail for someone else's profile)
 -- Switch to user 2
-set local auth.uid = '00000000-0000-0000-0000-000000000002';
+select set_config('request.jwt.claims', '{"sub": "00000000-0000-0000-0000-000000000002"}', true);
 
 select throws_ok(
     $$ insert into public.habits_log (profile_id, habit_id, status) 
@@ -45,7 +43,7 @@ select throws_ok(
 );
 
 -- 6. Test Coupon Access (Should succeed for own profile)
-set local auth.uid = '00000000-0000-0000-0000-000000000001';
+select set_config('request.jwt.claims', '{"sub": "00000000-0000-0000-0000-000000000001"}', true);
 
 select lives_ok(
     $$ insert into public.coupons (profile_id, title, bolt_cost) 
