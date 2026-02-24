@@ -2,7 +2,7 @@
 
 ## Phase 1: Setup & Dependencies
 
-- [ ] Task: Install required Expo authentication libraries
+- [x] Task: Install required Expo authentication libraries 9de4727
   - [ ] Run `npx expo install expo-auth-session expo-web-browser expo-linking`
 - [ ] Task: Verify Supabase configuration for Google OAuth
   - [ ] Check `supabase/config.toml` (Already verified in investigation report)
