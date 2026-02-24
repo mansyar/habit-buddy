@@ -32,10 +32,10 @@
 
 ## Phase 4: Data Migration & Final Integration [checkpoint: migration_and_final_integration]
 
-- [~] Task: Implement Guest-to-Google Migration
-  - [ ] Write Tests: Create `src/lib/__tests__/migration.test.ts` to verify guest-to-Google data sync.
-  - [ ] Implement: Update `profile_service.ts` to handle migration on sign-in.
-- [ ] Task: Implement Sign-Out
+- [x] Task: Implement Guest-to-Google Migration 5c272bc
+  - [x] Write Tests: Create `src/lib/__tests__/migration.test.ts` to verify guest-to-Google data sync.
+  - [x] Implement: Update `profile_service.ts` to handle migration on sign-in.
+- [~] Task: Implement Sign-Out
   - [ ] Write Tests: Create `app/(tabs)/__tests__/sign-out.test.tsx` for the sign-out action.
   - [ ] Implement: Add sign-out button in `app/(tabs)/two.tsx` and verify redirect.
 - [ ] Task: Update `docs/roadmap.md`
