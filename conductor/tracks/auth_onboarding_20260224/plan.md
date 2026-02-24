@@ -5,9 +5,9 @@
 - [x] Task: Configure Supabase Auth & Client a291f20
   - [x] Write Tests: Create `src/lib/__tests__/supabase.test.ts` to verify client initialization.
   - [x] Implement: Update `src/lib/supabase.ts` with `.env` variables and initialize.
-- [~] Task: Create Profile Type and Service
-  - [ ] Write Tests: Create `src/lib/__tests__/profile_service.test.ts` for profile CRUD.
-  - [ ] Implement: Create `src/types/profile.ts` and `src/lib/profile_service.ts`.
+- [x] Task: Create Profile Type and Service 72e22e5
+  - [x] Write Tests: Create `src/lib/__tests__/profile_service.test.ts` for profile CRUD.
+  - [x] Implement: Create `src/types/profile.ts` and `src/lib/profile_service.ts`.
 - [ ] Task: Conductor - User Manual Verification 'Foundation & Supabase Configuration' (Protocol in workflow.md)
 
 ## Phase 2: Sign-In Flow [checkpoint: sign_in_implementation]
