@@ -13,8 +13,12 @@ vi.mock('expo-sqlite', () => ({
 }));
 
 describe('SQLite Initialization', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks();
+    // Use resetModules to clear singleton if needed, or manually re-import
+    // For simplicity with Vitest, we'll re-mock or use a hack to clear the internal state
+    const sqlite = await import('../sqlite');
+    (sqlite as any).dbPromise = null;
   });
 
   test('should create profiles, habits_log, and coupons tables', async () => {

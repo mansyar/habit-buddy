@@ -1,51 +1,71 @@
 import * as SQLite from 'expo-sqlite';
 
-export const initializeSQLite = async () => {
-  const db = SQLite.openDatabaseSync('habit_buddy.db');
+let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
-  // Create tables to mirror Supabase schema
-  db.execSync(`
-    CREATE TABLE IF NOT EXISTS profiles (
-      id TEXT PRIMARY KEY,
-      user_id TEXT,
-      child_name TEXT NOT NULL,
-      avatar_id TEXT,
-      bolt_balance INTEGER DEFAULT 0,
-      is_guest INTEGER DEFAULT 0,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      updated_at TEXT DEFAULT CURRENT_TIMESTAMP
-    );
+export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
+  if (dbPromise) return dbPromise;
 
-    CREATE TABLE IF NOT EXISTS habits_log (
-      id TEXT PRIMARY KEY,
-      profile_id TEXT NOT NULL,
-      habit_id TEXT NOT NULL,
-      status TEXT NOT NULL CHECK (status IN ('success', 'sleepy')),
-      duration_seconds INTEGER DEFAULT 0,
-      bolts_earned INTEGER DEFAULT 0,
-      completed_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
-    );
+  dbPromise = (async () => {
+    const db = SQLite.openDatabaseSync('habit_buddy.db');
 
-    CREATE TABLE IF NOT EXISTS coupons (
-      id TEXT PRIMARY KEY,
-      profile_id TEXT NOT NULL,
-      title TEXT NOT NULL,
-      bolt_cost INTEGER NOT NULL,
-      is_redeemed INTEGER DEFAULT 0,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
-    );
+    // 1. Ensure core tables exist
+    db.execSync(`
+      CREATE TABLE IF NOT EXISTS profiles (
+        id TEXT PRIMARY KEY,
+        user_id TEXT,
+        child_name TEXT NOT NULL,
+        avatar_id TEXT,
+        bolt_balance INTEGER DEFAULT 0,
+        is_guest INTEGER DEFAULT 0,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
 
-    CREATE TABLE IF NOT EXISTS sync_queue (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      table_name TEXT NOT NULL,
-      operation TEXT NOT NULL,
-      data TEXT NOT NULL,
-      status TEXT DEFAULT 'pending',
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
+      CREATE TABLE IF NOT EXISTS habits_log (
+        id TEXT PRIMARY KEY,
+        profile_id TEXT NOT NULL,
+        habit_id TEXT NOT NULL,
+        status TEXT NOT NULL CHECK (status IN ('success', 'sleepy')),
+        duration_seconds INTEGER DEFAULT 0,
+        bolts_earned INTEGER DEFAULT 0,
+        completed_at TEXT DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
+      );
 
-  return db;
+      CREATE TABLE IF NOT EXISTS coupons (
+        id TEXT PRIMARY KEY,
+        profile_id TEXT NOT NULL,
+        title TEXT NOT NULL,
+        bolt_cost INTEGER NOT NULL,
+        is_redeemed INTEGER DEFAULT 0,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
+      );
+
+      CREATE TABLE IF NOT EXISTS sync_queue (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        table_name TEXT NOT NULL,
+        operation TEXT NOT NULL,
+        data TEXT NOT NULL,
+        status TEXT DEFAULT 'pending',
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // 2. Migration: Ensure is_guest column exists (for users with existing DB)
+    try {
+      const tableInfo = db.getAllSync('PRAGMA table_info(profiles)') as any[];
+      const hasIsGuest = tableInfo.some((col) => col.name === 'is_guest');
+
+      if (!hasIsGuest) {
+        db.execSync('ALTER TABLE profiles ADD COLUMN is_guest INTEGER DEFAULT 0');
+      }
+    } catch (e) {
+      console.warn('Migration check failed:', e);
+    }
+
+    return db;
+  })();
+
+  return dbPromise;
 };
