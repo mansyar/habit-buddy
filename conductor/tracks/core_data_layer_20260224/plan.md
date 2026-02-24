@@ -11,7 +11,7 @@ Goal: Provision the remote database and enforce data isolation.
 - [x] Task: Verify RLS policies with manual SQL tests in Supabase dashboard. (9e0a1b2)
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Supabase Schema & Security' (Protocol in workflow.md) (6efbe1f)
 
-## Phase 2: Local SQLite Foundation
+## Phase 2: Local SQLite Foundation [checkpoint: 79cd1b8]
 
 Goal: Set up the local database using `expo-sqlite/next` to mirror the Supabase schema.
 
@@ -19,7 +19,7 @@ Goal: Set up the local database using `expo-sqlite/next` to mirror the Supabase 
 - [x] Task: Create a `sync_queue` table in SQLite for offline write tracking. (2fcd708)
 - [x] Task: Write tests for SQLite initialization and basic CRUD operations. (40e5c34)
 - [x] Task: Implement SQLite initialization on app startup. (cc5c003)
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Local SQLite Foundation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Local SQLite Foundation' (Protocol in workflow.md) (79cd1b8)
 
 ## Phase 3: Service Layer (Repositories)
 
