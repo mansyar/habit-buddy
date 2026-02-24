@@ -23,7 +23,7 @@ class CouponService {
 
     // Save to local SQLite
     const db = await initializeSQLite();
-    db.runSync(
+    await db.runAsync(
       `INSERT INTO coupons (id, profile_id, title, bolt_cost, is_redeemed, created_at)
        VALUES (?, ?, ?, ?, ?, ?)`,
       coupon.id,
@@ -40,7 +40,7 @@ class CouponService {
 
       if (error) {
         console.error('Supabase coupon sync error:', error.message);
-        db.runSync(
+        await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'coupons',
           'INSERT',
@@ -48,7 +48,7 @@ class CouponService {
         );
       }
     } else {
-      db.runSync(
+      await db.runAsync(
         `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
         'coupons',
         'INSERT',
@@ -62,10 +62,10 @@ class CouponService {
   async getCoupons(profile_id: string): Promise<Coupon[]> {
     const isOnline = await checkIsOnline();
     const db = await initializeSQLite();
-    const localCoupons = db.getAllSync(
+    const localCoupons = (await db.getAllAsync(
       `SELECT * FROM coupons WHERE profile_id = ?`,
       profile_id,
-    ) as any[];
+    )) as any[];
 
     const formattedCoupons = localCoupons.map((c) => ({
       ...c,
@@ -83,7 +83,7 @@ class CouponService {
       if (!error && remoteCoupons) {
         // Cache to local SQLite
         for (const c of remoteCoupons) {
-          db.runSync(
+          await db.runAsync(
             `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, is_redeemed, created_at)
              VALUES (?, ?, ?, ?, ?, ?)`,
             c.id,
@@ -106,7 +106,7 @@ class CouponService {
     const db = await initializeSQLite();
 
     // Update locally
-    db.runSync(`UPDATE coupons SET is_redeemed = 1 WHERE id = ?`, id);
+    await db.runAsync(`UPDATE coupons SET is_redeemed = 1 WHERE id = ?`, id);
 
     // Sync to Supabase
     if (isOnline) {
@@ -114,7 +114,7 @@ class CouponService {
 
       if (error) {
         console.error('Supabase coupon redeem sync error:', error.message);
-        db.runSync(
+        await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'coupons',
           'UPDATE',
@@ -122,7 +122,7 @@ class CouponService {
         );
       }
     } else {
-      db.runSync(
+      await db.runAsync(
         `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
         'coupons',
         'UPDATE',

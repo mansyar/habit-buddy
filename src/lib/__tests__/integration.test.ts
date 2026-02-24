@@ -11,7 +11,9 @@ vi.mock('../supabase', () => ({
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn(() => ({
-        eq: vi.fn(() => Promise.resolve({ data: [], error: null })),
+        eq: vi.fn(() => ({
+          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+        })),
       })),
       insert: vi.fn(() => ({
         select: vi.fn(() => ({
@@ -22,6 +24,9 @@ vi.mock('../supabase', () => ({
         select: vi.fn(() => ({
           single: vi.fn(() => Promise.resolve({ data: { id: 'remote-id' }, error: null })),
         })),
+      })),
+      delete: vi.fn(() => ({
+        eq: vi.fn(() => Promise.resolve({ error: null })),
       })),
     })),
   },
@@ -34,10 +39,10 @@ vi.mock('../network', () => ({
 
 // Mock SQLite
 const mockDb = {
-  execSync: vi.fn(),
-  runSync: vi.fn(),
-  getFirstSync: vi.fn(),
-  getAllSync: vi.fn(() => []),
+  execAsync: vi.fn(async () => {}),
+  runAsync: vi.fn(async () => {}),
+  getFirstAsync: vi.fn(async () => null),
+  getAllAsync: vi.fn(async () => []),
 };
 
 vi.mock('../sqlite', () => ({
@@ -57,7 +62,7 @@ describe('Data Layer Integration', () => {
     const profileData = { child_name: 'Offline Buddy' };
     const profile = await profileService.createProfile(profileData, null);
 
-    expect(mockDb.runSync).toHaveBeenCalledWith(
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO profiles'),
       expect.any(String),
       null,
@@ -80,7 +85,7 @@ describe('Data Layer Integration', () => {
     await habitLogService.logCompletion(logData);
 
     // Verify sync_queue was populated
-    expect(mockDb.runSync).toHaveBeenCalledWith(
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO sync_queue'),
       'habits_log',
       'INSERT',
@@ -99,13 +104,13 @@ describe('Data Layer Integration', () => {
         data: JSON.stringify({ ...logData, id: 'l1' }),
       },
     ];
-    mockDb.getAllSync.mockReturnValueOnce(mockQueueItems);
+    mockDb.getAllAsync.mockResolvedValueOnce(mockQueueItems);
 
     await syncService.processQueue();
 
     // 5. Verify Supabase was called during sync
     expect(supabase.from).toHaveBeenCalledWith('habits_log');
-    expect(mockDb.runSync).toHaveBeenCalledWith(
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('DELETE FROM sync_queue WHERE id = ?'),
       1,
     );

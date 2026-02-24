@@ -3,34 +3,31 @@ import { initializeSQLite } from '../sqlite';
 import * as SQLite from 'expo-sqlite';
 
 const mockDb = {
-  execSync: vi.fn(),
-  getAllSync: vi.fn(() => []),
+  execAsync: vi.fn(),
+  getAllAsync: vi.fn(async () => []),
 };
 
 // Mock expo-sqlite
 vi.mock('expo-sqlite', () => ({
-  openDatabaseSync: vi.fn(() => mockDb),
+  openDatabaseAsync: vi.fn(async () => mockDb),
 }));
 
 describe('SQLite Initialization', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     // Use resetModules to clear singleton if needed, or manually re-import
-    // For simplicity with Vitest, we'll re-mock or use a hack to clear the internal state
     const sqlite = await import('../sqlite');
     (sqlite as any).dbPromise = null;
   });
 
   test('should create profiles, habits_log, and coupons tables', async () => {
-    const db = SQLite.openDatabaseSync('habit_buddy.db');
     await initializeSQLite();
 
-    // Verify that execSync was called to create tables
-    // We expect multiple calls or a single large call with CREATE TABLE statements
-    expect(mockDb.execSync).toHaveBeenCalled();
+    // Verify that execAsync was called to create tables
+    expect(mockDb.execAsync).toHaveBeenCalled();
 
     // Check if the specific tables were mentioned in the SQL
-    const calls = (mockDb.execSync as any).mock.calls;
+    const calls = (mockDb.execAsync as any).mock.calls;
     const allSql = calls.map((call: any[]) => call[0]).join('\n');
 
     expect(allSql).toContain('CREATE TABLE IF NOT EXISTS profiles');
@@ -44,16 +41,16 @@ describe('SQLite Initialization', () => {
     const db = await initializeSQLite();
 
     // Create (Insert)
-    db.runSync = vi.fn();
+    (db as any).runAsync = vi.fn();
     const profile = { id: 'p1', child_name: 'Buddy', bolt_balance: 10 };
-    db.runSync(
+    await db.runAsync(
       `INSERT INTO profiles (id, child_name, bolt_balance) VALUES (?, ?, ?)`,
       profile.id,
       profile.child_name,
       profile.bolt_balance,
     );
 
-    expect(db.runSync).toHaveBeenCalledWith(
+    expect(db.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO profiles'),
       profile.id,
       profile.child_name,
@@ -61,27 +58,27 @@ describe('SQLite Initialization', () => {
     );
 
     // Read (Select)
-    db.getFirstSync = vi.fn(() => profile);
-    const result = db.getFirstSync(`SELECT * FROM profiles WHERE id = ?`, profile.id);
+    (db as any).getFirstAsync = vi.fn(async () => profile);
+    const result = await db.getFirstAsync(`SELECT * FROM profiles WHERE id = ?`, profile.id);
 
     expect(result).toEqual(profile);
-    expect(db.getFirstSync).toHaveBeenCalledWith(
+    expect(db.getFirstAsync).toHaveBeenCalledWith(
       expect.stringContaining('SELECT * FROM profiles'),
       profile.id,
     );
 
     // Update
     const newName = 'Best Buddy';
-    db.runSync(`UPDATE profiles SET child_name = ? WHERE id = ?`, newName, profile.id);
-    expect(db.runSync).toHaveBeenCalledWith(
+    await db.runAsync(`UPDATE profiles SET child_name = ? WHERE id = ?`, newName, profile.id);
+    expect(db.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE profiles SET child_name'),
       newName,
       profile.id,
     );
 
     // Delete
-    db.runSync(`DELETE FROM profiles WHERE id = ?`, profile.id);
-    expect(db.runSync).toHaveBeenCalledWith(
+    await db.runAsync(`DELETE FROM profiles WHERE id = ?`, profile.id);
+    expect(db.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('DELETE FROM profiles'),
       profile.id,
     );

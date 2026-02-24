@@ -30,10 +30,10 @@ vi.mock('../network', () => ({
 
 // Mock SQLite
 const mockDb = {
-  execSync: vi.fn(),
-  runSync: vi.fn(),
-  getFirstSync: vi.fn(),
-  getAllSync: vi.fn(() => []),
+  execAsync: vi.fn(async () => {}),
+  runAsync: vi.fn(async () => {}),
+  getFirstAsync: vi.fn(async () => null),
+  getAllAsync: vi.fn(async () => []),
 };
 
 vi.mock('../sqlite', () => ({
@@ -54,7 +54,7 @@ describe('CouponService', () => {
 
     const coupon = await couponService.createCoupon(couponData);
 
-    expect(mockDb.runSync).toHaveBeenCalledWith(
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO coupons'),
       expect.any(String),
       couponData.profile_id,
@@ -68,18 +68,18 @@ describe('CouponService', () => {
 
   test('should fetch coupons from SQLite', async () => {
     const mockCoupons = [{ id: 'c1', title: 'Ice Cream', is_redeemed: 0 }];
-    mockDb.getAllSync.mockReturnValueOnce(mockCoupons);
+    mockDb.getAllAsync.mockResolvedValueOnce(mockCoupons);
 
     const coupons = await couponService.getCoupons('p1');
     expect(coupons[0].title).toBe('Ice Cream');
-    expect(mockDb.getAllSync).toHaveBeenCalled();
+    expect(mockDb.getAllAsync).toHaveBeenCalled();
   });
 
   test('should redeem a coupon', async () => {
     const couponId = 'c1';
     await couponService.redeemCoupon(couponId);
 
-    expect(mockDb.runSync).toHaveBeenCalledWith(
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
       couponId,
     );

@@ -12,13 +12,16 @@ export default function SignInScreen() {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle();
+      if (!result) return; // Web redirect in progress
+
       if (result.type === 'error') {
         Alert.alert('Sign In Error', 'An error occurred during Google sign in.');
       } else if (result.type === 'cancel') {
         // User cancelled, no action needed or a toast
       }
-    } catch (error: any) {
-      Alert.alert('Sign In Error', error.message || 'An unexpected error occurred.');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred.';
+      Alert.alert('Sign In Error', message);
     }
   };
 

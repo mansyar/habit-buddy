@@ -24,9 +24,9 @@ class SyncService {
 
     try {
       const db = await initializeSQLite();
-      const queue = db.getAllSync(
+      const queue = (await db.getAllAsync(
         `SELECT * FROM sync_queue WHERE status = 'pending' ORDER BY created_at ASC`,
-      ) as SyncItem[];
+      )) as SyncItem[];
 
       if (queue.length === 0) {
         console.log('SyncService: Queue is empty.');
@@ -40,7 +40,7 @@ class SyncService {
           data = JSON.parse(item.data);
         } catch (e) {
           console.error(`SyncService: Malformed data in item ${item.id}`);
-          db.runSync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
+          await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
           continue;
         }
 
@@ -62,13 +62,13 @@ class SyncService {
           }
 
           if (success) {
-            db.runSync(`DELETE FROM sync_queue WHERE id = ?`, item.id);
+            await db.runAsync(`DELETE FROM sync_queue WHERE id = ?`, item.id);
           } else {
-            db.runSync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
+            await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
           }
         } catch (e: any) {
           console.error(`SyncService: Error processing item ${item.id}:`, e.message);
-          db.runSync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
+          await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
         }
       }
     } catch (e: any) {

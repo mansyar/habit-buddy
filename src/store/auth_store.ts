@@ -4,6 +4,7 @@ import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { Profile } from '../types/profile';
 import { supabase } from '../lib/supabase';
+import { Platform } from 'react-native';
 
 interface AuthState {
   user: User | null;
@@ -12,7 +13,7 @@ interface AuthState {
   setUser: (user: User | null) => void;
   setProfile: (profile: Profile | null) => void;
   setLoading: (isLoading: boolean) => void;
-  signInWithGoogle: () => Promise<WebBrowser.WebBrowserAuthSessionResult>;
+  signInWithGoogle: () => Promise<WebBrowser.WebBrowserAuthSessionResult | void>;
   signOut: () => Promise<void>;
 }
 
@@ -31,15 +32,21 @@ export const useAuthStore = create<AuthState>((set) => ({
         path: 'login-callback/',
       });
 
+      const isWeb = Platform.OS === 'web';
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: redirectUri,
-          skipBrowserRedirect: true,
+          skipBrowserRedirect: !isWeb, // Don't skip on web so it redirects directly
         },
       });
 
       if (error) throw error;
+
+      // On web, signInWithOAuth will handle the redirect automatically if skipBrowserRedirect is false
+      if (isWeb) return;
+
       if (!data.url) throw new Error('No OAuth URL returned');
 
       const result = await WebBrowser.openAuthSessionAsync(data.url, redirectUri);

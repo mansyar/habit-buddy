@@ -26,7 +26,7 @@ class ProfileService {
 
     // Always save to local SQLite first
     const db = await initializeSQLite();
-    db.runSync(
+    await db.runAsync(
       `INSERT INTO profiles (id, user_id, child_name, avatar_id, bolt_balance, is_guest, created_at, updated_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       profile.id,
@@ -55,13 +55,16 @@ class ProfileService {
           },
         ])
         .select()
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Supabase profile sync error:', error.message);
         // We don't throw here because local save succeeded
       } else if (remoteProfile) {
-        return remoteProfile;
+        return {
+          ...remoteProfile,
+          is_guest: false,
+        };
       }
     }
 
@@ -73,7 +76,12 @@ class ProfileService {
 
     // Check SQLite first (source of truth for offline/recent changes)
     const db = await initializeSQLite();
-    const localProfile = db.getFirstSync(`SELECT * FROM profiles WHERE id = ?`, id) as any;
+    // Try to find by profile id OR user_id
+    const localProfile = (await db.getFirstAsync(
+      `SELECT * FROM profiles WHERE id = ? OR user_id = ?`,
+      id,
+      id,
+    )) as Profile | null;
 
     if (localProfile) {
       return {
@@ -84,15 +92,16 @@ class ProfileService {
 
     // If not found locally and online, check Supabase
     if (isOnline) {
+      // Use .or() to search by either id or user_id
       const { data: remoteProfile, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', id)
-        .single();
+        .or(`id.eq.${id},user_id.eq.${id}`)
+        .maybeSingle(); // Use maybeSingle to avoid 406 error if not found
 
       if (!error && remoteProfile) {
         // Cache to local SQLite - set is_guest to 0 as it came from Supabase
-        db.runSync(
+        await db.runAsync(
           `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, bolt_balance, is_guest, created_at, updated_at)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
           remoteProfile.id,
@@ -104,7 +113,12 @@ class ProfileService {
           remoteProfile.created_at,
           remoteProfile.updated_at,
         );
-        return remoteProfile;
+        return {
+          ...remoteProfile,
+          is_guest: false,
+        };
+      } else if (error) {
+        console.error('Supabase getProfile error:', error.message);
       }
     }
 
@@ -113,9 +127,9 @@ class ProfileService {
 
   async getGuestProfile(): Promise<Profile | null> {
     const db = await initializeSQLite();
-    const localProfile = db.getFirstSync(
+    const localProfile = (await db.getFirstAsync(
       `SELECT * FROM profiles WHERE is_guest = 1 LIMIT 1`,
-    ) as any;
+    )) as any;
 
     if (localProfile) {
       return {
@@ -140,7 +154,7 @@ class ProfileService {
     };
 
     // Update locally
-    db.runSync(
+    await db.runAsync(
       `UPDATE profiles SET user_id = ?, is_guest = 0, updated_at = ? WHERE id = ?`,
       userId,
       updatedProfile.updated_at,
@@ -163,10 +177,13 @@ class ProfileService {
           },
         ])
         .select()
-        .single();
+        .maybeSingle();
 
       if (!error && remoteProfile) {
-        return remoteProfile;
+        return {
+          ...remoteProfile,
+          is_guest: false,
+        };
       }
     }
 

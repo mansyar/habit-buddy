@@ -24,7 +24,7 @@ class HabitLogService {
 
     // Save to local SQLite
     const db = await initializeSQLite();
-    db.runSync(
+    await db.runAsync(
       `INSERT INTO habits_log (id, profile_id, habit_id, status, duration_seconds, bolts_earned, completed_at)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       log.id,
@@ -43,7 +43,7 @@ class HabitLogService {
       if (error) {
         console.error('Supabase habit_log sync error:', error.message);
         // Queue for sync later (SyncService task)
-        db.runSync(
+        await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'habits_log',
           'INSERT',
@@ -52,7 +52,7 @@ class HabitLogService {
       }
     } else {
       // Offline, queue for sync
-      db.runSync(
+      await db.runAsync(
         `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
         'habits_log',
         'INSERT',
@@ -69,11 +69,11 @@ class HabitLogService {
     const isoStart = startOfDay.toISOString();
 
     const db = await initializeSQLite();
-    const logs = db.getAllSync(
+    const logs = (await db.getAllAsync(
       `SELECT * FROM habits_log WHERE profile_id = ? AND completed_at >= ?`,
       profile_id,
       isoStart,
-    ) as HabitLog[];
+    )) as HabitLog[];
 
     return logs;
   }
@@ -85,7 +85,7 @@ class HabitLogService {
     const isoStart = startDate.toISOString();
 
     const db = await initializeSQLite();
-    const logs = db.getAllSync(
+    const logs = await db.getAllAsync(
       `SELECT date(completed_at) as date, count(*) as count 
        FROM habits_log 
        WHERE profile_id = ? AND completed_at >= ? AND status = 'success'

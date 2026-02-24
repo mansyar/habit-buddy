@@ -12,6 +12,9 @@ vi.mock('../supabase', () => ({
       update: vi.fn(() => ({
         eq: vi.fn(() => Promise.resolve({ error: null })),
       })),
+      delete: vi.fn(() => ({
+        eq: vi.fn(() => Promise.resolve({ error: null })),
+      })),
     })),
   },
 }));
@@ -23,10 +26,10 @@ vi.mock('../network', () => ({
 
 // Mock SQLite
 const mockDb = {
-  execSync: vi.fn(),
-  runSync: vi.fn(),
-  getFirstSync: vi.fn(),
-  getAllSync: vi.fn(() => []),
+  execAsync: vi.fn(async () => {}),
+  runAsync: vi.fn(async () => {}),
+  getFirstAsync: vi.fn(async () => null),
+  getAllAsync: vi.fn(async () => []),
 };
 
 vi.mock('../sqlite', () => ({
@@ -47,12 +50,12 @@ describe('SyncService', () => {
         data: JSON.stringify({ id: 'l1', habit_id: 'brush_teeth' }),
       },
     ];
-    mockDb.getAllSync.mockReturnValueOnce(mockQueueItems);
+    mockDb.getAllAsync.mockResolvedValueOnce(mockQueueItems);
 
     await syncService.processQueue();
 
     expect(supabase.from).toHaveBeenCalledWith('habits_log');
-    expect(mockDb.runSync).toHaveBeenCalledWith(
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('DELETE FROM sync_queue WHERE id = ?'),
       1,
     );
@@ -64,6 +67,6 @@ describe('SyncService', () => {
     await syncService.processQueue();
 
     expect(supabase.from).not.toHaveBeenCalled();
-    expect(mockDb.getAllSync).not.toHaveBeenCalled();
+    expect(mockDb.getAllAsync).not.toHaveBeenCalled();
   });
 });

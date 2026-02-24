@@ -8,6 +8,18 @@ export const routerMock = {
   back: vi.fn(),
 };
 
+// Mock SQLite methods
+const mockSQLiteDb = {
+  execSync: vi.fn(),
+  runSync: vi.fn(),
+  getFirstSync: vi.fn(),
+  getAllSync: vi.fn(),
+  execAsync: vi.fn(async () => {}),
+  runAsync: vi.fn(async () => {}),
+  getFirstAsync: vi.fn(async () => null),
+  getAllAsync: vi.fn(async () => []),
+};
+
 // Mock react-native
 vi.mock('react-native', () => {
   return {
@@ -100,12 +112,8 @@ vi.mock('expo', () => ({
 
 // Mock expo-sqlite
 vi.mock('expo-sqlite', () => ({
-  openDatabaseSync: vi.fn(() => ({
-    execSync: vi.fn(),
-    runSync: vi.fn(),
-    getFirstSync: vi.fn(),
-    getAllSync: vi.fn(),
-  })),
+  openDatabaseSync: vi.fn(() => mockSQLiteDb),
+  openDatabaseAsync: vi.fn(async () => mockSQLiteDb),
   SQLiteProvider: ({ children }: any) => children,
   useSQLiteContext: vi.fn(),
 }));
@@ -125,9 +133,9 @@ vi.mock('@react-native-community/netinfo', () => {
   };
 });
 
-// Mock Supabase
-vi.mock('@supabase/supabase-js', () => ({
-  createClient: vi.fn(() => ({
+// Mock Supabase Helper
+const createSupabaseMock = () => {
+  const mock: any = {
     auth: {
       signInWithOAuth: vi.fn(),
       signOut: vi.fn(),
@@ -136,19 +144,24 @@ vi.mock('@supabase/supabase-js', () => ({
       })),
       getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),
     },
-    from: vi.fn(() => ({
-      select: vi.fn(() => ({
-        eq: vi.fn(() => ({
-          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
-        })),
-      })),
-      insert: vi.fn(() => ({
-        select: vi.fn(() => ({
-          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
-        })),
-      })),
-    })),
-  })),
+    from: vi.fn(() => mock),
+    select: vi.fn(() => mock),
+    insert: vi.fn(() => mock),
+    update: vi.fn(() => mock),
+    upsert: vi.fn(() => mock),
+    delete: vi.fn(() => mock),
+    eq: vi.fn(() => mock),
+    or: vi.fn(() => mock),
+    maybeSingle: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    gte: vi.fn(() => Promise.resolve({ data: [], error: null })),
+  };
+  return mock;
+};
+
+// Mock Supabase
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: vi.fn(() => createSupabaseMock()),
 }));
 
 // Set dummy env vars for Supabase initialization in tests

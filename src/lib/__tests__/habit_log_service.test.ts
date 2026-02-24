@@ -29,10 +29,10 @@ vi.mock('../network', () => ({
 
 // Mock SQLite
 const mockDb = {
-  execSync: vi.fn(),
-  runSync: vi.fn(),
-  getFirstSync: vi.fn(),
-  getAllSync: vi.fn(() => []),
+  execAsync: vi.fn(async () => {}),
+  runAsync: vi.fn(async () => {}),
+  getFirstAsync: vi.fn(async () => null),
+  getAllAsync: vi.fn(async () => []),
 };
 
 vi.mock('../sqlite', () => ({
@@ -56,7 +56,7 @@ describe('HabitLogService', () => {
 
       const log = await habitLogService.logCompletion(logData);
 
-      expect(mockDb.runSync).toHaveBeenCalledWith(
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('INSERT INTO habits_log'),
         expect.any(String),
         logData.profile_id,
@@ -83,7 +83,7 @@ describe('HabitLogService', () => {
 
       await habitLogService.logCompletion(logData);
 
-      expect(mockDb.runSync).toHaveBeenCalled();
+      expect(mockDb.runAsync).toHaveBeenCalled();
       expect(supabase.from).not.toHaveBeenCalled();
     });
   });
@@ -91,12 +91,12 @@ describe('HabitLogService', () => {
   describe('getTodaysLogs', () => {
     test('should fetch logs from SQLite', async () => {
       const mockLogs = [{ id: '1', habit_id: 'brush_teeth', status: 'success' }];
-      mockDb.getAllSync.mockReturnValueOnce(mockLogs);
+      mockDb.getAllAsync.mockResolvedValueOnce(mockLogs);
 
       const logs = await habitLogService.getTodaysLogs('p1');
 
       expect(logs).toEqual(mockLogs);
-      expect(mockDb.getAllSync).toHaveBeenCalledWith(
+      expect(mockDb.getAllAsync).toHaveBeenCalledWith(
         expect.stringContaining('SELECT * FROM habits_log WHERE profile_id = ?'),
         'p1',
         expect.any(String),
