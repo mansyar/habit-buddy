@@ -51,9 +51,8 @@ describe('HomeScreen', () => {
     vi.clearAllMocks();
 
     (useAuthStore as any).mockReturnValue({
-      profile: { name: 'Buddy', id: 'p1' },
+      profile: { child_name: 'Buddy', id: 'p1', bolt_balance: 100 },
     });
-
     (useHabitStore as any).mockReturnValue({
       completedHabitIds: ['tooth-brushing'],
       getCompletionPercentage: vi.fn(() => 33),

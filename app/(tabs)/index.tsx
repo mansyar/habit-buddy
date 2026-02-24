@@ -37,10 +37,10 @@ export default function HomeScreen() {
       {/* Custom App Bar */}
       <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
         <View style={styles.headerLeft}>
-          <Text style={styles.greeting}>Hi, {profile?.name || 'Buddy'}!</Text>
+          <Text style={styles.greeting}>Hi, {profile?.child_name || 'Buddy'}!</Text>
         </View>
         <View style={styles.headerRight}>
-          <BoltCounter balance={profile?.bolts_balance || 0} />
+          <BoltCounter balance={profile?.bolt_balance || 0} />
           <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/settings')}>
             <Settings size={24} color="#555" />
           </TouchableOpacity>
