@@ -106,10 +106,10 @@ assets/
 
 ### Acceptance Criteria
 
-- [ ] `pnpm expo start` succeeds on Android Emulator
-- [ ] Supabase project accessible, anon key configured
-- [ ] Fonts (Fredoka One, Nunito) render correctly
-- [ ] Git repo initialized with clean first commit
+- [x] `pnpm expo start` succeeds on Android Emulator
+- [x] Supabase project accessible, anon key configured
+- [x] Fonts (Fredoka One, Nunito) render correctly
+- [x] Git repo initialized with clean first commit
 
 ---
 
