@@ -29,6 +29,27 @@ class ProfileService {
     return profile;
   }
 
+  async migrateGuestToUser(guestData: Partial<Profile>, userId: string): Promise<Profile> {
+    const profileData = {
+      ...guestData,
+      id: userId,
+      is_guest: false,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .upsert([profileData])
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return profile;
+  }
+
   async getProfile(userId: string): Promise<Profile | null> {
     const { data: profile, error } = await supabase
       .from('profiles')
