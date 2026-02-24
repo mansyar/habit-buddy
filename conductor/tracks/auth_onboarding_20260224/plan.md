@@ -15,14 +15,14 @@
 - [x] Task: Build Sign-In Screen c7bb498
   - [x] Write Tests: Create `app/(auth)/__tests__/sign-in.test.tsx` for the UI and button triggers.
   - [x] Implement: Create `app/(auth)/sign-in.tsx` with Google and Guest buttons.
-- [~] Task: Implement Auth State Listener
-  - [ ] Write Tests: Create `src/store/__tests__/auth_store.test.ts` to verify the state listener.
-  - [ ] Implement: Update `app/_layout.tsx` and create `src/store/auth_store.ts`.
-- [ ] Task: Conductor - User Manual Verification 'Sign-In Flow' (Protocol in workflow.md)
+- [x] Task: Implement Auth State Listener 0bf9791
+  - [x] Write Tests: Create `src/store/__tests__/auth_store.test.ts` to verify the state listener.
+  - [x] Implement: Update `app/_layout.tsx` and create `src/store/auth_store.ts`.
+- [x] Task: Conductor - User Manual Verification 'Sign-In Flow' (Protocol in workflow.md) 0bf9791
 
 ## Phase 3: Onboarding Flow [checkpoint: onboarding_implementation]
 
-- [ ] Task: Build Onboarding Screen
+- [~] Task: Build Onboarding Screen
   - [ ] Write Tests: Create `app/(auth)/__tests__/onboarding.test.tsx` for input and avatar selection.
   - [ ] Implement: Create `app/(auth)/onboarding.tsx` with name input and avatar selection.
 - [ ] Task: Implement Navigation Logic
