@@ -25,10 +25,10 @@
 
 ## Phase 3: Screen & Integration
 
-- [~] Task: Implement `HomeScreen` layout.
-  - [ ] Write tests for `HomeScreen` in `app/(tabs)/__tests__/index.test.tsx`.
-  - [ ] Implement `app/(tabs)/index.tsx`.
-  - [ ] Integrate `useAuthStore` for child name and `useHabitStore` for cards/progress.
+- [x] Task: Implement `HomeScreen` layout. [2580600]
+  - [x] Write tests for `HomeScreen` in `app/(tabs)/__tests__/index.test.tsx`.
+  - [x] Implement `app/(tabs)/index.tsx`.
+  - [x] Integrate `useAuthStore` for child name and `useHabitStore` for cards/progress.
 - [ ] Task: Add placeholder screens for Settings and Reward Shop.
   - [ ] Create `app/settings.tsx` and `app/reward-shop.tsx`.
 - [ ] Task: Conductor - User Manual Verification 'Home Screen' (Protocol in workflow.md)
