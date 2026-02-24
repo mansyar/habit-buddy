@@ -44,7 +44,7 @@ Goal: Implement real-time connectivity monitoring and background sync logic.
 - [x] Task: Implement `SyncService` to process the `sync_queue`. (4b44ae8)
   - [x] Task: Write failing tests for `SyncService` (replaying queued items). (4b44ae8)
   - [x] Task: Implement `processQueue` logic with retry mechanism. (4b44ae8)
-- [ ] Task: Hook `SyncService` to network change events.
+- [x] Task: Hook `SyncService` to network change events. (b8806f1)
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Network & Synchronization' (Protocol in workflow.md)
 
 ## Phase 5: Final Validation & Integration
