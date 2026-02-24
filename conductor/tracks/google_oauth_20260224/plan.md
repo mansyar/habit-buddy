@@ -17,13 +17,13 @@
   - [x] Integrate Supabase `signInWithOAuth` logic
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Auth Store' (Protocol in workflow.md) 8435ec2
 
-## Phase 3: Sign-In UI Integration
+## Phase 3: Sign-In UI Integration [checkpoint: d1684d9]
 
 - [x] Task: Update `app/(auth)/sign-in.tsx` to use `auth_store` actions c17dcb0
   - [x] Connect Google Sign-In button to `signInWithGoogle`
   - [x] Implement error handling with `Alert` for failures
 - [x] Task: Verify UI interactions and basic flow triggers c17dcb0
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: UI Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: UI Integration' (Protocol in workflow.md) d1684d9
 
 ## Phase 4: Redirect & Session Logic
 
