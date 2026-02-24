@@ -30,7 +30,7 @@
   - [x] Implement: Configure Expo Router redirects based on auth and profile state.
 - [x] Task: Conductor - User Manual Verification 'Onboarding Flow' (Protocol in workflow.md) 7826dd5
 
-## Phase 4: Data Migration & Final Integration [checkpoint: migration_and_final_integration]
+## Phase 4: Data Migration & Final Integration [checkpoint: a964305]
 
 - [x] Task: Implement Guest-to-Google Migration 5c272bc
   - [x] Write Tests: Create `src/lib/__tests__/migration.test.ts` to verify guest-to-Google data sync.
@@ -40,4 +40,4 @@
   - [x] Implement: Add sign-out button in `app/(tabs)/two.tsx` and verify redirect.
 - [x] Task: Update `docs/roadmap.md` 6888492
   - [x] Mark Phase 1 as completed in the roadmap file.
-- [ ] Task: Conductor - User Manual Verification 'Data Migration & Final Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Data Migration & Final Integration' (Protocol in workflow.md) a964305
