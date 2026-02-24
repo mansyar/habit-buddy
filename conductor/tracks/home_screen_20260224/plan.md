@@ -15,9 +15,9 @@
 - [x] Task: Implement `HabitCard` component with TDD. [45e4b31]
   - [x] Write tests in `src/components/__tests__/HabitCard.test.tsx`.
   - [x] Implement `src/components/HabitCard.tsx` using Lucide icons.
-- [~] Task: Implement `BoltCounter` component with TDD.
-  - [ ] Write tests in `src/components/__tests__/BoltCounter.test.tsx`.
-  - [ ] Implement `src/components/BoltCounter.tsx` with Reanimated bounce effect.
+- [x] Task: Implement `BoltCounter` component with TDD. [a7942f0]
+  - [x] Write tests in `src/components/__tests__/BoltCounter.test.tsx`.
+  - [x] Implement `src/components/BoltCounter.tsx` with Reanimated bounce effect.
 - [ ] Task: Implement `CautionTapeProgress` component with TDD.
   - [ ] Write tests in `src/components/__tests__/CautionTapeProgress.test.tsx`.
   - [ ] Implement `src/components/CautionTapeProgress.tsx` with Reanimated scrolling.
