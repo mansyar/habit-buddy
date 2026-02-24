@@ -35,9 +35,9 @@
 - [x] Task: Implement Guest-to-Google Migration 5c272bc
   - [x] Write Tests: Create `src/lib/__tests__/migration.test.ts` to verify guest-to-Google data sync.
   - [x] Implement: Update `profile_service.ts` to handle migration on sign-in.
-- [~] Task: Implement Sign-Out
-  - [ ] Write Tests: Create `app/(tabs)/__tests__/sign-out.test.tsx` for the sign-out action.
-  - [ ] Implement: Add sign-out button in `app/(tabs)/two.tsx` and verify redirect.
-- [ ] Task: Update `docs/roadmap.md`
-  - [ ] Mark Phase 1 as completed in the roadmap file.
+- [x] Task: Implement Sign-Out 60dc6f6
+  - [x] Write Tests: Create `app/(tabs)/__tests__/sign-out.test.tsx` for the sign-out action.
+  - [x] Implement: Add sign-out button in `app/(tabs)/two.tsx` and verify redirect.
+- [x] Task: Update `docs/roadmap.md` 6888492
+  - [x] Mark Phase 1 as completed in the roadmap file.
 - [ ] Task: Conductor - User Manual Verification 'Data Migration & Final Integration' (Protocol in workflow.md)
