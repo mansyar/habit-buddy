@@ -74,6 +74,20 @@ vi.mock('expo-crypto', () => ({
   randomUUID: vi.fn(() => 'test-uuid-' + Math.random()),
 }));
 
+// Mock expo-auth-session
+vi.mock('expo-auth-session', () => ({
+  makeRedirectUri: vi.fn(() => 'habitbuddy://login-callback/'),
+  startAsync: vi.fn(),
+  dismiss: vi.fn(),
+}));
+
+// Mock expo-web-browser
+vi.mock('expo-web-browser', () => ({
+  openBrowserAsync: vi.fn(),
+  openAuthSessionAsync: vi.fn(),
+  dismissBrowser: vi.fn(),
+}));
+
 // Mock NetInfo
 vi.mock('@react-native-community/netinfo', () => {
   return {
@@ -88,3 +102,33 @@ vi.mock('@react-native-community/netinfo', () => {
     useNetInfo: vi.fn(() => ({ isConnected: true })),
   };
 });
+
+// Mock Supabase
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: vi.fn(() => ({
+    auth: {
+      signInWithOAuth: vi.fn(),
+      signOut: vi.fn(),
+      onAuthStateChange: vi.fn(() => ({
+        data: { subscription: { unsubscribe: vi.fn() } },
+      })),
+      getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),
+    },
+    from: vi.fn(() => ({
+      select: vi.fn(() => ({
+        eq: vi.fn(() => ({
+          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+        })),
+      })),
+      insert: vi.fn(() => ({
+        select: vi.fn(() => ({
+          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+        })),
+      })),
+    })),
+  })),
+}));
+
+// Set dummy env vars for Supabase initialization in tests
+process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
+process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
