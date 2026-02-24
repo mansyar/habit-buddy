@@ -11,6 +11,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth_store';
 import { profileService } from '@/lib/profile_service';
 import { initializeSQLite } from '@/lib/sqlite';
+import { syncService } from '@/lib/sync_service';
+import NetInfo from '@react-native-community/netinfo';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -99,6 +101,17 @@ function RootLayoutNav() {
     return () => {
       subscription.unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
+    // Listen for network changes to trigger sync
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      if (state.isConnected) {
+        syncService.processQueue();
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
