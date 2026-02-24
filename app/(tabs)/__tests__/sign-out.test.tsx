@@ -20,7 +20,7 @@ vi.mock('../../../src/components/Themed', () => ({
 
 // Mock EditScreenInfo
 vi.mock('../../../src/components/EditScreenInfo', () => ({
-  default: () => null,
+  EditScreenInfo: () => null,
 }));
 
 describe('TabTwoScreen (Sign Out)', () => {

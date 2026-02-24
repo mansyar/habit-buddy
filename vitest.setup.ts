@@ -61,3 +61,10 @@ vi.mock('expo-font', () => ({
   loadAsync: vi.fn(),
   isLoaded: vi.fn(() => true),
 }));
+
+// Mock expo-secure-store
+vi.mock('expo-secure-store', () => ({
+  getItemAsync: vi.fn(),
+  setItemAsync: vi.fn(),
+  deleteItemAsync: vi.fn(),
+}));
