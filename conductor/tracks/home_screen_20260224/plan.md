@@ -1,6 +1,6 @@
 # Implementation Plan: Phase 3 - Home Screen
 
-## Phase 1: Foundation & State Management
+## Phase 1: Foundation & State Management [checkpoint: c017390]
 
 - [x] Task: Define Core Habits and `Habit` type. [1fd7cdb]
   - [x] Create `src/types/habit.ts`.
