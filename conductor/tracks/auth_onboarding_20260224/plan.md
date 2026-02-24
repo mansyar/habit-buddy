@@ -25,14 +25,14 @@
 - [x] Task: Build Onboarding Screen 44864c6
   - [x] Write Tests: Create `app/(auth)/__tests__/onboarding.test.tsx` for input and avatar selection.
   - [x] Implement: Create `app/(auth)/onboarding.tsx` with name input and avatar selection.
-- [~] Task: Implement Navigation Logic
-  - [ ] Write Tests: Create `app/__tests__/navigation.test.tsx` to verify redirects.
-  - [ ] Implement: Configure Expo Router redirects based on auth and profile state.
-- [ ] Task: Conductor - User Manual Verification 'Onboarding Flow' (Protocol in workflow.md)
+- [x] Task: Implement Navigation Logic 7826dd5
+  - [x] Write Tests: Create `app/__tests__/navigation.test.tsx` to verify redirects.
+  - [x] Implement: Configure Expo Router redirects based on auth and profile state.
+- [x] Task: Conductor - User Manual Verification 'Onboarding Flow' (Protocol in workflow.md) 7826dd5
 
 ## Phase 4: Data Migration & Final Integration [checkpoint: migration_and_final_integration]
 
-- [ ] Task: Implement Guest-to-Google Migration
+- [~] Task: Implement Guest-to-Google Migration
   - [ ] Write Tests: Create `src/lib/__tests__/migration.test.ts` to verify guest-to-Google data sync.
   - [ ] Implement: Update `profile_service.ts` to handle migration on sign-in.
 - [ ] Task: Implement Sign-Out
