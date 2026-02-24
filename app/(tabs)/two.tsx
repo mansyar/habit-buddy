@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
+import { EditScreenInfo } from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { supabase } from '@/lib/supabase';
 import { profileService } from '@/lib/profile_service';
@@ -16,10 +16,8 @@ export default function TabTwoScreen() {
         console.error('Sign out error:', error.message);
       }
     } else {
-      // For guest, we just clear the local profile
-      await profileService.clearGuestProfile();
-      // Auth listener in _layout will handle the redirect
-      // but we need to trigger a state update in the store manually for guest
+      // For persistent guest, we do NOT clear the local storage (SecureStore).
+      // We only clear the store's profile state to trigger the redirect to sign-in.
       useAuthStore.getState().setProfile(null);
     }
   };
