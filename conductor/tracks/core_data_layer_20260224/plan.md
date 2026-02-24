@@ -25,9 +25,9 @@ Goal: Set up the local database using `expo-sqlite/next` to mirror the Supabase 
 
 Goal: Build the abstract services that toggle between Supabase and SQLite.
 
-- [ ] Task: Refactor `ProfileService` to support both Supabase and SQLite.
-  - [ ] Task: Write failing tests for `ProfileService` (online/offline modes).
-  - [ ] Task: Implement `getProfile`, `createProfile`, and `updateProfile`.
+- [x] Task: Refactor `ProfileService` to support both Supabase and SQLite. (4a270f0)
+  - [x] Task: Write failing tests for `ProfileService` (online/offline modes). (4a270f0)
+  - [x] Task: Implement `getProfile`, `createProfile`, and `updateProfile`. (4a270f0)
 - [ ] Task: Implement `HabitLogService`.
   - [ ] Task: Write failing tests for `HabitLogService`.
   - [ ] Task: Implement `logCompletion`, `getTodaysLogs`, and `getStreakData`.
