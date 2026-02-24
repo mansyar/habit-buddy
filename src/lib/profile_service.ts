@@ -91,7 +91,7 @@ class ProfileService {
         .single();
 
       if (!error && remoteProfile) {
-        // Cache to local SQLite
+        // Cache to local SQLite - set is_guest to 0 as it came from Supabase
         db.runSync(
           `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, bolt_balance, is_guest, created_at, updated_at)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,

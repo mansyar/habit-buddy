@@ -8,7 +8,7 @@ import { routerMock } from '../../../vitest.setup';
 // Mock ProfileService
 vi.mock('../../../src/lib/profile_service', () => ({
   profileService: {
-    createProfile: vi.fn(() => Promise.resolve({ id: '123', name: 'Buddy' })),
+    createProfile: vi.fn(() => Promise.resolve({ id: '123', child_name: 'Buddy' })),
   },
 }));
 
@@ -43,8 +43,8 @@ describe('OnboardingScreen', () => {
 
     await waitFor(() => {
       expect(profileService.createProfile).toHaveBeenCalledWith(
-        expect.objectContaining({ name: 'Rex', avatar: 'dog' }),
-        false,
+        expect.objectContaining({ child_name: 'Rex', avatar_id: 'dog' }),
+        'user123',
       );
     });
 

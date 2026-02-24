@@ -1,8 +1,10 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import SignInScreen from '../sign-in';
 import { supabase } from '../../../src/lib/supabase';
-import { useRouter } from 'expo-router';
+import { profileService } from '../../../src/lib/profile_service';
+import { useAuthStore } from '../../../src/store/auth_store';
+import { routerMock } from '../../../vitest.setup';
 
 // Mock Supabase
 vi.mock('../../../src/lib/supabase', () => ({
@@ -11,6 +13,20 @@ vi.mock('../../../src/lib/supabase', () => ({
       signInWithOAuth: vi.fn(() => Promise.resolve({ error: null })),
     },
   },
+}));
+
+// Mock ProfileService
+vi.mock('../../../src/lib/profile_service', () => ({
+  profileService: {
+    getGuestProfile: vi.fn(() => Promise.resolve(null)),
+  },
+}));
+
+// Mock AuthStore
+vi.mock('../../../src/store/auth_store', () => ({
+  useAuthStore: vi.fn(() => ({
+    setProfile: vi.fn(),
+  })),
 }));
 
 describe('SignInScreen', () => {
@@ -32,13 +48,14 @@ describe('SignInScreen', () => {
     });
   });
 
-  test('navigates to onboarding when Guest button is pressed', () => {
-    const router = useRouter();
+  test('navigates to onboarding when Guest button is pressed', async () => {
     const { getByTestId } = render(<SignInScreen />);
     const guestButton = getByTestId('guest-signin-button');
 
     fireEvent.click(guestButton);
 
-    expect(router.replace).toHaveBeenCalledWith('/onboarding');
+    await waitFor(() => {
+      expect(routerMock.replace).toHaveBeenCalledWith('/onboarding');
+    });
   });
 });

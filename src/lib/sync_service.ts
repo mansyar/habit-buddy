@@ -35,7 +35,15 @@ class SyncService {
       }
 
       for (const item of queue) {
-        const data = JSON.parse(item.data);
+        let data;
+        try {
+          data = JSON.parse(item.data);
+        } catch (e) {
+          console.error(`SyncService: Malformed data in item ${item.id}`);
+          db.runSync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
+          continue;
+        }
+
         let success = false;
 
         try {

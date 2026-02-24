@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import TabTwoScreen from '../two';
 import { supabase } from '../../../src/lib/supabase';
+import { useAuthStore } from '../../../src/store/auth_store';
 
 // Mock Supabase
 vi.mock('../../../src/lib/supabase', () => ({
@@ -10,6 +11,13 @@ vi.mock('../../../src/lib/supabase', () => ({
       signOut: vi.fn(() => Promise.resolve({ error: null })),
     },
   },
+}));
+
+// Mock AuthStore
+vi.mock('../../../src/store/auth_store', () => ({
+  useAuthStore: vi.fn(() => ({
+    user: { id: 'user123' },
+  })),
 }));
 
 // Mock Themed components to avoid expo dependency issues in tests
