@@ -3,13 +3,24 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { supabase } from '@/lib/supabase';
-import { Colors } from '@/theme/Colors';
+import { profileService } from '@/lib/profile_service';
+import { useAuthStore } from '@/store/auth_store';
 
 export default function TabTwoScreen() {
+  const { user } = useAuthStore();
+
   const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Sign out error:', error.message);
+    if (user) {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Sign out error:', error.message);
+      }
+    } else {
+      // For guest, we just clear the local profile
+      await profileService.clearGuestProfile();
+      // Auth listener in _layout will handle the redirect
+      // but we need to trigger a state update in the store manually for guest
+      useAuthStore.getState().setProfile(null);
     }
   };
 

@@ -62,6 +62,10 @@ function RootLayoutNav() {
       if (initialUser) {
         const profileData = await profileService.getProfile(initialUser.id);
         setProfile(profileData);
+      } else {
+        // Check for guest profile if no Supabase session
+        const guestProfile = await profileService.getGuestProfile();
+        setProfile(guestProfile);
       }
       setLoading(false);
     });
