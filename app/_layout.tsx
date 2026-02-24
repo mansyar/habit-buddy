@@ -92,13 +92,15 @@ function RootLayoutNav() {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === '(auth)';
+    const inOnboarding = segments[0] === 'onboarding';
 
-    if (!user && !inAuthGroup) {
-      // For now, if no user, we go to sign-in. Guest mode will set a 'guest' user/profile state.
+    const isAuthenticated = !!user || (!!profile && profile.is_guest);
+
+    if (!isAuthenticated && !inAuthGroup && !inOnboarding) {
       router.replace('/sign-in');
-    } else if (user && !profile && segments[0] !== '(auth)' && segments[0] !== 'onboarding') {
+    } else if (isAuthenticated && !profile && !inAuthGroup && !inOnboarding) {
       router.replace('/onboarding');
-    } else if (user && profile && inAuthGroup) {
+    } else if (isAuthenticated && profile && (inAuthGroup || inOnboarding)) {
       router.replace('/(tabs)');
     }
   }, [user, profile, isLoading, segments]);

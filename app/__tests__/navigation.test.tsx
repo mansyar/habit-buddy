@@ -20,12 +20,15 @@ const NavigationMonitor = () => {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === '(auth)';
+    const inOnboarding = segments[0] === 'onboarding';
 
-    if (!user && !inAuthGroup) {
+    const isAuthenticated = !!user || (!!profile && profile.is_guest);
+
+    if (!isAuthenticated && !inAuthGroup && !inOnboarding) {
       router.replace('/sign-in');
-    } else if (user && !profile && segments[0] !== '(auth)' && segments[0] !== 'onboarding') {
+    } else if (isAuthenticated && !profile && !inAuthGroup && !inOnboarding) {
       router.replace('/onboarding');
-    } else if (user && profile && inAuthGroup) {
+    } else if (isAuthenticated && profile && (inAuthGroup || inOnboarding)) {
       router.replace('/(tabs)');
     }
   }, [user, profile, isLoading, segments]);
@@ -56,6 +59,21 @@ describe('Navigation Logic', () => {
 
     await waitFor(() => {
       expect(routerMock.replace).toHaveBeenCalledWith('/sign-in');
+    });
+  });
+
+  test('allows guest with profile to access tabs', async () => {
+    (useAuthStore as any).mockReturnValue({
+      user: null,
+      profile: { id: 'guest-123', is_guest: true },
+      isLoading: false,
+    });
+    (useSegments as any).mockReturnValue(['(tabs)']);
+
+    render(<NavigationMonitor />);
+
+    await waitFor(() => {
+      expect(routerMock.replace).not.toHaveBeenCalledWith('/sign-in');
     });
   });
 
