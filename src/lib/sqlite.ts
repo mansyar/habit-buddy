@@ -11,6 +11,7 @@ export const initializeSQLite = async () => {
       child_name TEXT NOT NULL,
       avatar_id TEXT,
       bolt_balance INTEGER DEFAULT 0,
+      is_guest INTEGER DEFAULT 0,
       created_at TEXT DEFAULT CURRENT_TIMESTAMP,
       updated_at TEXT DEFAULT CURRENT_TIMESTAMP
     );

@@ -30,6 +30,7 @@ describe('SQLite Initialization', () => {
     const allSql = calls.map((call: any[]) => call[0]).join('\n');
 
     expect(allSql).toContain('CREATE TABLE IF NOT EXISTS profiles');
+    expect(allSql).toContain('is_guest INTEGER DEFAULT 0');
     expect(allSql).toContain('CREATE TABLE IF NOT EXISTS habits_log');
     expect(allSql).toContain('CREATE TABLE IF NOT EXISTS coupons');
     expect(allSql).toContain('CREATE TABLE IF NOT EXISTS sync_queue');
