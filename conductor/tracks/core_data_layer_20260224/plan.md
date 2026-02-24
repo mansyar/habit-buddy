@@ -47,11 +47,11 @@ Goal: Implement real-time connectivity monitoring and background sync logic.
 - [x] Task: Hook `SyncService` to network change events. (b8806f1)
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Network & Synchronization' (Protocol in workflow.md) (6a2e14b)
 
-## Phase 5: Final Validation & Integration
+## Phase 5: Final Validation & Integration [checkpoint: 45daedd]
 
 Goal: Ensure all services work together and meet the acceptance criteria.
 
 - [x] Task: Run full integration test suite (Mocked Offline -> Online transition). (3413303)
 - [x] Task: Verify data consistency between local and remote after sync. (3413303)
 - [x] Task: Update roadmap.md to mark Phase 2 as complete. (63d0cee)
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: Final Validation & Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Final Validation & Integration' (Protocol in workflow.md) (45daedd)
