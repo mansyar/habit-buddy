@@ -11,7 +11,7 @@
 
 ```
 Phase 0   ✅✅✅✅✅✅✅✅✅✅  Project Scaffolding
-Phase 1   ░░██░░░░░░░░░░░░░░░░  Auth & Onboarding
+Phase 1   ✅✅✅✅✅✅✅✅✅✅  Auth & Onboarding
 Phase 2   ░░░░██░░░░░░░░░░░░░░  Core Data Layer
 Phase 3   ░░░░░░██░░░░░░░░░░░░  Home Screen
 Phase 4   ░░░░░░░░████░░░░░░░░  Mission Flow (core feature)
@@ -122,26 +122,26 @@ assets/
 
 ### Tasks
 
-| #    | Task                       | Details                                                                       |
-| :--- | :------------------------- | :---------------------------------------------------------------------------- |
-| 1.1  | Configure Supabase Auth    | Enable Google OAuth provider in Supabase dashboard                            |
-| 1.2  | Initialize Supabase client | `createClient` in `src/lib/supabase.ts` with env-based URL/key                |
-| 1.3  | Build Sign-In screen       | Google button, "Continue without account" link (PRD §6, Screen 9)             |
-| 1.4  | Implement OAuth flow       | `supabase.auth.signInWithOAuth()` for Google                                  |
-| 1.5  | Implement anonymous mode   | Create a local profile without Supabase auth — store in local DB              |
-| 1.6  | Build Onboarding screen    | Child name input, friendly buddy illustration, "Let's Go!" button (Screen 2)  |
-| 1.7  | Create Profile type        | `Profile` TypeScript interface matching PRD §7.1 schema                       |
-| 1.8  | Save profile               | To Supabase (authenticated) or local Expo SQLite (anonymous)                  |
-| 1.9  | Set up Expo Router         | Layout logic: unauthenticated → Sign-In, no profile → Onboarding, else → Home |
-| 1.10 | Auth state listener        | Listen to `supabase.auth.onAuthStateChange` to handle sign-in/out             |
+| #    | Task                       | Status | Details                                                                       |
+| :--- | :------------------------- | :----- | :---------------------------------------------------------------------------- |
+| 1.1  | Configure Supabase Auth    | ✅     | Enable Google OAuth provider in Supabase dashboard                            |
+| 1.2  | Initialize Supabase client | ✅     | `createClient` in `src/lib/supabase.ts` with env-based URL/key                |
+| 1.3  | Build Sign-In screen       | ✅     | Google button, "Continue without account" link (PRD §6, Screen 9)             |
+| 1.4  | Implement OAuth flow       | ✅     | `supabase.auth.signInWithOAuth()` for Google                                  |
+| 1.5  | Implement anonymous mode   | ✅     | Create a local profile without Supabase auth — store in local DB              |
+| 1.6  | Build Onboarding screen    | ✅     | Child name input, friendly buddy illustration, "Let's Go!" button (Screen 2)  |
+| 1.7  | Create Profile type        | ✅     | `Profile` TypeScript interface matching PRD §7.1 schema                       |
+| 1.8  | Save profile               | ✅     | To Supabase (authenticated) or local Expo SQLite (anonymous)                  |
+| 1.9  | Set up Expo Router         | ✅     | Layout logic: unauthenticated → Sign-In, no profile → Onboarding, else → Home |
+| 1.10 | Auth state listener        | ✅     | Listen to `supabase.auth.onAuthStateChange` to handle sign-in/out             |
 
 ### Acceptance Criteria
 
-- [ ] Google OAuth flow works end-to-end (sign in → profile created in Supabase)
-- [ ] Anonymous mode works (no sign-in, profile saved locally)
-- [ ] Onboarding screen appears on first launch only
-- [ ] Expo Router redirects correctly based on auth + profile state
-- [ ] Sign-out returns to Sign-In screen
+- [x] Google OAuth flow works end-to-end (sign in → profile created in Supabase)
+- [x] Anonymous mode works (no sign-in, profile saved locally)
+- [x] Onboarding screen appears on first launch only
+- [x] Expo Router redirects correctly based on auth + profile state
+- [x] Sign-out returns to Sign-In screen
 
 ---
 
@@ -455,7 +455,7 @@ assets/
 | Phase | Name                      | Duration  | Depends On | Status         |
 | :---- | :------------------------ | :-------- | :--------- | :------------- |
 | 0     | Project Scaffolding       | 2–3 days  | —          | ✅ Complete    |
-| 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ⬜ Not Started |
+| 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ✅ Complete    |
 | 2     | Core Data Layer           | 4–5 days  | Phase 1    | ⬜ Not Started |
 | 3     | Home Screen               | 3–4 days  | Phase 2    | ⬜ Not Started |
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ⬜ Not Started |
