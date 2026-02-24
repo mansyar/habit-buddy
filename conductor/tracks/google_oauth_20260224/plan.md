@@ -25,15 +25,15 @@
 - [x] Task: Verify UI interactions and basic flow triggers c17dcb0
 - [x] Task: Conductor - User Manual Verification 'Phase 3: UI Integration' (Protocol in workflow.md) d1684d9
 
-## Phase 4: Redirect & Session Logic
+## Phase 4: Redirect & Session Logic [checkpoint: fb70bde]
 
-- [ ] Task: Implement Smart Redirect logic in root layout or auth layout
-  - [ ] Check if user is authenticated
-  - [ ] If authenticated and no profile exists, redirect to onboarding
-  - [ ] If authenticated and profile exists, redirect to tabs
-- [ ] Task: Ensure session persistence on app restart
-  - [ ] Verify Supabase `onAuthStateChange` listener in root layout
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Redirect Logic' (Protocol in workflow.md)
+- [x] Task: Implement Smart Redirect logic in root layout or auth layout fb70bde
+  - [x] Check if user is authenticated
+  - [x] If authenticated and no profile exists, redirect to onboarding
+  - [x] If authenticated and profile exists, redirect to tabs
+- [x] Task: Ensure session persistence on app restart fb70bde
+  - [x] Verify Supabase `onAuthStateChange` listener in root layout
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Redirect Logic' (Protocol in workflow.md) fb70bde
 
 ## Phase 5: End-to-End Verification
 
