@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
 import { Profile } from '../types/profile';
-import { v4 as uuidv4 } from 'uuid';
+import * as Crypto from 'expo-crypto';
 
 class ProfileService {
   private async isOnline(): Promise<boolean> {
@@ -11,7 +11,7 @@ class ProfileService {
 
   async createProfile(data: Partial<Profile>, userId: string | null): Promise<Profile> {
     const isOnline = await this.isOnline();
-    const id = data.id || uuidv4();
+    const id = data.id || Crypto.randomUUID();
 
     const profile: Profile = {
       id,

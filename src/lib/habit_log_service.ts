@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
 import { HabitLog, HabitStatus } from '../types/habit_log';
-import { v4 as uuidv4 } from 'uuid';
+import * as Crypto from 'expo-crypto';
 
 class HabitLogService {
   async logCompletion(data: {
@@ -13,7 +13,7 @@ class HabitLogService {
     bolts_earned: number;
   }): Promise<HabitLog> {
     const isOnline = await checkIsOnline();
-    const id = uuidv4();
+    const id = Crypto.randomUUID();
     const completed_at = new Date().toISOString();
 
     const log: HabitLog = {

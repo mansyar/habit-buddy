@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
 import { Coupon } from '../types/coupon';
-import { v4 as uuidv4 } from 'uuid';
+import * as Crypto from 'expo-crypto';
 
 class CouponService {
   async createCoupon(data: {
@@ -11,7 +11,7 @@ class CouponService {
     bolt_cost: number;
   }): Promise<Coupon> {
     const isOnline = await checkIsOnline();
-    const id = uuidv4();
+    const id = Crypto.randomUUID();
     const created_at = new Date().toISOString();
 
     const coupon: Coupon = {

@@ -69,6 +69,11 @@ vi.mock('expo-secure-store', () => ({
   deleteItemAsync: vi.fn(),
 }));
 
+// Mock expo-crypto
+vi.mock('expo-crypto', () => ({
+  randomUUID: vi.fn(() => 'test-uuid-' + Math.random()),
+}));
+
 // Mock NetInfo
 vi.mock('@react-native-community/netinfo', () => {
   return {
