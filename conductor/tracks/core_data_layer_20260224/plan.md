@@ -2,14 +2,14 @@
 
 This plan covers the implementation of the complete data layer, including Supabase migrations, local SQLite setup, and the service layer with offline synchronization.
 
-## Phase 1: Supabase Schema & Security
+## Phase 1: Supabase Schema & Security [checkpoint: 6efbe1f]
 
 Goal: Provision the remote database and enforce data isolation.
 
 - [x] Task: Create Supabase migration for `profiles`, `habits_log`, and `coupons` tables. (d8ae8b2)
 - [x] Task: Implement Row-Level Security (RLS) policies for all tables. (02a294d)
 - [x] Task: Verify RLS policies with manual SQL tests in Supabase dashboard. (9e0a1b2)
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Supabase Schema & Security' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Supabase Schema & Security' (Protocol in workflow.md) (6efbe1f)
 
 ## Phase 2: Local SQLite Foundation
 
