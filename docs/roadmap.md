@@ -12,7 +12,7 @@
 ```
 Phase 0   ✅✅✅✅✅✅✅✅✅✅  Project Scaffolding
 Phase 1   ✅✅✅✅✅✅✅✅✅✅  Auth & Onboarding
-Phase 2   ░░░░██░░░░░░░░░░░░░░  Core Data Layer
+Phase 2   ✅✅✅✅✅✅✅✅✅✅  Core Data Layer
 Phase 3   ░░░░░░██░░░░░░░░░░░░  Home Screen
 Phase 4   ░░░░░░░░████░░░░░░░░  Mission Flow (core feature)
 Phase 5   ░░░░░░░░░░░░██░░░░░░  Reward System
@@ -456,7 +456,7 @@ assets/
 | :---- | :------------------------ | :-------- | :--------- | :------------- |
 | 0     | Project Scaffolding       | 2–3 days  | —          | ✅ Complete    |
 | 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ✅ Complete    |
-| 2     | Core Data Layer           | 4–5 days  | Phase 1    | ⬜ Not Started |
+| 2     | Core Data Layer           | 4–5 days  | Phase 1    | ✅ Complete    |
 | 3     | Home Screen               | 3–4 days  | Phase 2    | ⬜ Not Started |
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ⬜ Not Started |
 | 5     | Reward System             | 3–4 days  | Phase 4    | ⬜ Not Started |
