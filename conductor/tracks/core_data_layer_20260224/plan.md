@@ -18,7 +18,7 @@ Goal: Set up the local database using `expo-sqlite/next` to mirror the Supabase 
 - [x] Task: Define SQLite schema and initialization logic in `src/lib/sqlite.ts`. (2fcd708)
 - [x] Task: Create a `sync_queue` table in SQLite for offline write tracking. (2fcd708)
 - [x] Task: Write tests for SQLite initialization and basic CRUD operations. (40e5c34)
-- [ ] Task: Implement SQLite initialization on app startup.
+- [x] Task: Implement SQLite initialization on app startup. (cc5c003)
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Local SQLite Foundation' (Protocol in workflow.md)
 
 ## Phase 3: Service Layer (Repositories)
