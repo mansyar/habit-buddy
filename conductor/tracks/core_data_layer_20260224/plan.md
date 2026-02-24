@@ -40,7 +40,7 @@ Goal: Build the abstract services that toggle between Supabase and SQLite.
 
 Goal: Implement real-time connectivity monitoring and background sync logic.
 
-- [ ] Task: Integrate `@react-native-community/netinfo` for connectivity tracking.
+- [x] Task: Integrate `@react-native-community/netinfo` for connectivity tracking. (3748048)
 - [ ] Task: Implement `SyncService` to process the `sync_queue`.
   - [ ] Task: Write failing tests for `SyncService` (replaying queued items).
   - [ ] Task: Implement `processQueue` logic with retry mechanism.
