@@ -22,8 +22,8 @@
 
 ## Phase 3: Synthesis and Gap Analysis
 
-- [ ] Task: Compile Investigation Report
-  - [ ] Document findings from Backend, Frontend, and Configuration audits.
-  - [ ] Identify missing requirements for functional Google OAuth.
-  - [ ] Propose a sequence of tasks for full implementation in a future track.
-- [ ] Task: Conductor - User Manual Verification 'Synthesis and Gap Analysis' (Protocol in workflow.md)
+- [x] Task: Compile Investigation Report
+  - [x] Document findings from Backend, Frontend, and Configuration audits.
+  - [x] Identify missing requirements for functional Google OAuth.
+  - [x] Propose a sequence of tasks for full implementation in a future track.
+- [~] Task: Conductor - User Manual Verification 'Synthesis and Gap Analysis' (Protocol in workflow.md)
