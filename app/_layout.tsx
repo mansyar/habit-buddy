@@ -3,13 +3,14 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth_store';
 import { profileService } from '@/lib/profile_service';
+import { initializeSQLite } from '@/lib/sqlite';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -30,18 +31,26 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const [dbLoaded, setDbLoaded] = useState(false);
+
+  useEffect(() => {
+    initializeSQLite().then(() => {
+      setDbLoaded(true);
+    });
+  }, []);
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && dbLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, dbLoaded]);
 
-  if (!loaded) {
+  if (!loaded || !dbLoaded) {
     return null;
   }
 
