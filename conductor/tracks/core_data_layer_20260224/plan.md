@@ -51,7 +51,7 @@ Goal: Implement real-time connectivity monitoring and background sync logic.
 
 Goal: Ensure all services work together and meet the acceptance criteria.
 
-- [ ] Task: Run full integration test suite (Mocked Offline -> Online transition).
+- [x] Task: Run full integration test suite (Mocked Offline -> Online transition). (3413303)
 - [ ] Task: Verify data consistency between local and remote after sync.
 - [ ] Task: Update roadmap.md to mark Phase 2 as complete.
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Final Validation & Integration' (Protocol in workflow.md)
