@@ -1,6 +1,6 @@
 # Implementation Plan - Phase 0: Project Scaffolding
 
-## Phase 1: Foundation & Tooling
+## Phase 1: Foundation & Tooling [checkpoint: 088ae78]
 
 - [x] Task: Initialize Folder Structure ab34cb1
   - [ ] Create `src/components`, `src/lib`, `src/store`, `src/theme`, `src/types`, `src/utils`
