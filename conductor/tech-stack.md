@@ -8,6 +8,7 @@
 ## 2. Backend & Data
 
 - **Supabase**: Backend-as-a-Service providing PostgreSQL database, user authentication (OAuth for Google/Apple), and real-time data synchronization.
+  - **Authentication Libraries**: `expo-auth-session` and `expo-web-browser` for managing OAuth flows on native mobile platforms.
 - **Database Schema**: Centralized tables for `profiles`, `habits_log` (habit completions), and `coupons` (reward system).
 - **Local Storage**: `expo-sqlite` for managing offline data and the anonymous/local-only first-run mode.
 - **Synchronization**: Custom `SyncService` using a `sync_queue` pattern to ensure eventual consistency between local and remote data.
