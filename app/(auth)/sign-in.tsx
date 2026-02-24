@@ -2,10 +2,13 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { supabase } from '../../src/lib/supabase';
 import { useRouter } from 'expo-router';
+import { profileService } from '../../src/lib/profile_service';
+import { useAuthStore } from '../../src/store/auth_store';
 import { Colors } from '../../src/theme/Colors';
 
 export default function SignInScreen() {
   const router = useRouter();
+  const { setProfile } = useAuthStore();
 
   const handleGoogleSignIn = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -16,8 +19,15 @@ export default function SignInScreen() {
     }
   };
 
-  const handleGuestSignIn = () => {
-    router.replace('/onboarding');
+  const handleGuestSignIn = async () => {
+    // Check if a guest profile already exists locally
+    const existingGuest = await profileService.getGuestProfile();
+    if (existingGuest) {
+      setProfile(existingGuest);
+      router.replace('/(tabs)');
+    } else {
+      router.replace('/onboarding');
+    }
   };
 
   return (
