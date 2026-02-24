@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { supabase } from '../../src/lib/supabase';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { profileService } from '../../src/lib/profile_service';
 import { useAuthStore } from '../../src/store/auth_store';
@@ -8,14 +7,18 @@ import { Colors } from '../../src/theme/Colors';
 
 export default function SignInScreen() {
   const router = useRouter();
-  const { setProfile } = useAuthStore();
+  const { setProfile, signInWithGoogle } = useAuthStore();
 
   const handleGoogleSignIn = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-    if (error) {
-      console.error('Google sign-in error:', error.message);
+    try {
+      const result = await signInWithGoogle();
+      if (result.type === 'error') {
+        Alert.alert('Sign In Error', 'An error occurred during Google sign in.');
+      } else if (result.type === 'cancel') {
+        // User cancelled, no action needed or a toast
+      }
+    } catch (error: any) {
+      Alert.alert('Sign In Error', error.message || 'An unexpected error occurred.');
     }
   };
 

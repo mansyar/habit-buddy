@@ -19,7 +19,7 @@
 
 ## Phase 3: Sign-In UI Integration
 
-- [ ] Task: Update `app/(auth)/sign-in.tsx` to use `auth_store` actions
+- [~] Task: Update `app/(auth)/sign-in.tsx` to use `auth_store` actions
   - [ ] Connect Google Sign-In button to `signInWithGoogle`
   - [ ] Implement error handling with `Alert` for failures
 - [ ] Task: Verify UI interactions and basic flow triggers

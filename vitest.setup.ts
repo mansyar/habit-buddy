@@ -44,6 +44,9 @@ vi.mock('react-native', () => {
       select: (objs: any) => objs.ios || objs.android || objs.default,
       OS: 'ios',
     },
+    Alert: {
+      alert: vi.fn(),
+    },
   };
 });
 
@@ -86,6 +89,25 @@ vi.mock('expo-web-browser', () => ({
   openBrowserAsync: vi.fn(),
   openAuthSessionAsync: vi.fn(),
   dismissBrowser: vi.fn(),
+}));
+
+// Mock expo
+vi.mock('expo', () => ({
+  registerRootComponent: vi.fn(),
+  requireNativeModule: vi.fn(() => ({})),
+  requireOptionalNativeModule: vi.fn(() => ({})),
+}));
+
+// Mock expo-sqlite
+vi.mock('expo-sqlite', () => ({
+  openDatabaseSync: vi.fn(() => ({
+    execSync: vi.fn(),
+    runSync: vi.fn(),
+    getFirstSync: vi.fn(),
+    getAllSync: vi.fn(),
+  })),
+  SQLiteProvider: ({ children }: any) => children,
+  useSQLiteContext: vi.fn(),
 }));
 
 // Mock NetInfo
