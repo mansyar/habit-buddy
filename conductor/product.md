@@ -11,7 +11,7 @@ HabitBuddy focuses on transforming daily routines from "chores" into "missions" 
 ## Features
 
 - **3 Fixed Core Habits**: Tooth brushing, eating meals, and picking up toys.
-- **Buddy Animation State Machine**: High-quality programmatic native animations to delight children.
+- **Buddy Animation State Machine**: High-quality programmatic native animations of cute animals to delight children.
 - **Reward System**: A real-world rewarding component tied to digital achievements.
 - **Parental Dashboard & Offline Capability**: Giving parents peace of mind and robust offline support.
 

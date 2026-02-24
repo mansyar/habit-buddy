@@ -129,7 +129,7 @@ assets/
 | 1.3  | Build Sign-In screen       | ✅     | Google button, "Continue without account" link (PRD §6, Screen 9)             |
 | 1.4  | Implement OAuth flow       | ✅     | `supabase.auth.signInWithOAuth()` for Google                                  |
 | 1.5  | Implement anonymous mode   | ✅     | Create a local profile without Supabase auth — store in local DB              |
-| 1.6  | Build Onboarding screen    | ✅     | Child name input, friendly buddy illustration, "Let's Go!" button (Screen 2)  |
+| 1.6  | Build Onboarding screen    | ✅     | Child name input, Dino illustration, "Let's Go!" button (Screen 2)            |
 | 1.7  | Create Profile type        | ✅     | `Profile` TypeScript interface matching PRD §7.1 schema                       |
 | 1.8  | Save profile               | ✅     | To Supabase (authenticated) or local Expo SQLite (anonymous)                  |
 | 1.9  | Set up Expo Router         | ✅     | Layout logic: unauthenticated → Sign-In, no profile → Onboarding, else → Home |

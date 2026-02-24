@@ -48,10 +48,10 @@ React Native (Expo) builds for Android. iOS, PWA, or web builds are not in the M
 
 ### 4.1 Buddies
 
-| Buddy                        | MVP              | Post-MVP (v1.1)         |
-| :--------------------------- | :--------------- | :---------------------- |
-| 🟢 **Green Monster/Animal**  | ✅ Ship with MVP | —                       |
-| 🐻 **Another Animal (Bear)** | ❌ Not in MVP    | ✅ First content update |
+| Buddy               | MVP              | Post-MVP (v1.1)         |
+| :------------------ | :--------------- | :---------------------- |
+| 🦕 **Dino (Green)** | ✅ Ship with MVP | —                       |
+| 🐻 **Bear**         | ❌ Not in MVP    | ✅ First content update |
 
 The buddy requires the following animation states per habit (see §5.2).
 
@@ -196,7 +196,7 @@ CREATE TABLE profiles (
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   child_name TEXT NOT NULL,
   child_age INTEGER CHECK (child_age BETWEEN 2 AND 7),
-  selected_buddy TEXT NOT NULL DEFAULT 'dino' CHECK (selected_buddy IN ('dino', 'constructor')),
+  selected_buddy TEXT NOT NULL DEFAULT 'dino' CHECK (selected_buddy IN ('dino', 'bear')),
   timezone TEXT NOT NULL DEFAULT 'UTC',
   bolt_balance INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -335,7 +335,7 @@ When unauthenticated, the same schema is mirrored locally using **SQLite** (via 
 
 | Feature                                   | Target Version |
 | :---------------------------------------- | :------------- |
-| Constructor (Excavator) buddy             | v1.1           |
+| Bear buddy                                | v1.1           |
 | Custom / additional habits                | v1.2           |
 | Child-facing UI (independent navigation)  | v1.2           |
 | PWA / Web build                           | v1.3           |

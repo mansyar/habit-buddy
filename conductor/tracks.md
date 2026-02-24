@@ -9,3 +9,8 @@ This file records all tracks created during the development process.
 ## Planned
 
 ---
+
+---
+
+- [ ] **Track: Phase 4 — Mission Flow**
+      _Link: [./tracks/mission_flow_20260225/](./tracks/mission_flow_20260225/)_
