@@ -21,7 +21,7 @@ Goal: Set up the local database using `expo-sqlite/next` to mirror the Supabase 
 - [x] Task: Implement SQLite initialization on app startup. (cc5c003)
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Local SQLite Foundation' (Protocol in workflow.md) (79cd1b8)
 
-## Phase 3: Service Layer (Repositories)
+## Phase 3: Service Layer (Repositories) [checkpoint: b3df80e]
 
 Goal: Build the abstract services that toggle between Supabase and SQLite.
 
@@ -34,7 +34,7 @@ Goal: Build the abstract services that toggle between Supabase and SQLite.
 - [x] Task: Implement `CouponService`. (adaa8a4)
   - [x] Task: Write failing tests for `CouponService`. (adaa8a4)
   - [x] Task: Implement `getCoupons`, `createCoupon`, and `redeemCoupon`. (adaa8a4)
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Service Layer (Repositories)' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Service Layer (Repositories)' (Protocol in workflow.md) (b3df80e)
 
 ## Phase 4: Network & Synchronization
 
