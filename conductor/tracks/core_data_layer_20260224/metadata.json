@@ -1,8 +1,0 @@
-{
-  "track_id": "core_data_layer_20260224",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-02-24T16:53:00Z",
-  "updated_at": "2026-02-24T16:53:00Z",
-  "description": "Implement Phase 2: Core Data Layer as per roadmap.md. Includes Supabase migrations, local SQLite setup, and SyncService."
-}
