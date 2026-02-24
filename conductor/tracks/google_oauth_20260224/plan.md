@@ -1,13 +1,13 @@
 # Implementation Plan: Google OAuth Authentication
 
-## Phase 1: Setup & Dependencies
+## Phase 1: Setup & Dependencies [checkpoint: a5bca4c]
 
 - [x] Task: Install required Expo authentication libraries 9de4727
-  - [ ] Run `npx expo install expo-auth-session expo-web-browser expo-linking`
+  - [x] Run `npx expo install expo-auth-session expo-web-browser expo-linking`
 - [x] Task: Verify Supabase configuration for Google OAuth 35e502c
-  - [ ] Check `supabase/config.toml` (Already verified in investigation report)
-  - [ ] Confirm `.env` contains necessary secrets
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Setup' (Protocol in workflow.md)
+  - [x] Check `supabase/config.toml` (Already verified in investigation report)
+  - [x] Confirm `.env` contains necessary secrets
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Setup' (Protocol in workflow.md) a5bca4c
 
 ## Phase 2: Auth Store Enhancement (TDD)
 
