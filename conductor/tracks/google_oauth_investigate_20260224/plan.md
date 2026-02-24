@@ -12,12 +12,12 @@
 
 ## Phase 2: Frontend Code Audit
 
-- [ ] Task: Audit dependencies and core auth logic
-  - [ ] Check `package.json` for `expo-auth-session`, `expo-google-app-auth`, or similar.
-  - [ ] Examine `src/store/auth_store.ts` for Google sign-in methods or placeholders.
-- [ ] Task: Audit UI components and screens
-  - [ ] Search `app/(auth)/` for Google login buttons or related UI components.
-  - [ ] Trace `sign-in.tsx` logic to see if Google OAuth is integrated into the flow.
+- [x] Task: Audit dependencies and core auth logic
+  - [x] Check `package.json` for `expo-auth-session`, `expo-google-app-auth`, or similar.
+  - [x] Examine `src/store/auth_store.ts` for Google sign-in methods or placeholders.
+- [x] Task: Audit UI components and screens
+  - [x] Search `app/(auth)/` for Google login buttons or related UI components.
+  - [x] Trace `sign-in.tsx` logic to see if Google OAuth is integrated into the flow.
 - [ ] Task: Conductor - User Manual Verification 'Frontend Code Audit' (Protocol in workflow.md)
 
 ## Phase 3: Synthesis and Gap Analysis
