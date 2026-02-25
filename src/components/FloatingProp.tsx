@@ -62,11 +62,11 @@ export const FloatingProp: React.FC<FloatingPropProps> = ({ habitId, isActive, s
 
   const renderProp = () => {
     switch (habitId) {
-      case 'brush_teeth':
+      case 'tooth-brushing':
         return <Toothbrush size={size} />;
-      case 'eat_meal':
+      case 'meal-time':
         return <Plate size={size} />;
-      case 'pick_up_toys':
+      case 'toy-cleanup':
         return <ToyBox size={size} />;
       default:
         return null;

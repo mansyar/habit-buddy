@@ -28,13 +28,13 @@
 - [x] Task: Define Buddy State Store (TDD) (5a251df)
   - [x] Write unit tests for `useBuddyStore` (state transitions: idle, active, paused, success, sleepy).
   - [x] Implement `useBuddyStore` using Zustand.
-- [~] Task: Implement `BuddyAnimation` Component
+- [x] Task: Implement `BuddyAnimation` Component (d500a40)
   - [x] Setup static Dino and Bear assets.
-  - [ ] Build `BuddyAnimation` using Reanimated (float, bounce, jump, sway).
-  - [ ] Implement `FloatingProp` component for each habit.
-- [ ] Task: Add Particle Effects
-  - [ ] Implement confetti/star particles for `success` state.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4C: Buddy State Machine & Animations' (Protocol in workflow.md)
+  - [x] Build `BuddyAnimation` using Reanimated (float, bounce, jump, sway).
+  - [x] Implement `FloatingProp` component for each habit.
+- [x] Task: Add Particle Effects (d500a40)
+  - [x] Implement confetti/star particles for `success` state.
+- [~] Task: Conductor - User Manual Verification 'Phase 4C: Buddy State Machine & Animations' (Protocol in workflow.md)
 
 ## Phase 4D: Audio System
 

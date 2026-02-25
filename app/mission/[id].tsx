@@ -11,9 +11,9 @@ import { Confetti } from '../../src/components/Confetti';
 import { Colors } from '../../src/theme/Colors';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
-  brush_teeth: { name: 'Brushing teeth', duration: 2 },
-  eat_meal: { name: 'Eating meal', duration: 15 },
-  pick_up_toys: { name: 'Picking up toys', duration: 5 },
+  'tooth-brushing': { name: 'Brushing teeth', duration: 2 },
+  'meal-time': { name: 'Eating meal', duration: 15 },
+  'toy-cleanup': { name: 'Picking up toys', duration: 5 },
 };
 
 export default function MissionScreen() {

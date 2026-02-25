@@ -7,7 +7,7 @@ import { useAuthStore } from '../../src/store/auth_store';
 // Mock expo-router
 const mockBack = vi.fn();
 vi.mock('expo-router', () => ({
-  useLocalSearchParams: vi.fn(() => ({ id: 'brush_teeth' })),
+  useLocalSearchParams: vi.fn(() => ({ id: 'tooth-brushing' })),
   useRouter: vi.fn(() => ({
     replace: vi.fn(),
     back: mockBack,
