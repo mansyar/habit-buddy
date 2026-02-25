@@ -12,5 +12,5 @@ This file records all tracks created during the development process.
 
 ---
 
-- [~] **Track: Phase 4 — Mission Flow**
-  _Link: [./tracks/mission_flow_20260225/](./tracks/mission_flow_20260225/)_
+- [x] **Track: Phase 4 — Mission Flow**
+      _Link: [./tracks/mission_flow_20260225/](./tracks/mission_flow_20260225/)_
