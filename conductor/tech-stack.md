@@ -26,5 +26,5 @@
 
 ## 5. Assets & Media
 
-- **Audio/Voice Over**: Pre-generated audio files using ElevenLabs and freesound.org.
+- **Audio/Voice Over**: Pre-generated audio files using ElevenLabs and freesound.org, managed via `expo-audio`.
 - **Visuals**: Static PNG props and characters from Kenney.nl.
