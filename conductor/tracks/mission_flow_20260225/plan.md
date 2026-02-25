@@ -19,8 +19,8 @@
   - [x] Build `TimerDisplay` component with ring/bar visualization.
   - [x] Implement "Start Mission" and "Done!" buttons with appropriate controls.
   - [x] Implement double-tap prevention on "Done!" button.
-- [~] Task: App Lifecycle Handling
-  - [ ] Implement `useAppState` listener to pause/resume timer.
+- [x] Task: App Lifecycle Handling (f4e1a2b)
+  - [x] Implement `useAppState` listener to pause/resume timer.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4B: Mission Timer & Controls' (Protocol in workflow.md)
 
 ## Phase 4C: Buddy State Machine & Animations

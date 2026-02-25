@@ -59,6 +59,10 @@ vi.mock('react-native', () => {
     Alert: {
       alert: vi.fn(),
     },
+    AppState: {
+      addEventListener: vi.fn(() => ({ remove: vi.fn() })),
+      currentState: 'active',
+    },
   };
 });
 

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
 
 export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () => void) => {
   const [timeLeft, setTimeLeft] = useState(defaultDurationMinutes * 60);
@@ -27,6 +28,18 @@ export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () 
 
   const adjustTime = useCallback((seconds: number) => {
     setTimeLeft((prev) => Math.max(0, prev + seconds));
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+      if (nextAppState !== 'active') {
+        setIsActive(false);
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   useEffect(() => {

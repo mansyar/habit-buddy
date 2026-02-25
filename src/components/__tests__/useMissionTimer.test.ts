@@ -1,10 +1,12 @@
 import { renderHook, act } from '@testing-library/react';
 import { useMissionTimer } from '../useMissionTimer';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { AppState } from 'react-native';
 
 describe('useMissionTimer', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    vi.clearAllMocks();
   });
 
   afterEach(() => {
@@ -75,5 +77,29 @@ describe('useMissionTimer', () => {
     expect(result.current.timeLeft).toBe(0);
     expect(result.current.isActive).toBe(false);
     expect(onComplete).toHaveBeenCalled();
+  });
+
+  it('pauses timer when app goes to background', () => {
+    const { result } = renderHook(() => useMissionTimer(1));
+
+    act(() => {
+      result.current.start();
+    });
+    expect(result.current.isActive).toBe(true);
+
+    // Simulate background
+    const addEventListenerMock = vi.mocked(AppState.addEventListener);
+    // Find the change event listener
+    const callback = addEventListenerMock.mock.calls.find((call) => call[0] === 'change')?.[1];
+
+    expect(callback).toBeDefined();
+
+    if (callback) {
+      act(() => {
+        callback('background');
+      });
+    }
+
+    expect(result.current.isActive).toBe(false);
   });
 });
