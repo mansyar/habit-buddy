@@ -1,39 +1,34 @@
-import { Audio, AVPlaybackStatus, AVPlaybackStatusToSet } from 'expo-av';
+import { createAudioPlayer, AudioSource, AudioModule } from 'expo-audio';
 
 class AudioService {
-  private musicSound: Audio.Sound | null = null;
-  private sfxSounds: Map<string, Audio.Sound> = new Map();
+  private musicPlayer: any = null;
+  private sfxPlayers: Map<string, any> = new Map();
   private volume: number = 1.0;
   private isMuted: boolean = false;
 
   async init() {
-    await Audio.setAudioModeAsync({
-      playsInSilentModeIOS: true,
-      staysActiveInBackground: true,
-      shouldRouteThroughEarpieceAndroid: false,
-    });
+    // AudioModule settings if needed, expo-audio handles most platform defaults
   }
 
-  async playSound(key: string, source: any) {
+  async playSound(key: string, source: AudioSource) {
     try {
-      // For SFX, we might want multiple overlapping sounds, but for now
-      // let's just reuse or create a new one per key.
-      if (this.sfxSounds.has(key)) {
-        const sound = this.sfxSounds.get(key);
-        await sound?.stopAsync();
-        await sound?.unloadAsync();
+      if (this.sfxPlayers.has(key)) {
+        const existingPlayer = this.sfxPlayers.get(key);
+        existingPlayer.terminate();
       }
 
-      const { sound } = await Audio.Sound.createAsync(source);
-      this.sfxSounds.set(key, sound);
-      await sound.setVolumeAsync(this.isMuted ? 0 : this.volume);
-      await sound.playAsync();
+      const player = createAudioPlayer(source);
+      this.sfxPlayers.set(key, player);
 
-      // Clean up when finished
-      sound.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
-        if (status.isLoaded && status.didJustFinish) {
-          sound.unloadAsync();
-          this.sfxSounds.delete(key);
+      player.volume = this.isMuted ? 0 : this.volume;
+      player.play();
+
+      // Listen for playback completion to clean up
+      const subscription = player.addListener('playbackStatusUpdate', (status) => {
+        if (status.didJustFinish) {
+          player.terminate();
+          this.sfxPlayers.delete(key);
+          subscription.remove();
         }
       });
     } catch (error) {
@@ -41,38 +36,34 @@ class AudioService {
     }
   }
 
-  async playMusic(key: string, source: any) {
+  async playMusic(key: string, source: AudioSource) {
     try {
-      if (this.musicSound) {
-        await this.musicSound.stopAsync();
-        await this.musicSound.unloadAsync();
+      if (this.musicPlayer) {
+        this.musicPlayer.terminate();
       }
 
-      const { sound } = await Audio.Sound.createAsync(source);
-      this.musicSound = sound;
-      await sound.setIsLoopingAsync(true);
-      await sound.setVolumeAsync(this.isMuted ? 0 : this.volume * 0.5); // Music usually quieter
-      await sound.playAsync();
+      this.musicPlayer = createAudioPlayer(source);
+      this.musicPlayer.loop = true;
+      this.musicPlayer.volume = this.isMuted ? 0 : this.volume * 0.5;
+      this.musicPlayer.play();
     } catch (error) {
       console.error('AudioService: Error playing music', error);
     }
   }
 
   async stopMusic() {
-    if (this.musicSound) {
-      await this.musicSound.stopAsync();
-      await this.musicSound.unloadAsync();
-      this.musicSound = null;
+    if (this.musicPlayer) {
+      this.musicPlayer.terminate();
+      this.musicPlayer = null;
     }
   }
 
   async reset() {
     await this.stopMusic();
-    for (const sound of this.sfxSounds.values()) {
-      await sound.stopAsync();
-      await sound.unloadAsync();
+    for (const player of this.sfxPlayers.values()) {
+      player.terminate();
     }
-    this.sfxSounds.clear();
+    this.sfxPlayers.clear();
     this.volume = 1.0;
     this.isMuted = false;
   }
@@ -87,13 +78,13 @@ class AudioService {
     this.updateVolumes();
   }
 
-  private async updateVolumes() {
+  private updateVolumes() {
     const currentVolume = this.isMuted ? 0 : this.volume;
-    if (this.musicSound) {
-      await this.musicSound.setVolumeAsync(currentVolume * 0.5);
+    if (this.musicPlayer) {
+      this.musicPlayer.volume = currentVolume * 0.5;
     }
-    for (const sound of this.sfxSounds.values()) {
-      await sound.setVolumeAsync(currentVolume);
+    for (const player of this.sfxPlayers.values()) {
+      player.volume = currentVolume;
     }
   }
 }

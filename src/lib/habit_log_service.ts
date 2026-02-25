@@ -3,6 +3,8 @@ import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
 import { HabitLog, HabitStatus } from '../types/habit_log';
 import * as Crypto from 'expo-crypto';
+import { profileService } from './profile_service';
+import { Profile } from '../types/profile';
 
 class HabitLogService {
   async logCompletion(data: {
@@ -61,6 +63,25 @@ class HabitLogService {
     }
 
     return log;
+  }
+
+  async logMissionResult(data: {
+    profile_id: string;
+    habit_id: string;
+    status: HabitStatus;
+    duration_seconds: number;
+    bolts_earned: number;
+  }): Promise<{ log: HabitLog; profile: Profile | null }> {
+    const log = await this.logCompletion(data);
+    let updatedProfile = null;
+
+    if (data.status === 'success' && data.bolts_earned > 0) {
+      updatedProfile = await profileService.updateBoltBalance(data.profile_id, data.bolts_earned);
+    } else {
+      updatedProfile = await profileService.getProfile(data.profile_id);
+    }
+
+    return { log, profile: updatedProfile };
   }
 
   async getTodaysLogs(profile_id: string): Promise<HabitLog[]> {

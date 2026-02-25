@@ -177,6 +177,10 @@ vi.mock('react-native-reanimated', () => {
       ease: vi.fn(),
       quad: vi.fn(),
     },
+    FadeIn: vi.fn(),
+    FadeOut: vi.fn(),
+    ZoomIn: vi.fn(),
+    ZoomOut: vi.fn(),
   };
   return {
     ...Reanimated,

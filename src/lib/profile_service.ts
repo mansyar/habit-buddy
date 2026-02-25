@@ -194,6 +194,61 @@ class ProfileService {
 
     return updatedProfile;
   }
+
+  async updateBoltBalance(profileId: string, additionalBolts: number): Promise<Profile | null> {
+    const isOnline = await this.isOnline();
+    const db = await initializeSQLite();
+
+    // Get current balance
+    const currentProfile = await this.getProfile(profileId);
+    if (!currentProfile) return null;
+
+    const newBalance = currentProfile.bolt_balance + additionalBolts;
+    const updatedAt = new Date().toISOString();
+
+    // Update locally
+    await db.runAsync(
+      `UPDATE profiles SET bolt_balance = ?, updated_at = ? WHERE id = ?`,
+      newBalance,
+      updatedAt,
+      profileId,
+    );
+
+    const updatedProfile: Profile = {
+      ...currentProfile,
+      bolt_balance: newBalance,
+      updated_at: updatedAt,
+    };
+
+    // Sync to Supabase if not a guest
+    if (isOnline && !currentProfile.is_guest) {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ bolt_balance: newBalance, updated_at: updatedAt })
+        .eq('id', profileId);
+
+      if (error) {
+        console.error('Supabase balance update error:', error.message);
+        // Queue for sync later
+        await db.runAsync(
+          `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
+          'profiles',
+          'UPDATE',
+          JSON.stringify({ id: profileId, bolt_balance: newBalance, updated_at: updatedAt }),
+        );
+      }
+    } else if (!isOnline && !currentProfile.is_guest) {
+      // Offline, queue for sync
+      await db.runAsync(
+        `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
+        'profiles',
+        'UPDATE',
+        JSON.stringify({ id: profileId, bolt_balance: newBalance, updated_at: updatedAt }),
+      );
+    }
+
+    return updatedProfile;
+  }
 }
 
 export const profileService = new ProfileService();

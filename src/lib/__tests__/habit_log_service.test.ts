@@ -18,6 +18,9 @@ vi.mock('../supabase', () => ({
           single: vi.fn(() => Promise.resolve({ data: { id: 'log-123' }, error: null })),
         })),
       })),
+      update: vi.fn(() => ({
+        eq: vi.fn(() => Promise.resolve({ error: null })),
+      })),
     })),
   },
 }));
@@ -100,6 +103,32 @@ describe('HabitLogService', () => {
         expect.stringContaining('SELECT * FROM habits_log WHERE profile_id = ?'),
         'p1',
         expect.any(String),
+      );
+    });
+  });
+
+  describe('logMissionResult', () => {
+    test('should log completion and update balance', async () => {
+      const data = {
+        profile_id: 'p1',
+        habit_id: 'brush_teeth',
+        status: 'success' as const,
+        duration_seconds: 120,
+        bolts_earned: 1,
+      };
+
+      // Mock for getProfile inside updateBoltBalance
+      mockDb.getFirstAsync.mockResolvedValueOnce({ id: 'p1', bolt_balance: 5, is_guest: 0 });
+
+      const result = await habitLogService.logMissionResult(data);
+
+      expect(result.log).toBeDefined();
+      expect(result.profile?.bolt_balance).toBe(6);
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('UPDATE profiles SET bolt_balance = ?'),
+        6,
+        expect.any(String),
+        'p1',
       );
     });
   });

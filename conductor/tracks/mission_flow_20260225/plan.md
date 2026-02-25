@@ -50,16 +50,16 @@
   - [x] Ensure compliance with device silent mode.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4D: Audio System' (Protocol in workflow.md)
 
-## Phase 4E: Mission Result & Logging
+## Phase 4E: Mission Result & Logging [checkpoint: a943cb4]
 
-- [ ] Task: Build Mission Result Screen
-  - [ ] Implement UI for Success (bolt earned animation) and Sleepy (encouragement) states.
-- [ ] Task: Implement Logging & Balance Logic (TDD)
-  - [ ] Write unit tests for `logMissionResult` in `HabitLogService`.
-  - [ ] Implement `logMissionResult` (writes to `habits_log`, updates `bolt_balance`).
-- [ ] Task: Final Navigation & Flow
-  - [ ] Implement 4-second delay auto-return to Home.
-  - [ ] Verify offline support for logging and balance.
-- [ ] Task: Update Project Roadmap
-  - [ ] Mark Phase 4 as complete in `docs/roadmap.md`.
+- [x] Task: Build Mission Result Screen (373ca28)
+  - [x] Implement UI for Success (bolt earned animation) and Sleepy (encouragement) states.
+- [x] Task: Implement Logging & Balance Logic (TDD) (373ca28)
+  - [x] Write unit tests for `logMissionResult` in `HabitLogService`.
+  - [x] Implement `logMissionResult` (writes to `habits_log`, updates `bolt_balance`).
+- [x] Task: Final Navigation & Flow (373ca28)
+  - [x] Implement 4-second delay auto-return to Home.
+  - [x] Verify offline support for logging and balance.
+- [x] Task: Update Project Roadmap (be9f29d)
+  - [x] Mark Phase 4 as complete in `docs/roadmap.md`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4E: Mission Result & Logging' (Protocol in workflow.md)

@@ -29,7 +29,13 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-sqlite", "expo-secure-store", "expo-web-browser", "expo-av"],
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-secure-store",
+      "expo-web-browser",
+      "expo-audio"
+    ],
     "experiments": {
       "typedRoutes": true
     }

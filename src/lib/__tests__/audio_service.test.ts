@@ -1,48 +1,33 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { audioService } from '../audio_service';
-import { Audio } from 'expo-av';
+import { createAudioPlayer } from 'expo-audio';
 
-vi.mock('expo-av', () => {
-  const mockSound = {
-    loadAsync: vi.fn().mockResolvedValue({ isLoaded: true }),
-    unloadAsync: vi.fn().mockResolvedValue({ isLoaded: false }),
-    playAsync: vi.fn().mockResolvedValue({ isPlaying: true }),
-    pauseAsync: vi.fn().mockResolvedValue({ isPlaying: false }),
-    stopAsync: vi.fn().mockResolvedValue({ isPlaying: false }),
-    setIsLoopingAsync: vi.fn().mockResolvedValue({ isLooping: true }),
-    setVolumeAsync: vi.fn().mockResolvedValue({ volume: 1 }),
-    setStatusAsync: vi.fn().mockResolvedValue({}),
-    setOnPlaybackStatusUpdate: vi.fn(),
+// Mock expo-audio
+vi.mock('expo-audio', () => {
+  const mockPlayer = {
+    play: vi.fn(),
+    pause: vi.fn(),
+    stop: vi.fn(),
+    terminate: vi.fn(),
+    addListener: vi.fn(() => ({ remove: vi.fn() })),
+    volume: 1,
+    loop: false,
   };
-
-  const Sound = vi.fn(() => mockSound);
-  // Add static createAsync to the Sound mock
-  (Sound as any).createAsync = vi.fn().mockResolvedValue({ sound: mockSound });
-
   return {
-    Audio: {
-      Sound,
-      setAudioModeAsync: vi.fn().mockResolvedValue({}),
-    },
+    createAudioPlayer: vi.fn(() => mockPlayer),
+    AudioModule: {},
   };
 });
 
 describe('AudioService', () => {
-  let mockSoundInstance: any;
+  let mockPlayerInstance: any;
 
   beforeEach(async () => {
     vi.clearAllMocks();
     await audioService.reset();
 
-    // Get the mockSound instance from the mock factory
-    const { sound } = await (Audio.Sound as any).createAsync();
-    mockSoundInstance = sound;
-
-    // Clear mocks again because reset/createAsync might have called things
-    Object.values(mockSoundInstance).forEach((mock) => {
-      if (vi.isMockFunction(mock)) mock.mockClear();
-    });
-    vi.mocked(Audio.Sound.createAsync).mockClear();
+    mockPlayerInstance = vi.mocked(createAudioPlayer)({ uri: 'test' });
+    vi.mocked(createAudioPlayer).mockClear();
   });
 
   it('should play a sound effect', async () => {
@@ -51,8 +36,8 @@ describe('AudioService', () => {
 
     await audioService.playSound(soundKey, mockFile);
 
-    expect(Audio.Sound.createAsync).toHaveBeenCalledWith(mockFile);
-    expect(mockSoundInstance.playAsync).toHaveBeenCalled();
+    expect(createAudioPlayer).toHaveBeenCalledWith(mockFile);
+    expect(mockPlayerInstance.play).toHaveBeenCalled();
   });
 
   it('should play background music with looping', async () => {
@@ -61,20 +46,19 @@ describe('AudioService', () => {
 
     await audioService.playMusic(musicKey, mockFile);
 
-    expect(Audio.Sound.createAsync).toHaveBeenCalledWith(mockFile);
-    expect(mockSoundInstance.setIsLoopingAsync).toHaveBeenCalledWith(true);
-    expect(mockSoundInstance.playAsync).toHaveBeenCalled();
+    expect(createAudioPlayer).toHaveBeenCalledWith(mockFile);
+    expect(mockPlayerInstance.loop).toBe(true);
+    expect(mockPlayerInstance.play).toHaveBeenCalled();
   });
 
-  it('should stop and unload music', async () => {
+  it('should stop and terminate music', async () => {
     const musicKey = 'bg-music';
     const mockFile = { uri: 'test-music.mp3' };
 
     await audioService.playMusic(musicKey, mockFile);
     await audioService.stopMusic();
 
-    expect(mockSoundInstance.stopAsync).toHaveBeenCalled();
-    expect(mockSoundInstance.unloadAsync).toHaveBeenCalled();
+    expect(mockPlayerInstance.terminate).toHaveBeenCalled();
   });
 
   it('should handle global mute', async () => {
@@ -84,11 +68,11 @@ describe('AudioService', () => {
     audioService.setMute(true);
     await audioService.playSound(soundKey, mockFile);
 
-    expect(mockSoundInstance.setVolumeAsync).toHaveBeenCalledWith(0);
+    expect(mockPlayerInstance.volume).toBe(0);
 
     audioService.setMute(false);
     await audioService.playSound(soundKey, mockFile);
-    expect(mockSoundInstance.setVolumeAsync).toHaveBeenCalledWith(1);
+    expect(mockPlayerInstance.volume).toBe(1);
   });
 
   it('should set global volume', async () => {
@@ -98,6 +82,6 @@ describe('AudioService', () => {
 
     await audioService.playSound(soundKey, mockFile);
 
-    expect(mockSoundInstance.setVolumeAsync).toHaveBeenCalledWith(0.5);
+    expect(mockPlayerInstance.volume).toBe(0.5);
   });
 });

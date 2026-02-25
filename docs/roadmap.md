@@ -14,7 +14,7 @@ Phase 0   ✅✅✅✅✅✅✅✅✅✅  Project Scaffolding
 Phase 1   ✅✅✅✅✅✅✅✅✅✅  Auth & Onboarding
 Phase 2   ✅✅✅✅✅✅✅✅✅✅  Core Data Layer
 Phase 3   ✅✅✅✅✅✅✅✅✅✅  Home Screen
-Phase 4   ░░░░░░░░████░░░░░░░░  Mission Flow (core feature)
+Phase 4   ✅✅✅✅✅✅✅✅✅✅  Mission Flow (core feature)
 Phase 5   ░░░░░░░░░░░░██░░░░░░  Reward System
 Phase 6   ░░░░░░░░░░░░░░██░░░░  Parent Dashboard
 Phase 7   ░░░░░░░░░░░░░░░░██░░  Offline & Sync
@@ -154,26 +154,26 @@ assets/
 
 ### Tasks
 
-| #    | Task                      | Details                                                          |
-| :--- | :------------------------ | :--------------------------------------------------------------- |
-| 2.1  | Apply Supabase migrations | Create `profiles`, `habits_log`, `coupons` tables (PRD §7.1)     |
-| 2.2  | Enable Row-Level Security | RLS policies: users can only access their own data (PRD §7.2)    |
-| 2.3  | Create local SQLite DB    | Mirror Supabase schema in local SQLite using Expo SQLite         |
-| 2.4  | Define TS Interfaces      | `Profile`, `HabitLog`, `Coupon`                                  |
-| 2.5  | Build `ProfileService`    | CRUD operations, abstracts Supabase-vs-local based on auth state |
-| 2.6  | Build `HabitLogService`   | `logCompletion()`, `getTodaysLogs()`, `getStreakData()`          |
-| 2.7  | Build `CouponService`     | CRUD, `redeem()`, `getAvailable()`, `getRedeemed()`              |
-| 2.8  | Build network listener    | Wraps `@react-native-community/netinfo`                          |
-| 2.9  | Build `SyncService`       | Queues offline writes, syncs on reconnect (PRD FR-SYNC-03)       |
-| 2.10 | Unit tests                | Test each service with mocked Supabase client                    |
+| #    | Task                      | Status | Details                                                          |
+| :--- | :------------------------ | :----- | :--------------------------------------------------------------- |
+| 2.1  | Apply Supabase migrations | ✅     | Create `profiles`, `habits_log`, `coupons` tables (PRD §7.1)     |
+| 2.2  | Enable Row-Level Security | ✅     | RLS policies: users can only access their own data (PRD §7.2)    |
+| 2.3  | Create local SQLite DB    | ✅     | Mirror Supabase schema in local SQLite using Expo SQLite         |
+| 2.4  | Define TS Interfaces      | ✅     | `Profile`, `HabitLog`, `Coupon`                                  |
+| 2.5  | Build `ProfileService`    | ✅     | CRUD operations, abstracts Supabase-vs-local based on auth state |
+| 2.6  | Build `HabitLogService`   | ✅     | `logCompletion()`, `getTodaysLogs()`, `getStreakData()`          |
+| 2.7  | Build `CouponService`     | ✅     | CRUD, `redeem()`, `getAvailable()`, `getRedeemed()`              |
+| 2.8  | Build network listener    | ✅     | Wraps `@react-native-community/netinfo`                          |
+| 2.9  | Build `SyncService`       | ✅     | Queues offline writes, syncs on reconnect (PRD FR-SYNC-03)       |
+| 2.10 | Unit tests                | ✅     | Test each service with mocked Supabase client                    |
 
 ### Acceptance Criteria
 
-- [ ] Supabase tables created with correct constraints and RLS
-- [ ] All services work against Supabase when authenticated
-- [ ] All services fall back to local Expo SQLite when anonymous/offline
-- [ ] `SyncService` queues a write when offline and replays it when connectivity returns
-- [ ] Unit tests pass for all service methods
+- [x] Supabase tables created with correct constraints and RLS
+- [x] All services work against Supabase when authenticated
+- [x] All services fall back to local Expo SQLite when anonymous/offline
+- [x] `SyncService` queues a write when offline and replays it when connectivity returns
+- [x] Unit tests pass for all service methods
 
 ---
 
@@ -220,73 +220,73 @@ assets/
 
 ### Sub-Phase 4A: Mission Screen & Timer (3–4 days)
 
-| #    | Task                        | Details                                                                  |
-| :--- | :-------------------------- | :----------------------------------------------------------------------- |
-| 4A.1 | Build Mission screen layout | Buddy area (top 60%), timer + controls (bottom 40%)                      |
-| 4A.2 | Implement countdown timer   | Configurable duration, visual ring/bar, countdown text (MM:SS)           |
-| 4A.3 | Timer adjustment UI         | ±30s buttons before mission start (min 30s, max 30 min)                  |
-| 4A.4 | "Start Mission" button      | Large, green, child-friendly. Starts timer + transitions buddy to ACTIVE |
-| 4A.5 | "Done!" button              | Large, gold. Appears after mission starts. Stops timer → SUCCESS         |
-| 4A.6 | Timer expiration            | Timer reaches 0:00 → SLEEPY state (PRD FR-MISSION-06)                    |
-| 4A.7 | Mute toggle                 | Icon button to mute/unmute all audio                                     |
-| 4A.8 | App lifecycle handling      | Pause timer on background, resume on foreground (PRD §9)                 |
-| 4A.9 | Double-tap prevention       | Disable "Done!" button after first tap (PRD §9)                          |
+| #    | Task                        | Status | Details                                                                  |
+| :--- | :-------------------------- | :----- | :----------------------------------------------------------------------- |
+| 4A.1 | Build Mission screen layout | ✅     | Buddy area (top 60%), timer + controls (bottom 40%)                      |
+| 4A.2 | Implement countdown timer   | ✅     | Configurable duration, visual ring/bar, countdown text (MM:SS)           |
+| 4A.3 | Timer adjustment UI         | ✅     | ±30s buttons before mission start (min 30s, max 30 min)                  |
+| 4A.4 | "Start Mission" button      | ✅     | Large, green, child-friendly. Starts timer + transitions buddy to ACTIVE |
+| 4A.5 | "Done!" button              | ✅     | Large, gold. Appears after mission starts. Stops timer → SUCCESS         |
+| 4A.6 | Timer expiration            | ✅     | Timer reaches 0:00 → SLEEPY state (PRD FR-MISSION-06)                    |
+| 4A.7 | Mute toggle                 | ✅     | Icon button to mute/unmute all audio                                     |
+| 4A.8 | App lifecycle handling      | ✅     | Pause timer on background, resume on foreground (PRD §9)                 |
+| 4A.9 | Double-tap prevention       | ✅     | Disable "Done!" button after first tap (PRD §9)                          |
 
 ### Sub-Phase 4B: Buddy State Machine (2–3 days)
 
-| #    | Task                      | Details                                                                   |
-| :--- | :------------------------ | :------------------------------------------------------------------------ |
-| 4B.1 | Define `BuddyState` enum  | `idle`, `active`, `success`, `sleepy`                                     |
-| 4B.2 | Build `BuddyStateMachine` | Zustand store managing state transitions (PRD §5.2)                       |
-| 4B.3 | Define valid transitions  | `idle→active` (start), `active→success` (done), `active→sleepy` (timeout) |
-| 4B.4 | Connect to timer          | Timer events trigger state transitions                                    |
-| 4B.5 | Unit tests                | Test all state transitions, invalid transition rejection                  |
+| #    | Task                      | Status | Details                                                                   |
+| :--- | :------------------------ | :----- | :------------------------------------------------------------------------ |
+| 4B.1 | Define `BuddyState` enum  | ✅     | `idle`, `active`, `success`, `sleepy`                                     |
+| 4B.2 | Build `BuddyStateMachine` | ✅     | Zustand store managing state transitions (PRD §5.2)                       |
+| 4B.3 | Define valid transitions  | ✅     | `idle→active` (start), `active→success` (done), `active→sleepy` (timeout) |
+| 4B.4 | Connect to timer          | ✅     | Timer events trigger state transitions                                    |
+| 4B.5 | Unit tests                | ✅     | Test all state transitions, invalid transition rejection                  |
 
 ### Sub-Phase 4C: Reanimated Integration (2–3 days)
 
-| #    | Task                          | Details                                                                           |
-| :--- | :---------------------------- | :-------------------------------------------------------------------------------- |
-| 4C.1 | Add static buddy + props      | Setup animal and prop images from Kenney Animal/Food/UI packs                     |
-| 4C.2 | Build `BuddyAnimation`        | Animated.View component driven by `BuddyState` (translates/scales based on state) |
-| 4C.3 | Setup Floating Prop component | Animated.Image that triggers when state is ACTIVE `habitType`                     |
-| 4C.4 | Add Particle Effects          | Render confetti or stars when state is SUCCESS                                    |
-| 4C.5 | Handle animation load failure | Show static fallback PNG if main buddy fails to load (PRD §9)                     |
+| #    | Task                          | Status | Details                                                                           |
+| :--- | :---------------------------- | :----- | :-------------------------------------------------------------------------------- |
+| 4C.1 | Add static buddy + props      | ✅     | Setup animal and prop images from Kenney Animal/Food/UI packs                     |
+| 4C.2 | Build `BuddyAnimation`        | ✅     | Animated.View component driven by `BuddyState` (translates/scales based on state) |
+| 4C.3 | Setup Floating Prop component | ✅     | Animated.Image that triggers when state is ACTIVE `habitType`                     |
+| 4C.4 | Add Particle Effects          | ✅     | Render confetti or stars when state is SUCCESS                                    |
+| 4C.5 | Handle animation load failure | ✅     | Show static fallback PNG if main buddy fails to load (PRD §9)                     |
 
 ### Sub-Phase 4D: Audio System (2–3 days)
 
-| #    | Task                  | Details                                                            |
-| :--- | :-------------------- | :----------------------------------------------------------------- |
-| 4D.1 | Build `AudioService`  | Manages background music + VO + SFX layers independently           |
-| 4D.2 | Background music      | Loop "Work Time" or "Moonlight" based on time of day. Fade in/out. |
-| 4D.3 | Voice-over playback   | Play VO clips at trigger points (start, 50%, 25%, success, sleepy) |
-| 4D.4 | Layered audio         | Music continues while VO plays on top (PRD FR-AUDIO-01/02)         |
-| 4D.5 | SFX playback          | Button taps, bolt earned, timer warning                            |
-| 4D.6 | Mute support          | Global mute toggle pauses all audio channels                       |
-| 4D.7 | Respect silent mode   | Check device ringer/silent mode (PRD FR-AUDIO-05)                  |
-| 4D.8 | Add placeholder audio | Use free CC0 clips for development; swap in finals later           |
+| #    | Task                  | Status | Details                                                            |
+| :--- | :-------------------- | :----- | :----------------------------------------------------------------- |
+| 4D.1 | Build `AudioService`  | ✅     | Manages background music + VO + SFX layers independently           |
+| 4D.2 | Background music      | ✅     | Loop "Work Time" or "Moonlight" based on time of day. Fade in/out. |
+| 4D.3 | Voice-over playback   | ✅     | Play VO clips at trigger points (start, 50%, 25%, success, sleepy) |
+| 4D.4 | Layered audio         | ✅     | Music continues while VO plays on top (PRD FR-AUDIO-01/02)         |
+| 4D.5 | SFX playback          | ✅     | Button taps, bolt earned, timer warning                            |
+| 4D.6 | Mute support          | ✅     | Global mute toggle pauses all audio channels                       |
+| 4D.7 | Respect silent mode   | ✅     | Check device ringer/silent mode (PRD FR-AUDIO-05)                  |
+| 4D.8 | Add placeholder audio | ✅     | Use free CC0 clips for development; swap in finals later           |
 
 ### Sub-Phase 4E: Mission Result & Logging (1–2 days)
 
-| #    | Task                        | Details                                                         |
-| :--- | :-------------------------- | :-------------------------------------------------------------- |
-| 4E.1 | Build Mission Result screen | Shows SUCCESS (bolt earned animation) or SLEEPY (encouragement) |
-| 4E.2 | Log completion              | Write to `habits_log` with status, duration, bolts earned       |
-| 4E.3 | Update bolt balance         | Increment `profiles.bolt_balance` on success                    |
-| 4E.4 | Auto-return to Home         | After 4-second delay, navigate back to Home (PRD §10, step 9)   |
-| 4E.5 | Gold Bolt animation         | Animated "+1 🔩" on success screen                              |
+| #    | Task                        | Status | Details                                                         |
+| :--- | :-------------------------- | :----- | :-------------------------------------------------------------- |
+| 4E.1 | Build Mission Result screen | ✅     | Shows SUCCESS (bolt earned animation) or SLEEPY (encouragement) |
+| 4E.2 | Log completion              | ✅     | Write to `habits_log` with status, duration, bolts earned       |
+| 4E.3 | Update bolt balance         | ✅     | Increment `profiles.bolt_balance` on success                    |
+| 4E.4 | Auto-return to Home         | ✅     | After 4-second delay, navigate back to Home (PRD §10, step 9)   |
+| 4E.5 | Gold Bolt animation         | ✅     | Animated "+1 🔩" on success screen                              |
 
 ### Acceptance Criteria
 
-- [ ] Full mission flow works: Start → Active (timer running) → Done → Success → Home
-- [ ] Full mission flow works: Start → Active (timer running) → Timer expires → Sleepy → Home
-- [ ] Timer pauses on app background, resumes on foreground
-- [ ] Buddy component animates correctly for each state (even with placeholder)
-- [ ] Background music loops, VO plays on top, SFX triggers on events
-- [ ] Mute toggle works for all audio
-- [ ] Mission result is logged to `habits_log`
-- [ ] Bolt balance updates on success
-- [ ] "Done!" button disabled after first tap
-- [ ] Fallback image shown if image asset fails
+- [x] Full mission flow works: Start → Active (timer running) → Done → Success → Home
+- [x] Full mission flow works: Start → Active (timer running) → Timer expires → Sleepy → Home
+- [x] Timer pauses on app background, resumes on foreground
+- [x] Buddy component animates correctly for each state (even with placeholder)
+- [x] Background music loops, VO plays on top, SFX triggers on events
+- [x] Mute toggle works for all audio
+- [x] Mission result is logged to `habits_log`
+- [x] Bolt balance updates on success
+- [x] "Done!" button disabled after first tap
+- [x] Fallback image shown if image asset fails
 
 ---
 
@@ -458,7 +458,7 @@ assets/
 | 1     | Auth & Onboarding         | 3–5 days  | Phase 0    | ✅ Complete    |
 | 2     | Core Data Layer           | 4–5 days  | Phase 1    | ✅ Complete    |
 | 3     | Home Screen               | 3–4 days  | Phase 2    | ✅ Complete    |
-| 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ⬜ Not Started |
+| 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ✅ Complete    |
 | 5     | Reward System             | 3–4 days  | Phase 4    | ⬜ Not Started |
 | 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ⬜ Not Started |
 | 7     | Offline & Sync            | 3–5 days  | Phase 2, 5 | ⬜ Not Started |

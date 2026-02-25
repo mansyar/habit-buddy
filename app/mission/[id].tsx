@@ -11,7 +11,9 @@ import { Confetti } from '../../src/components/Confetti';
 import { Colors } from '../../src/theme/Colors';
 import { audioService } from '../../src/lib/audio_service';
 import { AUDIO_ASSETS } from '../../src/constants/audio';
-import { Volume2, VolumeX } from 'lucide-react-native';
+import { Volume2, VolumeX, Bolt } from 'lucide-react-native';
+import Animated, { FadeIn, ZoomIn, ZoomOut } from 'react-native-reanimated';
+import { habitLogService } from '../../src/lib/habit_log_service';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
   'tooth-brushing': { name: 'Brushing teeth', duration: 2 },
@@ -22,7 +24,7 @@ const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
 export default function MissionScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { profile } = useAuthStore();
+  const { profile, setProfile } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -57,25 +59,67 @@ export default function MissionScreen() {
     audioService.setMute(newMuted);
   };
 
-  const handleFinish = React.useCallback(async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setBuddySuccess();
-    audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
-    audioService.playSound('vo-success', { uri: AUDIO_ASSETS.vo.success });
-
-    // For now, just go back after a delay
-    setTimeout(() => {
-      router.back();
-      resetBuddy();
-    }, 4000); // 4 seconds delay as per spec
-  }, [isSubmitting, router, setBuddySuccess, resetBuddy]);
-
   const { timeLeft, isActive, start, stop, adjustTime } = useMissionTimer(config.duration, () => {
     setBuddySleepy();
     audioService.playSound('vo-sleepy', { uri: AUDIO_ASSETS.vo.sleepy });
-    handleFinish();
+    handleFinish('sleepy');
   });
+
+  const handleFinish = React.useCallback(
+    async (statusOverride?: 'success' | 'sleepy') => {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+
+      const finalStatus = statusOverride || 'success';
+
+      if (finalStatus === 'success') {
+        setBuddySuccess();
+        audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
+        audioService.playSound('vo-success', { uri: AUDIO_ASSETS.vo.success });
+      } else {
+        setBuddySleepy();
+      }
+
+      if (profile?.id) {
+        const durationSeconds = initialTime - timeLeft;
+        const boltsEarned = finalStatus === 'success' ? 1 : 0;
+
+        try {
+          const { profile: updatedProfile } = await habitLogService.logMissionResult({
+            profile_id: profile.id,
+            habit_id: id as string,
+            status: finalStatus,
+            duration_seconds: durationSeconds,
+            bolts_earned: boltsEarned,
+          });
+
+          if (updatedProfile) {
+            setProfile(updatedProfile);
+          }
+        } catch (error) {
+          console.error('Error logging mission result:', error);
+        }
+      }
+
+      // For now, just go back after a delay
+      setTimeout(() => {
+        router.back();
+        resetBuddy();
+      }, 4000); // 4 seconds delay as per spec
+    },
+    [
+      isSubmitting,
+      router,
+      setBuddySuccess,
+      resetBuddy,
+      profile,
+      id,
+      initialTime,
+      timeLeft,
+      setProfile,
+      setBuddySleepy,
+    ],
+  );
 
   const onStartPress = () => {
     audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
@@ -87,9 +131,8 @@ export default function MissionScreen() {
   const onDonePress = () => {
     audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
     stop();
-    handleFinish();
+    handleFinish('success');
   };
-
   // VO trigger points
   useEffect(() => {
     if (!isActive) return;
@@ -124,21 +167,39 @@ export default function MissionScreen() {
   return (
     <View style={styles.container}>
       <Confetti isActive={buddyState === 'success'} />
-
-      {/* Top Header for controls like Mute */}
+      {/* Result Overlay */}
+      {isSubmitting && (
+        <Animated.View entering={FadeIn} style={[StyleSheet.absoluteFill, styles.resultOverlay]}>
+          {buddyState === 'success' ? (
+            <Animated.View entering={ZoomIn} style={styles.resultContent}>
+              <View style={styles.boltCircle}>
+                <Bolt size={60} color="#FFD700" fill="#FFD700" />
+              </View>
+              <Text style={styles.resultTitle}>Great Job!</Text>
+              <Text style={styles.resultSubtitle}>You earned 1 Bolt!</Text>
+            </Animated.View>
+          ) : (
+            <Animated.View entering={ZoomIn} style={styles.resultContent}>
+              <Text style={[styles.resultTitle, { color: '#607D8B' }]}>Zzz...</Text>
+              <Text style={styles.resultSubtitle}>
+                Your buddy got sleepy. Let's try again next time!
+              </Text>
+            </Animated.View>
+          )}
+        </Animated.View>
+      )}
+      {/* Top Header for controls like Mute */}{' '}
       <View style={styles.header}>
         <TouchableOpacity style={styles.iconButton} onPress={toggleMute} testID="mute-toggle">
           {isMuted ? <VolumeX size={24} color="#555" /> : <Volume2 size={24} color="#555" />}
         </TouchableOpacity>
       </View>
-
       {/* Buddy Area (60%) */}
       <View testID="buddy-area" style={styles.buddyArea}>
         <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
         <FloatingProp habitId={id as string} isActive={buddyState === 'active'} />
         <Text style={styles.habitTitle}>{config.name}</Text>
       </View>
-
       {/* Controls Area (40%) */}
       <View testID="controls-area" style={styles.controlsArea}>
         <View style={styles.timerContainer}>
@@ -229,10 +290,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     marginTop: -30,
     padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
+    boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)',
     elevation: 5,
   },
   habitTitle: {
@@ -296,5 +354,40 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FF5252',
     fontWeight: 'bold',
+  },
+  resultOverlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+  },
+  resultContent: {
+    alignItems: 'center',
+    padding: 30,
+  },
+  boltCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#FFF9C4',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    boxShadow: '0px 4px 10px rgba(255, 215, 0, 0.3)',
+    elevation: 8,
+  },
+  resultTitle: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#4CAF50',
+    fontFamily: 'Fredoka-One',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  resultSubtitle: {
+    fontSize: 18,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 24,
   },
 });

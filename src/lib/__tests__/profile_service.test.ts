@@ -92,4 +92,41 @@ describe('ProfileService', () => {
       );
     });
   });
+
+  describe('updateBoltBalance', () => {
+    test('should update balance in SQLite and Supabase when online', async () => {
+      const profileId = 'p1';
+      mockDb.getFirstAsync.mockResolvedValueOnce({ id: 'p1', bolt_balance: 5, is_guest: 0 });
+
+      const updatedProfile = await profileService.updateBoltBalance(profileId, 2);
+
+      expect(updatedProfile?.bolt_balance).toBe(7);
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('UPDATE profiles SET bolt_balance = ?'),
+        7,
+        expect.any(String),
+        profileId,
+      );
+      expect(supabase.from).toHaveBeenCalledWith('profiles');
+      expect(supabase.update).toHaveBeenCalledWith(expect.objectContaining({ bolt_balance: 7 }));
+    });
+
+    test('should update balance only in SQLite when offline', async () => {
+      (checkIsOnline as any).mockResolvedValueOnce(false);
+      const profileId = 'p1';
+      mockDb.getFirstAsync.mockResolvedValueOnce({ id: 'p1', bolt_balance: 5, is_guest: 0 });
+
+      const updatedProfile = await profileService.updateBoltBalance(profileId, 3);
+
+      expect(updatedProfile?.bolt_balance).toBe(8);
+      expect(supabase.from).not.toHaveBeenCalled();
+      // Should queue for sync
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT INTO sync_queue'),
+        'profiles',
+        'UPDATE',
+        expect.stringContaining('"bolt_balance":8'),
+      );
+    });
+  });
 });
