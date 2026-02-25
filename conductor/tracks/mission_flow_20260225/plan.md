@@ -15,7 +15,7 @@
 - [x] Task: Implement Mission Timer Logic (TDD) (4f43616)
   - [x] Write unit tests for `useMissionTimer` hook (start, stop, pause, adjust).
   - [x] Implement `useMissionTimer` with per-habit defaults and ±30s adjustment.
-- [x] Task: Connect UI to Timer (28f4a3e)
+- [x] Task: Connect UI to Timer (429bebd)
   - [x] Build `TimerDisplay` component with ring/bar visualization.
   - [x] Implement "Start Mission" and "Done!" buttons with appropriate controls.
   - [x] Implement double-tap prevention on "Done!" button.
