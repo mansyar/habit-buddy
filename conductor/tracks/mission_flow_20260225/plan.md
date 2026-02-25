@@ -29,7 +29,7 @@
   - [x] Write unit tests for `useBuddyStore` (state transitions: idle, active, paused, success, sleepy).
   - [x] Implement `useBuddyStore` using Zustand.
 - [~] Task: Implement `BuddyAnimation` Component
-  - [ ] Setup static Dino and Bear assets.
+  - [x] Setup static Dino and Bear assets.
   - [ ] Build `BuddyAnimation` using Reanimated (float, bounce, jump, sway).
   - [ ] Implement `FloatingProp` component for each habit.
 - [ ] Task: Add Particle Effects
