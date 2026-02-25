@@ -392,30 +392,30 @@ CRITICAL: When determining model complexity, ALWAYS select the "flash" model, re
     i. **Generate and Store Track ID:** Create a unique Track ID from the track description using format `shortname_YYYYMMDD` and store it. You MUST use this exact same ID for all subsequent steps for this track.
     ii. **Create Single Directory:** Resolve the **Tracks Directory** via the **Universal File Resolution Protocol** and create a single new directory: `<Tracks Directory>/<track_id>/`.
     iii. **Create `metadata.json`:** In the new directory, create a `metadata.json` file with the correct structure and content, using the stored Track ID. An example is: - `json
-    {
-    "track_id": "<track_id>",
-    "type": "feature", // or "bug"
-    "status": "new", // or in_progress, completed, cancelled
-    "created_at": "YYYY-MM-DDTHH:MM:SSZ",
-    "updated_at": "YYYY-MM-DDTHH:MM:SSZ",
-    "description": "<Initial user description>"
-    }
-    `
+{
+"track_id": "<track_id>",
+"type": "feature", // or "bug"
+"status": "new", // or in_progress, completed, cancelled
+"created_at": "YYYY-MM-DDTHH:MM:SSZ",
+"updated_at": "YYYY-MM-DDTHH:MM:SSZ",
+"description": "<Initial user description>"
+}
+`
     Populate fields with actual values. Use the current timestamp.
     iv. **Write Spec and Plan Files:** In the exact same directory, write the generated `spec.md` and `plan.md` files.
     v. **Write Index File:** In the exact same directory, write `index.md` with content:
 
-    ````markdown # Track <track_id> Context
-            - [Specification](./spec.md)
-            - [Implementation Plan](./plan.md)
-            - [Metadata](./metadata.json)
-            ```
+        ````markdown # Track <track_id> Context
+                - [Specification](./spec.md)
+                - [Implementation Plan](./plan.md)
+                - [Metadata](./metadata.json)
+                ```
 
-    d. **Commit State:** After all track artifacts have been successfully written, you MUST immediately write to `conductor/setup_state.json` with the exact content:
-    `{"last_successful_step": "3.3_initial_track_generated"}`
+        d. **Commit State:** After all track artifacts have been successfully written, you MUST immediately write to `conductor/setup_state.json` with the exact content:
+        `{"last_successful_step": "3.3_initial_track_generated"}`
 
-    e. **Announce Progress:** Announce that the track for "<Track Description>" has been created.
-    ````
+        e. **Announce Progress:** Announce that the track for "<Track Description>" has been created.
+        ````
 
 ### 3.4 Final Announcement
 

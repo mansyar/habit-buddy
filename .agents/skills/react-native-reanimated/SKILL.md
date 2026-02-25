@@ -14,6 +14,7 @@ UI-thread animation library for React Native. Reanimated 4.x runs animations on 
 ## Workflows
 
 **Adding animations to a screen:**
+
 1. [ ] Import from `react-native-reanimated`: `Animated`, `useSharedValue`, `useAnimatedStyle`, `withTiming`
 2. [ ] Create shared values for animated properties
 3. [ ] Define animated styles using `useAnimatedStyle`
@@ -22,6 +23,7 @@ UI-thread animation library for React Native. Reanimated 4.x runs animations on 
 6. [ ] Test on device for smooth 60fps
 
 **Adding entering/exiting transitions:**
+
 1. [ ] Import layout animations: `FadeInDown`, `FadeOutUp`, `SlideInRight`, etc.
 2. [ ] Apply `entering` and `exiting` props on `Animated.View`
 3. [ ] Chain modifiers: `.duration(300).easing(...).delay(100)`
@@ -43,12 +45,12 @@ UI-thread animation library for React Native. Reanimated 4.x runs animations on 
 
 Consistent with demo-development.md durations:
 
-| Type | Duration | Use |
-|------|----------|-----|
-| Fast | 150ms | Micro-interactions, haptic responses |
-| Normal | 300ms | Default transitions, entering |
-| Slow | 500ms | Emphasis, screen transitions |
-| Stagger offset | 50ms per item | List item reveals |
+| Type           | Duration      | Use                                  |
+| -------------- | ------------- | ------------------------------------ |
+| Fast           | 150ms         | Micro-interactions, haptic responses |
+| Normal         | 300ms         | Default transitions, entering        |
+| Slow           | 500ms         | Emphasis, screen transitions         |
+| Stagger offset | 50ms per item | List item reveals                    |
 
 Easing: `Easing.out(Easing.cubic)` for entrances, `Easing.inOut(Easing.cubic)` for transitions, `Easing.in(Easing.cubic)` for exits.
 
@@ -70,6 +72,7 @@ entering={FadeInDown.delay(index * 50).duration(300)}
 ```
 
 Or for imperative animations:
+
 ```
 offset.value = withDelay(index * 50, withTiming(1, { duration: 300 }))
 ```
@@ -83,6 +86,7 @@ const reducedMotion = useReducedMotion();
 ```
 
 When `reducedMotion` is true:
+
 - Skip all animations (set values instantly)
 - Use `duration(0)` or don't apply entering/exiting props
 - Still show content — just don't animate it

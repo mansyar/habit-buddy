@@ -171,10 +171,10 @@ _(Only include this section if issues are found)_
       i. **Confirm with User:** Present the following to the user in the chat and await their response: > "I've detected uncommitted changes from the review process. Should I commit these and update the track's plan? (yes/no)"
       ii. **If Yes:** - **Update Plan (Add Review Task):** - Read the track's `plan.md`. - Append a new phase (if it doesn't exist) and task to the end of the file. - **Format:**
       `markdown
-             ## Phase: Review Fixes
-             - [~] Task: Apply review suggestions
-             ` - **Commit Code:** - Stage all code changes related to the track (excluding `plan.md`). - Commit with message: `fix(conductor): Apply review suggestions for track '<track_name>'`. - **Record SHA:** - Get the short SHA (first 7 characters) of the commit. - Update the task in `plan.md` to: `- [x] Task: Apply review suggestions <sha>`. - **Commit Plan Update:** - Stage `plan.md`. - Commit with message: `conductor(plan): Mark task 'Apply review suggestions' as complete`. - **Announce Success:** "Review changes committed and tracked in the plan."
-      iii. **If No:** Skip the commit and plan update. Proceed to '3.3 Track Cleanup'.
+      ## Phase: Review Fixes
+      - [~] Task: Apply review suggestions
+        `- **Commit Code:** - Stage all code changes related to the track (excluding`plan.md`). - Commit with message: `fix(conductor): Apply review suggestions for track '<track_name>'`. - **Record SHA:** - Get the short SHA (first 7 characters) of the commit. - Update the task in `plan.md`to:`- [x] Task: Apply review suggestions <sha>`. - **Commit Plan Update:** - Stage `plan.md`. - Commit with message: `conductor(plan): Mark task 'Apply review suggestions' as complete`. - **Announce Success:** "Review changes committed and tracked in the plan."
+        iii. **If No:** Skip the commit and plan update. Proceed to '3.3 Track Cleanup'.
 
 ### 3.3 Track Cleanup
 

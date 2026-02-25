@@ -119,44 +119,44 @@ The app uses a **dark mode design exclusively** for MVP. Rationale:
 
 export const AppTypography = {
   display: {
-    fontFamily: "FredokaOne-Regular",
+    fontFamily: 'FredokaOne-Regular',
     fontSize: 40,
-    fontWeight: "700" as const,
+    fontWeight: '700' as const,
     lineHeight: 48, // 40 * 1.2
     color: AppColors.textPrimary,
   },
   heading1: {
-    fontFamily: "FredokaOne-Regular",
+    fontFamily: 'FredokaOne-Regular',
     fontSize: 32,
-    fontWeight: "700" as const,
+    fontWeight: '700' as const,
     lineHeight: 38.4, // 32 * 1.2
     color: AppColors.textPrimary,
   },
   heading2: {
-    fontFamily: "FredokaOne-Regular",
+    fontFamily: 'FredokaOne-Regular',
     fontSize: 24,
-    fontWeight: "700" as const,
+    fontWeight: '700' as const,
     lineHeight: 31.2, // 24 * 1.3
     color: AppColors.textPrimary,
   },
   body: {
-    fontFamily: "Nunito-Regular",
+    fontFamily: 'Nunito-Regular',
     fontSize: 16,
-    fontWeight: "400" as const,
+    fontWeight: '400' as const,
     lineHeight: 24, // 16 * 1.5
     color: AppColors.textSecondary,
   },
   timer: {
-    fontFamily: "FredokaOne-Regular",
+    fontFamily: 'FredokaOne-Regular',
     fontSize: 64,
-    fontWeight: "700" as const,
+    fontWeight: '700' as const,
     lineHeight: 64, // 64 * 1.0
     color: AppColors.textPrimary,
   },
   label: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: 'Nunito-SemiBold',
     fontSize: 14,
-    fontWeight: "600" as const,
+    fontWeight: '600' as const,
     lineHeight: 19.6, // 14 * 1.4
     color: AppColors.textPrimary,
   },
@@ -652,38 +652,38 @@ Layer 1 (base):   🎵 Background music loop ────── always playing d
 
 export const AppColors = {
   // Backgrounds
-  deepIndigo: "#1A1A2E",
-  nightPurple: "#16213E",
+  deepIndigo: '#1A1A2E',
+  nightPurple: '#16213E',
 
   // Surfaces
-  cardDark: "#2A2A4A",
-  cardMedium: "#3A3A5C",
-  elevated: "#4A4A6A",
+  cardDark: '#2A2A4A',
+  cardMedium: '#3A3A5C',
+  elevated: '#4A4A6A',
 
   // Accents
-  dinoGreen: "#4ADE80",
-  missionOrange: "#FB923C",
-  rewardGold: "#FBBF24",
-  sleepyBlue: "#60A5FA",
+  dinoGreen: '#4ADE80',
+  missionOrange: '#FB923C',
+  rewardGold: '#FBBF24',
+  sleepyBlue: '#60A5FA',
 
   // Status
-  success: "#22C55E",
-  warning: "#EAB308",
-  error: "#EF4444",
+  success: '#22C55E',
+  warning: '#EAB308',
+  error: '#EF4444',
 
   // Text
-  textPrimary: "#F8FAFC",
-  textSecondary: "#CBD5E1",
-  textMuted: "#64748B",
+  textPrimary: '#F8FAFC',
+  textSecondary: '#CBD5E1',
+  textMuted: '#64748B',
 };
 
 export const getHabitColor = (habitId: string) => {
   switch (habitId) {
-    case "brush_teeth":
+    case 'brush_teeth':
       return AppColors.dinoGreen;
-    case "eat_meal":
+    case 'eat_meal':
       return AppColors.missionOrange;
-    case "pick_up_toys":
+    case 'pick_up_toys':
       return AppColors.sleepyBlue;
     default:
       return AppColors.dinoGreen;

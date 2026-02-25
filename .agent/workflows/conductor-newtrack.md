@@ -113,6 +113,7 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 2.  **Generate Track ID:** Create a unique Track ID (e.g., `shortname_YYYYMMDD`).
 3.  **Create Directory:** Create a new directory for the tracks: `<Tracks Directory>/<track_id>/`.
 4.  **Create `metadata.json`:** Create a metadata file at `<Tracks Directory>/<track_id>/metadata.json` with content like:
+
     ```json
     {
       "track_id": "<track_id>",
@@ -125,6 +126,7 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
     ```
 
     - Populate fields with actual values. Use the current timestamp.
+
 5.  **Write Files:**
     - Write the confirmed specification content to `<Tracks Directory>/<track_id>/spec.md`.
     - Write the confirmed plan content to `<Tracks Directory>/<track_id>/plan.md`.

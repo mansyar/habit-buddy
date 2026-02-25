@@ -69,6 +69,7 @@ describe('Data Layer Integration', () => {
       'Offline Buddy',
       expect.anything(),
       expect.anything(),
+      expect.anything(),
       1,
       expect.anything(),
       expect.anything(),

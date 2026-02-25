@@ -320,6 +320,7 @@ class PerformanceTests: XCTestCase {
 ## Best Practices
 
 ### ✅ DO
+
 - Write tests for business logic first
 - Use dependency injection for testability
 - Mock external API calls
@@ -332,6 +333,7 @@ class PerformanceTests: XCTestCase {
 - Maintain >80% code coverage
 
 ### ❌ DON'T
+
 - Skip testing UI-critical flows
 - Use hardcoded test data
 - Ignore performance regressions
