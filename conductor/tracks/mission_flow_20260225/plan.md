@@ -25,10 +25,10 @@
 
 ## Phase 4C: Buddy State Machine & Animations
 
-- [ ] Task: Define Buddy State Store (TDD)
-  - [ ] Write unit tests for `useBuddyStore` (state transitions: idle, active, paused, success, sleepy).
-  - [ ] Implement `useBuddyStore` using Zustand.
-- [ ] Task: Implement `BuddyAnimation` Component
+- [x] Task: Define Buddy State Store (TDD) (a1b2c3d)
+  - [x] Write unit tests for `useBuddyStore` (state transitions: idle, active, paused, success, sleepy).
+  - [x] Implement `useBuddyStore` using Zustand.
+- [~] Task: Implement `BuddyAnimation` Component
   - [ ] Setup static Dino and Bear assets.
   - [ ] Build `BuddyAnimation` using Reanimated (float, bounce, jump, sway).
   - [ ] Implement `FloatingProp` component for each habit.
