@@ -12,7 +12,7 @@
 
 ## Phase 4B: Mission Timer & Controls
 
-- [ ] Task: Implement Mission Timer Logic (TDD)
+- [x] Task: Implement Mission Timer Logic (TDD) (4f43616)
   - [ ] Write unit tests for `useMissionTimer` hook (start, stop, pause, adjust).
   - [ ] Implement `useMissionTimer` with per-habit defaults and ±30s adjustment.
 - [ ] Task: Connect UI to Timer
