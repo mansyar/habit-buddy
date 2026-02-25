@@ -21,6 +21,18 @@ vi.mock('../../src/store/auth_store', () => ({
   })),
 }));
 
+// Mock AudioService
+vi.mock('../../src/lib/audio_service', () => ({
+  audioService: {
+    init: vi.fn(),
+    playSound: vi.fn(),
+    playMusic: vi.fn(),
+    stopMusic: vi.fn(),
+    setVolume: vi.fn(),
+    setMute: vi.fn(),
+  },
+}));
+
 describe('MissionScreen', () => {
   beforeEach(() => {
     vi.clearAllMocks();

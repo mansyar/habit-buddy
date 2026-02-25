@@ -36,18 +36,18 @@
   - [x] Implement confetti/star particles for `success` state.
 - [x] Task: Conductor - User Manual Verification 'Phase 4C: Buddy State Machine & Animations' (373ca28)
 
-## Phase 4D: Audio System
+## Phase 4D: Audio System [checkpoint: be9f29d]
 
-- [ ] Task: Build `AudioService` (TDD)
-  - [ ] Write unit tests for `AudioService` (layered playback, mute, volume).
-  - [ ] Implement `AudioService` using `expo-av`.
-- [ ] Task: Integrate Audio with Mission Flow
-  - [ ] Implement background music loops (Work Time/Moonlight).
-  - [ ] Implement VO trigger points (start, 50%, 25%, success, sleepy).
-  - [ ] Implement SFX for UI interactions and bolts.
-- [ ] Task: Global Mute and Silent Mode Support
-  - [ ] Connect mute toggle to `AudioService`.
-  - [ ] Ensure compliance with device silent mode.
+- [x] Task: Build `AudioService` (TDD) (373ca28)
+  - [x] Write unit tests for `AudioService` (layered playback, mute, volume).
+  - [x] Implement `AudioService` using `expo-av`.
+- [x] Task: Integrate Audio with Mission Flow (373ca28)
+  - [x] Implement background music loops (Work Time/Moonlight).
+  - [x] Implement VO trigger points (start, 50%, 25%, success, sleepy).
+  - [x] Implement SFX for UI interactions and bolts.
+- [x] Task: Global Mute and Silent Mode Support (373ca28)
+  - [x] Connect mute toggle to `AudioService`.
+  - [x] Ensure compliance with device silent mode.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4D: Audio System' (Protocol in workflow.md)
 
 ## Phase 4E: Mission Result & Logging

@@ -9,6 +9,9 @@ import { BuddyAnimation } from '../../src/components/BuddyAnimation';
 import { FloatingProp } from '../../src/components/FloatingProp';
 import { Confetti } from '../../src/components/Confetti';
 import { Colors } from '../../src/theme/Colors';
+import { audioService } from '../../src/lib/audio_service';
+import { AUDIO_ASSETS } from '../../src/constants/audio';
+import { Volume2, VolumeX } from 'lucide-react-native';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
   'tooth-brushing': { name: 'Brushing teeth', duration: 2 },
@@ -36,11 +39,30 @@ export default function MissionScreen() {
   const buddyType = (profile?.selected_buddy || 'dino') as 'dino' | 'bear';
 
   const [initialTime, setInitialTime] = useState(config.duration * 60);
+  const [isMuted, setIsMuted] = useState(false);
+
+  // Initialize Audio
+  useEffect(() => {
+    audioService.init();
+    audioService.playMusic('work', { uri: AUDIO_ASSETS.music.work_time });
+
+    return () => {
+      audioService.stopMusic();
+    };
+  }, []);
+
+  const toggleMute = () => {
+    const newMuted = !isMuted;
+    setIsMuted(newMuted);
+    audioService.setMute(newMuted);
+  };
 
   const handleFinish = React.useCallback(async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     setBuddySuccess();
+    audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
+    audioService.playSound('vo-success', { uri: AUDIO_ASSETS.vo.success });
 
     // For now, just go back after a delay
     setTimeout(() => {
@@ -51,18 +73,37 @@ export default function MissionScreen() {
 
   const { timeLeft, isActive, start, stop, adjustTime } = useMissionTimer(config.duration, () => {
     setBuddySleepy();
+    audioService.playSound('vo-sleepy', { uri: AUDIO_ASSETS.vo.sleepy });
     handleFinish();
   });
 
   const onStartPress = () => {
+    audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
+    audioService.playSound('vo-start', { uri: AUDIO_ASSETS.vo.start });
     start();
     setBuddyActive();
   };
 
   const onDonePress = () => {
+    audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
     stop();
     handleFinish();
   };
+
+  // VO trigger points
+  useEffect(() => {
+    if (!isActive) return;
+
+    const totalTime = initialTime;
+    const halfTime = Math.floor(totalTime / 2);
+    const quarterTime = Math.floor(totalTime / 4);
+
+    if (timeLeft === halfTime) {
+      audioService.playSound('vo-halfway', { uri: AUDIO_ASSETS.vo.halfway });
+    } else if (timeLeft === quarterTime) {
+      audioService.playSound('vo-almost', { uri: AUDIO_ASSETS.vo.almost_done });
+    }
+  }, [timeLeft, isActive, initialTime]);
 
   // Handle App Lifecycle for Buddy State
   useEffect(() => {
@@ -75,6 +116,7 @@ export default function MissionScreen() {
 
   // Update initial time when adjusted
   const handleAdjustTime = (seconds: number) => {
+    audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
     adjustTime(seconds);
     setInitialTime((prev) => Math.max(0, prev + seconds));
   };
@@ -82,6 +124,14 @@ export default function MissionScreen() {
   return (
     <View style={styles.container}>
       <Confetti isActive={buddyState === 'success'} />
+
+      {/* Top Header for controls like Mute */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.iconButton} onPress={toggleMute} testID="mute-toggle">
+          {isMuted ? <VolumeX size={24} color="#555" /> : <Volume2 size={24} color="#555" />}
+        </TouchableOpacity>
+      </View>
+
       {/* Buddy Area (60%) */}
       <View testID="buddy-area" style={styles.buddyArea}>
         <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
@@ -152,6 +202,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.background,
+  },
+  header: {
+    position: 'absolute',
+    top: 50,
+    right: 20,
+    zIndex: 10,
+  },
+  iconButton: {
+    padding: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 20,
   },
   buddyArea: {
     flex: 0.6,
