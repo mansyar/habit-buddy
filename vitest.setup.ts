@@ -56,6 +56,10 @@ vi.mock('react-native', () => {
       select: (objs: any) => objs.ios || objs.android || objs.default,
       OS: 'ios',
     },
+    Dimensions: {
+      get: vi.fn(() => ({ width: 375, height: 812 })),
+      addEventListener: vi.fn(() => ({ remove: vi.fn() })),
+    },
     Alert: {
       alert: vi.fn(),
     },
@@ -135,26 +139,49 @@ vi.mock('react-native-safe-area-context', () => ({
 vi.mock('react-native-svg', () => ({
   Svg: ({ children }: any) => children,
   Circle: ({ children }: any) => children,
+  G: ({ children }: any) => children,
+  Path: ({ children }: any) => children,
+  Rect: ({ children }: any) => children,
+  Ellipse: ({ children }: any) => children,
   default: ({ children }: any) => children,
 }));
 
 // Mock react-native-reanimated
 vi.mock('react-native-reanimated', () => {
-  return {
-    default: {
-      View: ({ children }: any) => children,
-      Text: ({ children }: any) => children,
-      createAnimatedComponent: (component: any) => component,
-    },
+  const Reanimated = {
+    View: ({ testID, children, style, ...props }: any) =>
+      React.createElement('div', { ...props, 'data-testid': testID, style }, children),
+    Text: ({ testID, children, style, ...props }: any) =>
+      React.createElement('span', { ...props, 'data-testid': testID, style }, children),
+    createAnimatedComponent: (component: any) => component,
     useAnimatedProps: vi.fn((cb) => cb()),
     useDerivedValue: vi.fn((cb) => ({ value: cb() })),
+    useSharedValue: vi.fn((val) => ({ value: val })),
+    useAnimatedStyle: vi.fn((cb) => cb()),
     withTiming: vi.fn((val) => val),
+    withSequence: vi.fn((...vals) => vals[0]),
+    withSpring: vi.fn((val) => val),
+    withRepeat: vi.fn((val) => val),
+    withDelay: vi.fn((delay, val) => val),
+    cancelAnimation: vi.fn(),
     interpolate: vi.fn((val, input, output) => val),
-    createAnimatedComponent: (component: any) => component,
-    Animated: {
-      View: ({ children }: any) => children,
-      Text: ({ children }: any) => children,
+    Easing: {
+      inOut: vi.fn((cb: any) => cb),
+      out: vi.fn((cb: any) => cb),
+      in: vi.fn((cb: any) => cb),
+      bezier: vi.fn(
+        (...args: any[]) =>
+          (t: number) =>
+            t,
+      ),
+      ease: vi.fn(),
+      quad: vi.fn(),
     },
+  };
+  return {
+    ...Reanimated,
+    default: Reanimated,
+    Animated: Reanimated,
   };
 });
 

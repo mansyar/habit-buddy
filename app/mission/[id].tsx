@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAuthStore } from '../../src/store/auth_store';
+import { useBuddyStore } from '../../src/store/buddy_store';
 import { useMissionTimer } from '../../src/components/useMissionTimer';
 import { TimerDisplay } from '../../src/components/TimerDisplay';
+import { BuddyAnimation } from '../../src/components/BuddyAnimation';
+import { FloatingProp } from '../../src/components/FloatingProp';
+import { Confetti } from '../../src/components/Confetti';
 import { Colors } from '../../src/theme/Colors';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
@@ -12,44 +16,62 @@ const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
   pick_up_toys: { name: 'Picking up toys', duration: 5 },
 };
 
-const BUDDY_EMOJIS: Record<string, string> = {
-  dino: '🦖',
-  bear: '🐻',
-};
-
 export default function MissionScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { profile } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const {
+    state: buddyState,
+    startMission: setBuddyActive,
+    pauseMission: setBuddyPaused,
+    resumeMission: setBuddyResumed,
+    completeMission: setBuddySuccess,
+    failMission: setBuddySleepy,
+    reset: resetBuddy,
+  } = useBuddyStore();
+
   const config = HABIT_CONFIG[id as string] || { name: 'Mission', duration: 5 };
-  const buddyEmoji = BUDDY_EMOJIS[profile?.selected_buddy || 'dino'] || 'Stars';
+  const buddyType = (profile?.selected_buddy || 'dino') as 'dino' | 'bear';
 
   const [initialTime, setInitialTime] = useState(config.duration * 60);
 
   const handleFinish = React.useCallback(async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setBuddySuccess();
 
-    // In the future, this will trigger Phase 4E: Mission Result & Logging
-    console.log('Mission complete! Logging result...');
-
-    // For now, just go back
+    // For now, just go back after a delay
     setTimeout(() => {
       router.back();
-    }, 1000);
-  }, [isSubmitting, router]);
+      resetBuddy();
+    }, 4000); // 4 seconds delay as per spec
+  }, [isSubmitting, router, setBuddySuccess, resetBuddy]);
 
-  const { timeLeft, isActive, start, stop, adjustTime } = useMissionTimer(
-    config.duration,
-    handleFinish,
-  );
+  const { timeLeft, isActive, start, stop, adjustTime } = useMissionTimer(config.duration, () => {
+    setBuddySleepy();
+    handleFinish();
+  });
+
+  const onStartPress = () => {
+    start();
+    setBuddyActive();
+  };
 
   const onDonePress = () => {
     stop();
     handleFinish();
   };
+
+  // Handle App Lifecycle for Buddy State
+  useEffect(() => {
+    if (isActive) {
+      setBuddyActive();
+    } else if (buddyState === 'active') {
+      setBuddyPaused();
+    }
+  }, [isActive]);
 
   // Update initial time when adjusted
   const handleAdjustTime = (seconds: number) => {
@@ -59,9 +81,11 @@ export default function MissionScreen() {
 
   return (
     <View style={styles.container}>
+      <Confetti isActive={buddyState === 'success'} />
       {/* Buddy Area (60%) */}
       <View testID="buddy-area" style={styles.buddyArea}>
-        <Text style={styles.buddy}>{buddyEmoji}</Text>
+        <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
+        <FloatingProp habitId={id as string} isActive={buddyState === 'active'} />
         <Text style={styles.habitTitle}>{config.name}</Text>
       </View>
 
@@ -71,7 +95,7 @@ export default function MissionScreen() {
           <TimerDisplay timeLeft={timeLeft} totalTime={initialTime} />
         </View>
 
-        {!isActive ? (
+        {!isActive && !isSubmitting ? (
           <View style={styles.setupControls}>
             <View style={styles.adjustButtons}>
               <TouchableOpacity
@@ -93,7 +117,7 @@ export default function MissionScreen() {
             <TouchableOpacity
               testID="start-mission-button"
               style={styles.startButton}
-              onPress={start}
+              onPress={onStartPress}
             >
               <Text style={styles.startButtonText}>Start Mission</Text>
             </TouchableOpacity>
@@ -111,7 +135,10 @@ export default function MissionScreen() {
 
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}
+          onPress={() => {
+            router.back();
+            resetBuddy();
+          }}
           disabled={isSubmitting}
         >
           <Text style={styles.backButtonText}>Cancel</Text>
@@ -147,14 +174,11 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  buddy: {
-    fontSize: 120,
-    marginBottom: 20,
-  },
   habitTitle: {
     fontSize: 28,
     fontWeight: 'bold',
     color: Colors.light.text,
+    marginTop: 20,
   },
   timerContainer: {
     marginBottom: 20,

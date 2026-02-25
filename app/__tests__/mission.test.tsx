@@ -39,9 +39,9 @@ describe('MissionScreen', () => {
     expect(getByTestId('controls-area')).toBeTruthy();
   });
 
-  test('displays the correct buddy based on profile', () => {
-    const { getByText } = render(<MissionScreen />);
-    expect(getByText('🦖')).toBeTruthy();
+  test('displays the correct buddy animation based on profile', () => {
+    const { getByTestId } = render(<MissionScreen />);
+    expect(getByTestId('buddy-animation')).toBeTruthy();
   });
 
   test('displays mission name based on id param', () => {
@@ -50,7 +50,7 @@ describe('MissionScreen', () => {
   });
 
   test('starts mission when Start button is pressed', () => {
-    const { getByText, queryByText } = render(<MissionScreen />);
+    const { getByText, queryByText, getByTestId } = render(<MissionScreen />);
 
     const startButton = getByText('Start Mission');
     act(() => {
@@ -58,7 +58,7 @@ describe('MissionScreen', () => {
     });
 
     expect(queryByText('Start Mission')).toBeNull();
-    expect(getByText('Done!')).toBeTruthy();
+    expect(getByTestId('done-button')).toBeTruthy();
   });
 
   test('adjusts time using buttons', () => {
@@ -82,7 +82,7 @@ describe('MissionScreen', () => {
 
   test('Done! button triggers submission and navigation', async () => {
     vi.useRealTimers();
-    const { getByText, getByTestId, queryByTestId } = render(<MissionScreen />);
+    const { getByText, getByTestId } = render(<MissionScreen />);
 
     // Start mission
     act(() => {
@@ -90,19 +90,20 @@ describe('MissionScreen', () => {
     });
 
     // Press Done!
+    const doneButton = getByTestId('done-button');
     act(() => {
-      fireEvent.click(getByTestId('done-button'));
+      fireEvent.click(doneButton);
     });
 
-    // Button should be unmounted because isActive becomes false
-    expect(queryByTestId('done-button')).toBeNull();
+    // Should be disabled
+    expect(doneButton).toHaveProperty('disabled', true);
 
-    // Wait for the timeout and navigation
+    // Wait for the timeout and navigation (4s delay)
     await waitFor(
       () => {
         expect(mockBack).toHaveBeenCalled();
       },
-      { timeout: 2000 },
+      { timeout: 5000 },
     );
   });
 });
