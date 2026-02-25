@@ -4,6 +4,11 @@ export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () 
   const [timeLeft, setTimeLeft] = useState(defaultDurationMinutes * 60);
   const [isActive, setIsActive] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   const start = useCallback(() => {
     if (timeLeft > 0) {
@@ -30,7 +35,7 @@ export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () 
         setTimeLeft((prev) => {
           if (prev <= 1) {
             setIsActive(false);
-            onComplete?.();
+            onCompleteRef.current?.();
             return 0;
           }
           return prev - 1;
@@ -47,7 +52,7 @@ export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () 
         clearInterval(timerRef.current);
       }
     };
-  }, [isActive, timeLeft, onComplete]);
+  }, [isActive, timeLeft]);
 
   return {
     timeLeft,

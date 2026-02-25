@@ -127,6 +127,33 @@ vi.mock('react-native-safe-area-context', () => ({
   SafeAreaView: ({ children }: any) => children,
 }));
 
+// Mock react-native-svg
+vi.mock('react-native-svg', () => ({
+  Svg: ({ children }: any) => children,
+  Circle: ({ children }: any) => children,
+  default: ({ children }: any) => children,
+}));
+
+// Mock react-native-reanimated
+vi.mock('react-native-reanimated', () => {
+  return {
+    default: {
+      View: ({ children }: any) => children,
+      Text: ({ children }: any) => children,
+      createAnimatedComponent: (component: any) => component,
+    },
+    useAnimatedProps: vi.fn((cb) => cb()),
+    useDerivedValue: vi.fn((cb) => ({ value: cb() })),
+    withTiming: vi.fn((val) => val),
+    interpolate: vi.fn((val, input, output) => val),
+    createAnimatedComponent: (component: any) => component,
+    Animated: {
+      View: ({ children }: any) => children,
+      Text: ({ children }: any) => children,
+    },
+  };
+});
+
 // Mock NetInfo
 vi.mock('@react-native-community/netinfo', () => {
   return {

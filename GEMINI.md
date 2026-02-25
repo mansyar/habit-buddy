@@ -1,6 +1,6 @@
 # Package Manager
 
-ALWAYS use pnpm to run any commands.
+ALWAYS use pnpm instead of npm.
 
 # Conductor Context
 

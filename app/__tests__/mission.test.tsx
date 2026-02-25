@@ -1,15 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import MissionScreen from '../mission/[id]';
 import { useLocalSearchParams } from 'expo-router';
 import { useAuthStore } from '../../src/store/auth_store';
 
 // Mock expo-router
+const mockBack = vi.fn();
 vi.mock('expo-router', () => ({
   useLocalSearchParams: vi.fn(() => ({ id: 'brush_teeth' })),
   useRouter: vi.fn(() => ({
     replace: vi.fn(),
-    back: vi.fn(),
+    back: mockBack,
   })),
 }));
 
@@ -21,6 +22,16 @@ vi.mock('../../src/store/auth_store', () => ({
 }));
 
 describe('MissionScreen', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.clearAllTimers();
+    vi.useRealTimers();
+  });
+
   test('renders buddy area and controls area with correct layout', () => {
     const { getByTestId } = render(<MissionScreen />);
 
@@ -30,11 +41,68 @@ describe('MissionScreen', () => {
 
   test('displays the correct buddy based on profile', () => {
     const { getByText } = render(<MissionScreen />);
-    expect(getByText('🦖')).toBeTruthy(); // Placeholder for Dino
+    expect(getByText('🦖')).toBeTruthy();
   });
 
   test('displays mission name based on id param', () => {
     const { getByText } = render(<MissionScreen />);
-    expect(getByText('Brushing teeth')).toBeTruthy(); // Assuming 'brush_teeth' translates to this
+    expect(getByText('Brushing teeth')).toBeTruthy();
+  });
+
+  test('starts mission when Start button is pressed', () => {
+    const { getByText, queryByText } = render(<MissionScreen />);
+
+    const startButton = getByText('Start Mission');
+    act(() => {
+      fireEvent.click(startButton);
+    });
+
+    expect(queryByText('Start Mission')).toBeNull();
+    expect(getByText('Done!')).toBeTruthy();
+  });
+
+  test('adjusts time using buttons', () => {
+    const { getByText } = render(<MissionScreen />);
+
+    // Default for brush_teeth is 2:00
+    expect(getByText('2:00')).toBeTruthy();
+
+    const plus30 = getByText('+30s');
+    act(() => {
+      fireEvent.click(plus30);
+    });
+    expect(getByText('2:30')).toBeTruthy();
+
+    const minus30 = getByText('-30s');
+    act(() => {
+      fireEvent.click(minus30);
+    });
+    expect(getByText('2:00')).toBeTruthy();
+  });
+
+  test('Done! button triggers submission and navigation', async () => {
+    vi.useRealTimers();
+    const { getByText, getByTestId, queryByTestId } = render(<MissionScreen />);
+
+    // Start mission
+    act(() => {
+      fireEvent.click(getByText('Start Mission'));
+    });
+
+    // Press Done!
+    act(() => {
+      fireEvent.click(getByTestId('done-button'));
+    });
+
+    // Button should be unmounted because isActive becomes false
+    expect(queryByTestId('done-button')).toBeNull();
+
+    // Wait for the timeout and navigation
+    await waitFor(
+      () => {
+        expect(mockBack).toHaveBeenCalled();
+      },
+      { timeout: 2000 },
+    );
   });
 });

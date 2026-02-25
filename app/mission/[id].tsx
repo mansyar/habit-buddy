@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAuthStore } from '../../src/store/auth_store';
+import { useMissionTimer } from '../../src/components/useMissionTimer';
+import { TimerDisplay } from '../../src/components/TimerDisplay';
 import { Colors } from '../../src/theme/Colors';
 
-const HABIT_NAMES: Record<string, string> = {
-  brush_teeth: 'Brushing teeth',
-  eat_meal: 'Eating meal',
-  pick_up_toys: 'Picking up toys',
+const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
+  brush_teeth: { name: 'Brushing teeth', duration: 2 },
+  eat_meal: { name: 'Eating meal', duration: 15 },
+  pick_up_toys: { name: 'Picking up toys', duration: 5 },
 };
 
 const BUDDY_EMOJIS: Record<string, string> = {
@@ -19,22 +21,99 @@ export default function MissionScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { profile } = useAuthStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const habitName = HABIT_NAMES[id as string] || 'Mission';
-  const buddyEmoji = BUDDY_EMOJIS[profile?.selected_buddy || 'dino'] || '🦖';
+  const config = HABIT_CONFIG[id as string] || { name: 'Mission', duration: 5 };
+  const buddyEmoji = BUDDY_EMOJIS[profile?.selected_buddy || 'dino'] || 'Stars';
+
+  const [initialTime, setInitialTime] = useState(config.duration * 60);
+
+  const handleFinish = React.useCallback(async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    // In the future, this will trigger Phase 4E: Mission Result & Logging
+    console.log('Mission complete! Logging result...');
+
+    // For now, just go back
+    setTimeout(() => {
+      router.back();
+    }, 1000);
+  }, [isSubmitting, router]);
+
+  const { timeLeft, isActive, start, stop, adjustTime } = useMissionTimer(
+    config.duration,
+    handleFinish,
+  );
+
+  const onDonePress = () => {
+    stop();
+    handleFinish();
+  };
+
+  // Update initial time when adjusted
+  const handleAdjustTime = (seconds: number) => {
+    adjustTime(seconds);
+    setInitialTime((prev) => Math.max(0, prev + seconds));
+  };
 
   return (
     <View style={styles.container}>
       {/* Buddy Area (60%) */}
       <View testID="buddy-area" style={styles.buddyArea}>
         <Text style={styles.buddy}>{buddyEmoji}</Text>
-        <Text style={styles.habitTitle}>{habitName}</Text>
+        <Text style={styles.habitTitle}>{config.name}</Text>
       </View>
 
       {/* Controls Area (40%) */}
       <View testID="controls-area" style={styles.controlsArea}>
-        <Text style={styles.placeholderText}>Timer and Controls Area</Text>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <View style={styles.timerContainer}>
+          <TimerDisplay timeLeft={timeLeft} totalTime={initialTime} />
+        </View>
+
+        {!isActive ? (
+          <View style={styles.setupControls}>
+            <View style={styles.adjustButtons}>
+              <TouchableOpacity
+                testID="adjust-minus-30"
+                onPress={() => handleAdjustTime(-30)}
+                style={styles.adjustButton}
+                disabled={timeLeft <= 30}
+              >
+                <Text style={styles.adjustButtonText}>-30s</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                testID="adjust-plus-30"
+                onPress={() => handleAdjustTime(30)}
+                style={styles.adjustButton}
+              >
+                <Text style={styles.adjustButtonText}>+30s</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              testID="start-mission-button"
+              style={styles.startButton}
+              onPress={start}
+            >
+              <Text style={styles.startButtonText}>Start Mission</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity
+            testID="done-button"
+            style={[styles.doneButton, isSubmitting && styles.disabledButton]}
+            onPress={onDonePress}
+            disabled={isSubmitting}
+          >
+            <Text style={styles.doneButtonText}>Done!</Text>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+          disabled={isSubmitting}
+        >
           <Text style={styles.backButtonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
@@ -77,10 +156,53 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.light.text,
   },
-  placeholderText: {
-    fontSize: 18,
-    color: '#666',
-    marginBottom: 40,
+  timerContainer: {
+    marginBottom: 20,
+  },
+  setupControls: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  adjustButtons: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  adjustButton: {
+    padding: 10,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    marginHorizontal: 10,
+  },
+  adjustButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  startButton: {
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 40,
+    paddingVertical: 15,
+    borderRadius: 30,
+    marginBottom: 20,
+  },
+  startButtonText: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  doneButton: {
+    backgroundColor: '#2196F3',
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    borderRadius: 30,
+    marginBottom: 20,
+  },
+  disabledButton: {
+    backgroundColor: '#BDBDBD',
+  },
+  doneButtonText: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   backButton: {
     padding: 15,

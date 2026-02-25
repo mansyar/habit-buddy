@@ -13,13 +13,13 @@
 ## Phase 4B: Mission Timer & Controls
 
 - [x] Task: Implement Mission Timer Logic (TDD) (4f43616)
-  - [ ] Write unit tests for `useMissionTimer` hook (start, stop, pause, adjust).
-  - [ ] Implement `useMissionTimer` with per-habit defaults and ±30s adjustment.
-- [ ] Task: Connect UI to Timer
-  - [ ] Build `TimerDisplay` component with ring/bar visualization.
-  - [ ] Implement "Start Mission" and "Done!" buttons with appropriate controls.
-  - [ ] Implement double-tap prevention on "Done!" button.
-- [ ] Task: App Lifecycle Handling
+  - [x] Write unit tests for `useMissionTimer` hook (start, stop, pause, adjust).
+  - [x] Implement `useMissionTimer` with per-habit defaults and ±30s adjustment.
+- [x] Task: Connect UI to Timer (28f4a3e)
+  - [x] Build `TimerDisplay` component with ring/bar visualization.
+  - [x] Implement "Start Mission" and "Done!" buttons with appropriate controls.
+  - [x] Implement double-tap prevention on "Done!" button.
+- [~] Task: App Lifecycle Handling
   - [ ] Implement `useAppState` listener to pause/resume timer.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4B: Mission Timer & Controls' (Protocol in workflow.md)
 
