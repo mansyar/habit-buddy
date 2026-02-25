@@ -25,7 +25,7 @@
 
 ## Phase 4C: Buddy State Machine & Animations
 
-- [x] Task: Define Buddy State Store (TDD) (a1b2c3d)
+- [x] Task: Define Buddy State Store (TDD) (5a251df)
   - [x] Write unit tests for `useBuddyStore` (state transitions: idle, active, paused, success, sleepy).
   - [x] Implement `useBuddyStore` using Zustand.
 - [~] Task: Implement `BuddyAnimation` Component
