@@ -10,7 +10,7 @@
   - [x] Implement `BuddyArea` and `ControlsArea` layout (60/40 split).
 - [x] Task: Conductor - User Manual Verification 'Phase 4A: Onboarding Update & Mission Layout' (ae11a71)
 
-## Phase 4B: Mission Timer & Controls [checkpoint: 68bf49d]
+## Phase 4B: Mission Timer & Controls [checkpoint: 373ca28]
 
 - [x] Task: Implement Mission Timer Logic (TDD) (4f43616)
   - [x] Write unit tests for `useMissionTimer` hook (start, stop, pause, adjust).
@@ -21,9 +21,9 @@
   - [x] Implement double-tap prevention on "Done!" button.
 - [x] Task: App Lifecycle Handling (abe94e6)
   - [x] Implement `useAppState` listener to pause/resume timer.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4B: Mission Timer & Controls' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4B: Mission Timer & Controls' (373ca28)
 
-## Phase 4C: Buddy State Machine & Animations
+## Phase 4C: Buddy State Machine & Animations [checkpoint: 373ca28]
 
 - [x] Task: Define Buddy State Store (TDD) (5a251df)
   - [x] Write unit tests for `useBuddyStore` (state transitions: idle, active, paused, success, sleepy).
@@ -34,7 +34,7 @@
   - [x] Implement `FloatingProp` component for each habit.
 - [x] Task: Add Particle Effects (d500a40)
   - [x] Implement confetti/star particles for `success` state.
-- [~] Task: Conductor - User Manual Verification 'Phase 4C: Buddy State Machine & Animations' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4C: Buddy State Machine & Animations' (373ca28)
 
 ## Phase 4D: Audio System
 
