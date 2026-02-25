@@ -10,7 +10,7 @@
   - [x] Implement `BuddyArea` and `ControlsArea` layout (60/40 split).
 - [x] Task: Conductor - User Manual Verification 'Phase 4A: Onboarding Update & Mission Layout' (ae11a71)
 
-## Phase 4B: Mission Timer & Controls
+## Phase 4B: Mission Timer & Controls [checkpoint: 68bf49d]
 
 - [x] Task: Implement Mission Timer Logic (TDD) (4f43616)
   - [x] Write unit tests for `useMissionTimer` hook (start, stop, pause, adjust).
