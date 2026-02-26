@@ -12,9 +12,9 @@
 
 ## Phase 2: Local Persistence & Queueing [checkpoint: ]
 
-- [ ] Task: Extend `SQLite` schema for sync tracking
-  - [ ] [Red Phase] Write migration test to ensure `sync_status` (pending/synced) and `last_modified` columns exist in `profiles`, `habits_log`, and `coupons`
-  - [ ] [Green Phase] Update `src/lib/sqlite.ts` with the new schema
+- [x] Task: Extend `SQLite` schema for sync tracking 1729c84
+  - [x] [Red Phase] Write migration test to ensure `sync_status` (pending/synced) and `last_modified` columns exist in `profiles`, `habits_log`, and `coupons`
+  - [x] [Green Phase] Update `src/lib/sqlite.ts` with the new schema
 - [ ] Task: Update `BaseService` logic for offline writes
   - [ ] [Red Phase] Write unit tests ensuring `save()` marks records as `pending` when offline
   - [ ] [Green Phase] Refactor `ProfileService`, `HabitLogService`, and `CouponService` to handle local-first writes with sync markers
