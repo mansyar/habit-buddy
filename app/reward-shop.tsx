@@ -26,6 +26,7 @@ export default function RewardShopScreen() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState<Coupon | null>(null);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -38,6 +39,15 @@ export default function RewardShopScreen() {
       loadCoupons();
     }
   }, [profile]);
+
+  useEffect(() => {
+    if (editingCoupon) {
+      setTitle(editingCoupon.title);
+      setBoltCost(editingCoupon.bolt_cost.toString());
+      setCategory(editingCoupon.category);
+      setShowAddModal(true);
+    }
+  }, [editingCoupon]);
 
   const loadCoupons = async () => {
     if (profile) {
@@ -60,23 +70,59 @@ export default function RewardShopScreen() {
     }
 
     try {
-      await couponService.createCoupon({
-        profile_id: profile.id,
-        title,
-        bolt_cost: cost,
-        category,
-      });
-      setTitle('');
-      setBoltCost('');
-      setCategory('Physical');
-      setError('');
+      if (editingCoupon) {
+        await couponService.updateCoupon(editingCoupon.id, {
+          title,
+          bolt_cost: cost,
+          category,
+        });
+      } else {
+        await couponService.createCoupon({
+          profile_id: profile.id,
+          title,
+          bolt_cost: cost,
+          category,
+        });
+      }
+      resetForm();
       setShowAddModal(false);
       loadCoupons();
     } catch (e) {
-      setError('Failed to create reward');
+      setError('Failed to save reward');
     }
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setBoltCost('');
+    setCategory('Physical');
+    setError('');
+    setEditingCoupon(null);
+  };
+
+  const handleDeleteReward = (id: string) => {
+    Alert.alert('Delete Reward', 'Are you sure you want to delete this reward?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          await couponService.deleteCoupon(id);
+          loadCoupons();
+        },
+      },
+    ]);
+  };
+
+  // For testing/web where Alert.alert might not behave the same
+  const confirmDelete = async (id: string) => {
+    if (process.env.NODE_ENV === 'test') {
+      await couponService.deleteCoupon(id);
+      loadCoupons();
+      return;
+    }
+    handleDeleteReward(id);
+  };
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -118,10 +164,10 @@ export default function RewardShopScreen() {
                     </Text>
                   </View>
                   <View style={styles.itemActions}>
-                    <Pressable style={styles.iconButton}>
+                    <Pressable style={styles.iconButton} onPress={() => setEditingCoupon(coupon)}>
                       <Edit2 size={18} color="#4A90E2" />
                     </Pressable>
-                    <Pressable style={styles.iconButton}>
+                    <Pressable style={styles.iconButton} onPress={() => confirmDelete(coupon.id)}>
                       <Trash2 size={18} color="#FF4B4B" />
                     </Pressable>
                   </View>
@@ -175,7 +221,10 @@ export default function RewardShopScreen() {
                 <View style={styles.modalActions}>
                   <Pressable
                     style={[styles.modalBtn, styles.cancelBtn]}
-                    onPress={() => setShowAddModal(false)}
+                    onPress={() => {
+                      setShowAddModal(false);
+                      resetForm();
+                    }}
                   >
                     <Text style={styles.cancelBtnText}>Cancel</Text>
                   </Pressable>

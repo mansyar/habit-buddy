@@ -155,6 +155,70 @@ class CouponService {
       );
     }
   }
+
+  async deleteCoupon(id: string): Promise<void> {
+    const isOnline = await checkIsOnline();
+    const db = await initializeSQLite();
+
+    // Delete locally
+    await db.runAsync(`DELETE FROM coupons WHERE id = ?`, id);
+
+    // Sync to Supabase
+    if (isOnline) {
+      const { error } = await supabase.from('coupons').delete().eq('id', id);
+
+      if (error) {
+        console.error('Supabase coupon delete error:', error.message);
+        await db.runAsync(
+          `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
+          'coupons',
+          'DELETE',
+          JSON.stringify({ id }),
+        );
+      }
+    } else {
+      await db.runAsync(
+        `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
+        'coupons',
+        'DELETE',
+        JSON.stringify({ id }),
+      );
+    }
+  }
+
+  async updateCoupon(id: string, data: Partial<Coupon>): Promise<void> {
+    const isOnline = await checkIsOnline();
+    const db = await initializeSQLite();
+
+    // Update locally
+    const sets = Object.keys(data)
+      .map((key) => `${key} = ?`)
+      .join(', ');
+    const values = Object.values(data);
+    await db.runAsync(`UPDATE coupons SET ${sets} WHERE id = ?`, ...values, id);
+
+    // Sync to Supabase
+    if (isOnline) {
+      const { error } = await supabase.from('coupons').update(data).eq('id', id);
+
+      if (error) {
+        console.error('Supabase coupon update error:', error.message);
+        await db.runAsync(
+          `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
+          'coupons',
+          'UPDATE',
+          JSON.stringify({ id, ...data }),
+        );
+      }
+    } else {
+      await db.runAsync(
+        `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
+        'coupons',
+        'UPDATE',
+        JSON.stringify({ id, ...data }),
+      );
+    }
+  }
 }
 
 export const couponService = new CouponService();

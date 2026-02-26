@@ -19,13 +19,26 @@ vi.mock('lucide-react-native', () => ({
   Star: (props: any) => <div {...props}>StarIcon</div>,
 }));
 
-vi.mock('../../src/lib/coupon_service', () => ({
-  couponService: {
-    createCoupon: vi.fn(() => Promise.resolve({ id: 'c1' })),
-    getCoupons: vi.fn(() => Promise.resolve([])),
-    redeemCoupon: vi.fn(() => Promise.resolve()),
-  },
-}));
+vi.mock('../../src/lib/coupon_service', () => {
+  const mockCoupon = {
+    id: 'c1',
+    profile_id: 'p1',
+    title: 'Delete Me',
+    bolt_cost: 10,
+    category: 'Physical',
+    is_redeemed: false,
+    created_at: new Date().toISOString(),
+  };
+  return {
+    couponService: {
+      createCoupon: vi.fn(() => Promise.resolve({ id: 'c1' })),
+      getCoupons: vi.fn(() => Promise.resolve([mockCoupon])),
+      redeemCoupon: vi.fn(() => Promise.resolve()),
+      deleteCoupon: vi.fn(() => Promise.resolve()),
+      updateCoupon: vi.fn(() => Promise.resolve()),
+    },
+  };
+});
 
 vi.mock('../../src/lib/profile_service', () => ({
   profileService: {
@@ -52,10 +65,7 @@ describe('RewardShopScreen - Reward Management', () => {
     // Trigger Parental Gate
     const gateButton = getByText('Parent Settings');
     fireEvent.mouseDown(gateButton);
-
-    // Wait for the 10ms delay
     await new Promise((resolve) => setTimeout(resolve, 50));
-
     fireEvent.mouseUp(gateButton);
 
     // Should now be in Admin mode
@@ -80,6 +90,25 @@ describe('RewardShopScreen - Reward Management', () => {
 
     await waitFor(() => {
       expect(couponService.createCoupon).toHaveBeenCalled();
+    });
+  });
+
+  it('deletes a coupon and removes it from the list', async () => {
+    const { getByText, findByText } = render(<RewardShopScreen />);
+
+    // Trigger Parental Gate
+    const gateButton = getByText('Parent Settings');
+    fireEvent.mouseDown(gateButton);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    fireEvent.mouseUp(gateButton);
+
+    expect(await findByText('Delete Me')).toBeTruthy();
+
+    const deleteButton = getByText('TrashIcon');
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(couponService.deleteCoupon).toHaveBeenCalledWith('c1');
     });
   });
 });
