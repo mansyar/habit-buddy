@@ -15,48 +15,57 @@ class CouponService {
     const isOnline = await checkIsOnline();
     const id = Crypto.randomUUID();
     const created_at = new Date().toISOString();
+    const lastModified = new Date().toISOString();
+    const syncStatus = isOnline ? 'synced' : 'pending';
 
     const coupon: Coupon = {
       id,
       category: 'Physical',
       ...data,
       is_redeemed: false,
+      sync_status: syncStatus,
+      last_modified: lastModified,
       created_at,
     };
 
     // Save to local SQLite
     const db = await initializeSQLite();
     await db.runAsync(
-      `INSERT INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, last_modified, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       coupon.id,
       coupon.profile_id,
       coupon.title,
       coupon.bolt_cost,
       coupon.category,
       0,
+      coupon.sync_status,
+      coupon.last_modified,
       coupon.created_at,
     );
 
     // Sync to Supabase if online
     if (isOnline) {
-      const { error } = await supabase.from('coupons').insert([coupon]).select().single();
+      const { sync_status, last_modified, ...supabaseCoupon } = coupon;
+      const { error } = await supabase.from('coupons').insert([supabaseCoupon]).select().single();
 
       if (error) {
         console.error('Supabase coupon sync error:', error.message);
+        await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, coupon.id);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'coupons',
           'INSERT',
-          JSON.stringify(coupon),
+          JSON.stringify(supabaseCoupon),
         );
       }
     } else {
+      const { sync_status, last_modified, ...supabaseCoupon } = coupon;
       await db.runAsync(
         `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
         'coupons',
         'INSERT',
-        JSON.stringify(coupon),
+        JSON.stringify(supabaseCoupon),
       );
     }
 
@@ -88,14 +97,16 @@ class CouponService {
         // Cache to local SQLite
         for (const c of remoteCoupons) {
           await db.runAsync(
-            `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, created_at)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, last_modified, created_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             c.id,
             c.profile_id,
             c.title,
             c.bolt_cost,
             c.category || 'Physical',
             c.is_redeemed ? 1 : 0,
+            'synced',
+            new Date().toISOString(),
             c.created_at,
           );
         }
@@ -131,7 +142,14 @@ class CouponService {
     await profileService.updateBoltBalance(coupon.profile_id, -coupon.bolt_cost);
 
     // 4. Update locally
-    await db.runAsync(`UPDATE coupons SET is_redeemed = 1 WHERE id = ?`, id);
+    const lastModified = new Date().toISOString();
+    const syncStatus = isOnline ? 'synced' : 'pending';
+    await db.runAsync(
+      `UPDATE coupons SET is_redeemed = 1, sync_status = ?, last_modified = ? WHERE id = ?`,
+      syncStatus,
+      lastModified,
+      id,
+    );
 
     // Sync to Supabase
     if (isOnline) {
@@ -139,6 +157,7 @@ class CouponService {
 
       if (error) {
         console.error('Supabase coupon redeem sync error:', error.message);
+        await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, id);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'coupons',
@@ -191,11 +210,20 @@ class CouponService {
     const db = await initializeSQLite();
 
     // Update locally
-    const sets = Object.keys(data)
-      .map((key) => `${key} = ?`)
-      .join(', ');
-    const values = Object.values(data);
-    await db.runAsync(`UPDATE coupons SET ${sets} WHERE id = ?`, ...values, id);
+    const lastModified = new Date().toISOString();
+    const syncStatus = isOnline ? 'synced' : 'pending';
+
+    const entries = Object.entries(data);
+    const sets = entries.map(([key]) => `${key} = ?`).join(', ');
+    const values = entries.map(([, value]) => value);
+
+    await db.runAsync(
+      `UPDATE coupons SET ${sets}, sync_status = ?, last_modified = ? WHERE id = ?`,
+      ...values,
+      syncStatus,
+      lastModified,
+      id,
+    );
 
     // Sync to Supabase
     if (isOnline) {
@@ -203,6 +231,7 @@ class CouponService {
 
       if (error) {
         console.error('Supabase coupon update error:', error.message);
+        await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, id);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'coupons',

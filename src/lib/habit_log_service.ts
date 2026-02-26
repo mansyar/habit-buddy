@@ -18,48 +18,59 @@ class HabitLogService {
     const isOnline = await checkIsOnline();
     const id = Crypto.randomUUID();
     const completed_at = new Date().toISOString();
+    const lastModified = new Date().toISOString();
+    const syncStatus = isOnline ? 'synced' : 'pending';
 
     const log: HabitLog = {
       id,
       ...data,
+      sync_status: syncStatus,
+      last_modified: lastModified,
       completed_at,
     };
 
     // Save to local SQLite
     const db = await initializeSQLite();
     await db.runAsync(
-      `INSERT INTO habits_log (id, profile_id, habit_id, status, duration_seconds, bolts_earned, completed_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO habits_log (id, profile_id, habit_id, status, duration_seconds, bolts_earned, sync_status, last_modified, completed_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       log.id,
       log.profile_id,
       log.habit_id,
       log.status,
       log.duration_seconds,
       log.bolts_earned,
+      log.sync_status,
+      log.last_modified,
       log.completed_at,
     );
 
     // If online, sync to Supabase
     if (isOnline) {
-      const { error } = await supabase.from('habits_log').insert([log]).select().single();
+      // Create a clean object for Supabase without sync tracking columns
+      const { sync_status, last_modified, ...supabaseLog } = log;
+      const { error } = await supabase.from('habits_log').insert([supabaseLog]).select().single();
 
       if (error) {
         console.error('Supabase habit_log sync error:', error.message);
-        // Queue for sync later (SyncService task)
+        // Mark as pending in SQLite
+        await db.runAsync(`UPDATE habits_log SET sync_status = 'pending' WHERE id = ?`, log.id);
+        // Queue for sync later
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'habits_log',
           'INSERT',
-          JSON.stringify(log),
+          JSON.stringify(supabaseLog),
         );
       }
     } else {
       // Offline, queue for sync
+      const { sync_status, last_modified, ...supabaseLog } = log;
       await db.runAsync(
         `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
         'habits_log',
         'INSERT',
-        JSON.stringify(log),
+        JSON.stringify(supabaseLog),
       );
     }
 
