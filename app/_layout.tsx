@@ -107,13 +107,22 @@ export function RootLayoutNav() {
 
   useEffect(() => {
     // Listen for network changes to trigger sync
-    const unsubscribe = networkService.subscribeToConnectionChange((online) => {
+    const unsubscribeSync = networkService.subscribeToConnectionChange((online) => {
       if (online) {
         syncService.processQueue();
       }
     });
 
-    return () => unsubscribe();
+    // Subscribe to realtime changes for multi-device sync
+    let unsubscribeRealtime: (() => void) | undefined;
+    syncService.subscribeToAllChanges().then((unsub) => {
+      unsubscribeRealtime = unsub;
+    });
+
+    return () => {
+      unsubscribeSync();
+      if (unsubscribeRealtime) unsubscribeRealtime();
+    };
   }, []);
 
   useEffect(() => {

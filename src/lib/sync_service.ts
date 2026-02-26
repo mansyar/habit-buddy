@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
+import { RealtimePostgresPayload } from '@supabase/supabase-js';
 
 export interface SyncItem {
   id: number;
@@ -43,7 +44,7 @@ class SyncService {
   /**
    * Finds all records with sync_status = 'pending' in core tables and pushes them to Supabase.
    */
-  private async syncPendingChanges(): Promise<void> {
+  async syncPendingChanges(): Promise<void> {
     const db = await initializeSQLite();
     const tablesToSync = ['profiles', 'habits_log', 'coupons'];
 
@@ -135,6 +136,89 @@ class SyncService {
         await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
       }
     }
+  }
+
+  /**
+   * Subscribes to Supabase Realtime changes for all core tables.
+   * This ensures multi-device synchronization.
+   */
+  async subscribeToAllChanges(): Promise<() => void> {
+    const channel = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+        },
+        async (payload: RealtimePostgresPayload<any>) => {
+          const { table, eventType, new: newRecord, old: oldRecord } = payload;
+          const db = await initializeSQLite();
+
+          console.log(`SyncService: Realtime ${eventType} on ${table}`);
+
+          if (eventType === 'INSERT' || eventType === 'UPDATE') {
+            const record = newRecord;
+
+            // Map types for SQLite
+            if (table === 'profiles') {
+              await db.runAsync(
+                `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, sync_status, last_modified, created_at, updated_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                record.id,
+                record.user_id,
+                record.child_name,
+                record.avatar_id,
+                record.selected_buddy,
+                record.bolt_balance,
+                0, // Came from Supabase, not guest
+                'synced',
+                new Date().toISOString(),
+                record.created_at,
+                record.updated_at,
+              );
+            } else if (table === 'habits_log') {
+              await db.runAsync(
+                `INSERT OR REPLACE INTO habits_log (id, profile_id, habit_id, status, duration_seconds, bolts_earned, sync_status, last_modified, completed_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                record.id,
+                record.profile_id,
+                record.habit_id,
+                record.status,
+                record.duration_seconds,
+                record.bolts_earned,
+                'synced',
+                new Date().toISOString(),
+                record.completed_at,
+              );
+            } else if (table === 'coupons') {
+              await db.runAsync(
+                `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, last_modified, created_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                record.id,
+                record.profile_id,
+                record.title,
+                record.bolt_cost,
+                record.category || 'Physical',
+                record.is_redeemed ? 1 : 0,
+                'synced',
+                new Date().toISOString(),
+                record.created_at,
+              );
+            }
+          } else if (eventType === 'DELETE') {
+            const id = (oldRecord as any).id;
+            if (id) {
+              await db.runAsync(`DELETE FROM ${table} WHERE id = ?`, id);
+            }
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }
 }
 
