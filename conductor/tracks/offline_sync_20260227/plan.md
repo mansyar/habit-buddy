@@ -10,7 +10,7 @@
   - [x] [Green Phase] Implement the banner in `src/components/OfflineBanner.tsx` and integrate into `app/_layout.tsx`
 - [ ] Task: Conductor - User Manual Verification 'Connectivity Detection & UI' (Protocol in workflow.md)
 
-## Phase 2: Local Persistence & Queueing [checkpoint: ]
+## Phase 2: Local Persistence & Queueing [checkpoint: 36e4bbf]
 
 - [x] Task: Extend `SQLite` schema for sync tracking 1729c84
   - [x] [Red Phase] Write migration test to ensure `sync_status` (pending/synced) and `last_modified` columns exist in `profiles`, `habits_log`, and `coupons`
