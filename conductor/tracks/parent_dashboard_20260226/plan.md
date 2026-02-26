@@ -35,3 +35,7 @@
   - [x] Update `docs/roadmap.md` to mark Phase 6 as complete
   - [x] Update `GEMINI.md` with new feature details
 - [x] Task: Conductor - User Manual Verification 'Integration & Completion' (Protocol in workflow.md) (bdc0152)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions (d32754e)
