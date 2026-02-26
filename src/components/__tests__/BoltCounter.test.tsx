@@ -2,11 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { BoltCounter } from '../BoltCounter';
 
-// Mock Lucide icons
-vi.mock('lucide-react-native', () => ({
-  Zap: 'ZapIcon',
-}));
-
 // Mock Reanimated
 vi.mock('react-native-reanimated', () => {
   return {

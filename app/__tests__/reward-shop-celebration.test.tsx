@@ -5,23 +5,6 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { couponService } from '../../src/lib/coupon_service';
 import { audioService } from '../../src/lib/audio_service';
 
-// Mock Lucide icons
-vi.mock('lucide-react-native', () => ({
-  Gift: (props: any) => <div {...props}>GiftIcon</div>,
-  Plus: (props: any) => <div {...props}>PlusIcon</div>,
-  Settings: (props: any) => <div {...props}>SettingsIcon</div>,
-  Trash2: (props: any) => <div {...props}>TrashIcon</div>,
-  Edit2: (props: any) => <div {...props}>EditIcon</div>,
-  Check: (props: any) => <div {...props}>CheckIcon</div>,
-  X: (props: any) => <div {...props}>XIcon</div>,
-  History: (props: any) => <div {...props}>HistoryIcon</div>,
-  Activity: (props: any) => <div {...props}>ActivityIcon</div>,
-  Shield: (props: any) => <div {...props}>ShieldIcon</div>,
-  Star: (props: any) => <div {...props}>StarIcon</div>,
-  ChevronLeft: (props: any) => <div {...props}>BackIcon</div>,
-  CheckCircle2: (props: any) => <div {...props}>CheckIcon</div>,
-}));
-
 vi.mock('../../src/lib/coupon_service', () => {
   const mockCoupon = {
     id: 'c1',

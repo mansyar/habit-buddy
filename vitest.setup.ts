@@ -67,7 +67,6 @@ vi.mock('react-native', () => {
         },
         children,
       ),
-
     TextInput: ({ testID, value, onChangeText, style, placeholder, ...props }: any) =>
       React.createElement('input', {
         ...props,
@@ -135,6 +134,52 @@ vi.mock('@/components/useColorScheme', () => ({
   useColorScheme: vi.fn(() => 'light'),
 }));
 
+// Mock Lucide icons
+vi.mock('lucide-react-native', () => {
+  const React = require('react');
+  const mockIcon = (name: string) => (props: any) =>
+    React.createElement('div', { ...props, 'data-testid': `icon-${name}` }, name);
+  return {
+    __esModule: true,
+    Sparkles: mockIcon('Sparkles'),
+    Utensils: mockIcon('Utensils'),
+    Box: mockIcon('Box'),
+    CheckCircle2: mockIcon('CheckCircle2'),
+    HelpCircle: mockIcon('HelpCircle'),
+    Gift: mockIcon('Gift'),
+    Plus: mockIcon('Plus'),
+    Settings: mockIcon('Settings'),
+    Trash2: mockIcon('Trash2'),
+    Edit2: mockIcon('Edit2'),
+    Check: mockIcon('Check'),
+    X: mockIcon('X'),
+    History: mockIcon('History'),
+    Activity: mockIcon('Activity'),
+    Shield: mockIcon('Shield'),
+    Star: mockIcon('Star'),
+    ChevronLeft: mockIcon('ChevronLeft'),
+    Volume2: mockIcon('Volume2'),
+    VolumeX: mockIcon('VolumeX'),
+    Bolt: mockIcon('Bolt'),
+    Trash: mockIcon('Trash'),
+    Edit: mockIcon('Edit'),
+    Circle: mockIcon('Circle'),
+    ChevronRight: mockIcon('ChevronRight'),
+    Calendar: mockIcon('Calendar'),
+    Clock: mockIcon('Clock'),
+    Award: mockIcon('Award'),
+    User: mockIcon('User'),
+    LogOut: mockIcon('LogOut'),
+    Home: mockIcon('Home'),
+    Info: mockIcon('Info'),
+    ArrowLeft: mockIcon('ArrowLeft'),
+    Search: mockIcon('Search'),
+    Filter: mockIcon('Search'),
+    CheckCircle: mockIcon('CheckCircle'),
+    Zap: mockIcon('Zap'),
+  };
+});
+
 // Mock expo-font
 vi.mock('expo-font', () => ({
   loadAsync: vi.fn(),
@@ -172,6 +217,19 @@ vi.mock('expo', () => ({
   registerRootComponent: vi.fn(),
   requireNativeModule: vi.fn(() => ({})),
   requireOptionalNativeModule: vi.fn(() => ({})),
+}));
+
+// Mock expo-audio
+vi.mock('expo-audio', () => ({
+  createAudioPlayer: vi.fn(() => ({
+    play: vi.fn(),
+    pause: vi.fn(),
+    terminate: vi.fn(),
+    addListener: vi.fn(() => ({ remove: vi.fn() })),
+    volume: 1.0,
+    loop: false,
+  })),
+  AudioModule: {},
 }));
 
 // Mock expo-sqlite

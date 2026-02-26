@@ -4,15 +4,6 @@ import { HabitCard } from '../HabitCard';
 import { routerMock } from '../../../vitest.setup';
 import { CORE_HABITS } from '../../constants/habits';
 
-// Mock Lucide icons
-vi.mock('lucide-react-native', () => ({
-  Sparkles: 'SparklesIcon',
-  Utensils: 'UtensilsIcon',
-  Box: 'BoxIcon',
-  CheckCircle2: 'CheckIcon',
-  HelpCircle: 'HelpCircleIcon',
-}));
-
 vi.mock('../useColorScheme', () => ({
   useColorScheme: vi.fn(() => 'light'),
 }));

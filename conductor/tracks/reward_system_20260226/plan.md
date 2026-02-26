@@ -41,9 +41,9 @@
 - [x] Task: Conductor - Create child-friendly "Confirm Redemption" modal 555d456
   - [x] Red: Test that tapping "Yes" in the modal triggers the `redeemCoupon` service call
   - [x] Green: Build the modal with large, toddler-friendly buttons
-- [~] Task: Conductor - Integrate celebration and success SFX
-  - [ ] Red: Test that `BuddyAnimation` receives the `success` state upon redemption resolve
-  - [ ] Green: Hook into the redemption promise to trigger SFX and animations
+- [x] Task: Conductor - Integrate celebration and success SFX a1afb88
+  - [x] Red: Test that `BuddyAnimation` receives the `success` state upon redemption resolve
+  - [x] Green: Hook into the redemption promise to trigger SFX and animations
 - [ ] Task: Conductor - User Manual Verification 'Reward Shop' (Protocol in workflow.md)
 
 ## Phase 4: Final Polish & Verification

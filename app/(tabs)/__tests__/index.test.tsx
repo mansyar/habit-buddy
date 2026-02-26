@@ -13,18 +13,6 @@ vi.mock('../../../src/store/habit_store', () => ({
   useHabitStore: vi.fn(),
 }));
 
-// Mock Lucide icons for children components
-vi.mock('lucide-react-native', () => ({
-  Zap: 'ZapIcon',
-  Settings: 'SettingsIcon',
-  Gift: 'GiftIcon',
-  Sparkles: 'SparklesIcon',
-  Utensils: 'UtensilsIcon',
-  Box: 'BoxIcon',
-  CheckCircle2: 'CheckIcon',
-  HelpCircle: 'HelpCircleIcon',
-}));
-
 // Mock components
 vi.mock('../../../src/components/BoltCounter', () => ({
   BoltCounter: ({ balance }: any) => <div data-testid="bolt-counter">{balance}</div>,
