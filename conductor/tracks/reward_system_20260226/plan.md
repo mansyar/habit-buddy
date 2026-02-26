@@ -46,7 +46,7 @@
   - [x] Green: Hook into the redemption promise to trigger SFX and animations
 - [x] Task: Conductor - User Manual Verification 'Reward Shop' (Protocol in workflow.md)
 
-## Phase 4: Final Polish & Verification
+## Phase 4: Final Polish & Verification [checkpoint: 601622c]
 
 - [x] Task: Conductor - Audit tap targets and accessibility
   - [x] Ensure all buttons are at least 44x44dp
@@ -55,4 +55,4 @@
   - [x] Red: Simulate offline redemption and verify it is added to `sync_queue`
   - [x] Green: Ensure `SyncService` processes the redemption and balance update when back online
 - [x] Task: Conductor - Update `docs/roadmap.md` to mark Phase 5 as complete d33cad8
-- [ ] Task: Conductor - User Manual Verification 'Final Polish & Verification' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Final Polish & Verification' (Protocol in workflow.md)
