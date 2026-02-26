@@ -12,7 +12,7 @@
 
 ## Phase 2: Dashboard UI & Components
 
-- [ ] Task: Implement `ParentalGate` trigger on Home Screen
+- [~] Task: Implement `ParentalGate` trigger on Home Screen
   - [ ] [Red Phase] Write component test for 3-second long-press interaction expectation
   - [ ] [Green Phase] Add 3-second long-press handler to the settings gear or child profile area
 - [ ] Task: Build `DashboardScreen` layout (Professional Theme)
