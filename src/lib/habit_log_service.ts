@@ -5,6 +5,7 @@ import { HabitLog, HabitStatus } from '../types/habit_log';
 import * as Crypto from 'expo-crypto';
 import { profileService } from './profile_service';
 import { Profile } from '../types/profile';
+import { format } from 'date-fns';
 
 class HabitLogService {
   async logCompletion(data: {
@@ -121,7 +122,7 @@ class HabitLogService {
 
   async resetTodayProgress(profile_id: string): Promise<void> {
     const isOnline = await checkIsOnline();
-    const today = new Date().toISOString().split('T')[0];
+    const today = format(new Date(), 'yyyy-MM-dd');
 
     const db = await initializeSQLite();
     await db.runAsync(
