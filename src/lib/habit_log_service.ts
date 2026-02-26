@@ -118,6 +118,30 @@ class HabitLogService {
 
     return logs;
   }
+
+  async resetTodayProgress(profile_id: string): Promise<void> {
+    const isOnline = await checkIsOnline();
+    const today = new Date().toISOString().split('T')[0];
+
+    const db = await initializeSQLite();
+    await db.runAsync(
+      `DELETE FROM habits_log WHERE profile_id = ? AND date(completed_at) = date(?)`,
+      profile_id,
+      today,
+    );
+
+    if (isOnline) {
+      const { error } = await supabase
+        .from('habits_log')
+        .delete()
+        .eq('profile_id', profile_id)
+        .gte('completed_at', today + 'T00:00:00.000Z');
+
+      if (error) {
+        console.error('Supabase habit_log delete error:', error.message);
+      }
+    }
+  }
 }
 
 export const habitLogService = new HabitLogService();

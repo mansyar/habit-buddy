@@ -21,6 +21,11 @@ vi.mock('../supabase', () => ({
       update: vi.fn(() => ({
         eq: vi.fn(() => Promise.resolve({ error: null })),
       })),
+      delete: vi.fn(() => ({
+        eq: vi.fn(() => ({
+          gte: vi.fn(() => Promise.resolve({ error: null })),
+        })),
+      })),
     })),
   },
 }));
@@ -130,6 +135,23 @@ describe('HabitLogService', () => {
         expect.any(String),
         'p1',
       );
+    });
+  });
+
+  describe('resetTodayProgress', () => {
+    test("should delete today's logs for the profile", async () => {
+      await habitLogService.resetTodayProgress('p1');
+
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'DELETE FROM habits_log WHERE profile_id = ? AND date(completed_at) = date(?)',
+        ),
+        'p1',
+        expect.any(String),
+      );
+
+      // Also check if it tries to sync with Supabase (optional, but good if we want consistency)
+      expect(supabase.from).toHaveBeenCalledWith('habits_log');
     });
   });
 });
