@@ -2,12 +2,12 @@
 
 ## Phase 1: Data Layer & Statistics
 
-- [ ] Task: Create `DashboardService` for optimized statistics queries
-  - [ ] [Red Phase] Write failing unit tests for `getBoltStats()`, `getDailyAverageHabits()`, and `getWeeklyStreakData()`
-  - [ ] [Green Phase] Implement `DashboardService` with actual data queries and return expected `DashboardStats` interface
-- [ ] Task: Implement `resetTodayProgress()` in `HabitLogService`
-  - [ ] [Red Phase] Write failing unit test for clearing today's logs for the current profile
-  - [ ] [Green Phase] Add method to delete logs for the current profile and current date
+- [x] Task: Create `DashboardService` for optimized statistics queries (80ba746)
+  - [x] [Red Phase] Write failing unit tests for `getBoltStats()`, `getDailyAverageHabits()`, and `getWeeklyStreakData()`
+  - [x] [Green Phase] Implement `DashboardService` with actual data queries and return expected `DashboardStats` interface
+- [x] Task: Implement `resetTodayProgress()` in `HabitLogService` (80ba746)
+  - [x] [Red Phase] Write failing unit test for clearing today's logs for the current profile
+  - [x] [Green Phase] Add method to delete logs for the current profile and current date
 - [ ] Task: Conductor - User Manual Verification 'Data Layer & Statistics' (Protocol in workflow.md)
 
 ## Phase 2: Dashboard UI & Components
