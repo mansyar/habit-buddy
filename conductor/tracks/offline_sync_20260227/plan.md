@@ -20,7 +20,7 @@
   - [x] [Green Phase] Refactor `ProfileService`, `HabitLogService`, and `CouponService` to handle local-first writes with sync markers
 - [ ] Task: Conductor - User Manual Verification 'Local Persistence & Queueing' (Protocol in workflow.md)
 
-## Phase 3: Background Synchronization [checkpoint: ]
+## Phase 3: Background Synchronization [checkpoint: d75a9b1]
 
 - [x] Task: Implement `SyncService` core logic 38ca6da
   - [x] [Red Phase] Write unit tests for `syncPendingChanges()` with mocked Supabase client
