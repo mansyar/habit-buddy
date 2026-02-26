@@ -14,6 +14,7 @@ import { initializeSQLite } from '@/lib/sqlite';
 import { syncService } from '@/lib/sync_service';
 import NetInfo from '@react-native-community/netinfo';
 import { OfflineBanner } from '@/components/OfflineBanner';
+import { networkService } from '@/lib/network';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -106,8 +107,8 @@ export function RootLayoutNav() {
 
   useEffect(() => {
     // Listen for network changes to trigger sync
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      if (state.isConnected) {
+    const unsubscribe = networkService.subscribeToConnectionChange((online) => {
+      if (online) {
         syncService.processQueue();
       }
     });
