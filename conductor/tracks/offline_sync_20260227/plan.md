@@ -2,9 +2,9 @@
 
 ## Phase 1: Connectivity Detection & UI [checkpoint: ]
 
-- [ ] Task: Implement `NetworkService` wrapper (using `@react-native-community/netinfo`)
-  - [ ] [Red Phase] Write unit tests for `isOnline()` and `subscribeToConnectionChange()`
-  - [ ] [Green Phase] Implement the service in `src/lib/network.ts`
+- [x] Task: Implement `NetworkService` wrapper (using `@react-native-community/netinfo`) 8194d91
+  - [x] [Red Phase] Write unit tests for `isOnline()` and `subscribeToConnectionChange()`
+  - [x] [Green Phase] Implement the service in `src/lib/network.ts`
 - [ ] Task: Create `OfflineBanner` component
   - [ ] [Red Phase] Write component tests for visibility based on network state
   - [ ] [Green Phase] Implement the banner in `src/components/OfflineBanner.tsx` and integrate into `app/_layout.tsx`
