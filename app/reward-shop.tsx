@@ -4,8 +4,12 @@ import { Text, View } from '@/components/Themed';
 import { Stack } from 'expo-router';
 import { ParentalGate } from '@/components/ParentalGate';
 import { couponService } from '@/lib/coupon_service';
+import { audioService } from '@/lib/audio_service';
+import { AUDIO_ASSETS } from '@/constants/audio';
+import { BuddyAnimation } from '@/components/BuddyAnimation';
 import { Coupon } from '@/types/coupon';
 import { useAuthStore } from '@/store/auth_store';
+import { useBuddyStore } from '@/store/buddy_store';
 import {
   Plus,
   Settings,
@@ -17,18 +21,22 @@ import {
   Star,
   Shield,
   History,
+  CheckCircle2,
 } from 'lucide-react-native';
 
 type Category = 'Physical' | 'Privilege' | 'Activity';
 
 export default function RewardShopScreen() {
   const { profile } = useAuthStore();
+  const { selectedBuddy } = useBuddyStore();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<Coupon | null>(null);
   const [confirmingCoupon, setConfirmingCoupon] = useState<Coupon | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successReward, setSuccessReward] = useState<Coupon | null>(null);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -130,8 +138,12 @@ export default function RewardShopScreen() {
     try {
       await couponService.redeemCoupon(coupon.id);
       setConfirmingCoupon(null);
+      setSuccessReward(coupon);
+      setShowSuccess(true);
       loadCoupons();
-      // TODO: Trigger celebration
+
+      // Play success sound
+      audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
     } catch (e) {
       if (process.env.NODE_ENV === 'test') {
         throw e;
@@ -348,6 +360,21 @@ export default function RewardShopScreen() {
                     <Text style={styles.saveBtnText}>Yes! Redeem</Text>
                   </Pressable>
                 </View>
+              </View>
+            </View>
+          </Modal>
+
+          {/* Success Overlay */}
+          <Modal visible={showSuccess} animationType="fade" transparent>
+            <View style={styles.successOverlay}>
+              <BuddyAnimation buddy={(selectedBuddy as any) || 'dino'} state="success" size={250} />
+              <View style={styles.successContent}>
+                <CheckCircle2 size={80} color="#4ECDC4" />
+                <Text style={styles.successTitle}>Hooray!</Text>
+                <Text style={styles.successText}>You got "{successReward?.title}"!</Text>
+                <Pressable style={styles.successBtn} onPress={() => setShowSuccess(false)}>
+                  <Text style={styles.successBtnText}>Awesome!</Text>
+                </Pressable>
               </View>
             </View>
           </Modal>
@@ -630,5 +657,44 @@ const styles = StyleSheet.create({
   },
   largeBtn: {
     paddingVertical: 20,
+  },
+  successOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  successContent: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  successTitle: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#4ECDC4',
+    fontFamily: 'Fredoka-One',
+    marginTop: 20,
+  },
+  successText: {
+    fontSize: 20,
+    color: '#666',
+    textAlign: 'center',
+    marginVertical: 15,
+    fontWeight: '600',
+  },
+  successBtn: {
+    backgroundColor: '#FFD700',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 20,
+    marginTop: 20,
+    borderWidth: 3,
+    borderColor: '#DAA520',
+  },
+  successBtnText: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#333',
   },
 });

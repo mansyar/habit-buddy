@@ -38,10 +38,10 @@
 - [x] Task: Conductor - Implement `CouponCard` component c2541cc
   - [x] Red: Test that the "Redeem" button is disabled if `userBolts < coupon.bolt_cost`
   - [x] Green: Implement the card UI with conditional button state logic
-- [~] Task: Conductor - Create child-friendly "Confirm Redemption" modal
-  - [ ] Red: Test that tapping "Yes" in the modal triggers the `redeemCoupon` service call
-  - [ ] Green: Build the modal with large, toddler-friendly buttons
-- [ ] Task: Conductor - Integrate celebration and success SFX
+- [x] Task: Conductor - Create child-friendly "Confirm Redemption" modal 555d456
+  - [x] Red: Test that tapping "Yes" in the modal triggers the `redeemCoupon` service call
+  - [x] Green: Build the modal with large, toddler-friendly buttons
+- [~] Task: Conductor - Integrate celebration and success SFX
   - [ ] Red: Test that `BuddyAnimation` receives the `success` state upon redemption resolve
   - [ ] Green: Hook into the redemption promise to trigger SFX and animations
 - [ ] Task: Conductor - User Manual Verification 'Reward Shop' (Protocol in workflow.md)
