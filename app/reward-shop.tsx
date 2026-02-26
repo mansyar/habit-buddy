@@ -24,6 +24,7 @@ type Category = 'Physical' | 'Privilege' | 'Activity';
 export default function RewardShopScreen() {
   const { profile } = useAuthStore();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<Coupon | null>(null);
@@ -123,11 +124,12 @@ export default function RewardShopScreen() {
     }
     handleDeleteReward(id);
   };
+
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          title: isAdmin ? 'Manage Rewards' : 'Reward Shop',
+          title: isAdmin ? (showHistory ? 'Reward History' : 'Manage Rewards') : 'Reward Shop',
           headerRight: () => (
             <ParentalGate
               onSuccess={() => setIsAdmin(!isAdmin)}
@@ -145,32 +147,61 @@ export default function RewardShopScreen() {
       {isAdmin ? (
         <View style={styles.content}>
           <View style={styles.adminHeader}>
-            <Text style={styles.subtitle}>Parent Control Panel</Text>
-            <Pressable style={styles.addButton} onPress={() => setShowAddModal(true)}>
-              <Plus size={20} color="#FFF" />
-              <Text style={styles.addButtonText}>Add New Reward</Text>
-            </Pressable>
+            <Text style={styles.subtitle}>
+              {showHistory ? 'Redeemed History' : 'Parent Control Panel'}
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Pressable
+                style={[styles.addButton, { backgroundColor: '#FFD700', marginRight: 10 }]}
+                onPress={() => setShowHistory(!showHistory)}
+              >
+                {showHistory ? (
+                  <Activity size={20} color="#333" />
+                ) : (
+                  <History size={20} color="#333" />
+                )}
+                <Text style={[styles.addButtonText, { color: '#333' }]}>
+                  {showHistory ? 'Active' : 'History'}
+                </Text>
+              </Pressable>
+              {!showHistory && (
+                <Pressable style={styles.addButton} onPress={() => setShowAddModal(true)}>
+                  <Plus size={20} color="#FFF" />
+                  <Text style={styles.addButtonText}>Add New Reward</Text>
+                </Pressable>
+              )}
+            </View>
           </View>
 
           <ScrollView style={styles.list}>
             {coupons
-              .filter((c) => !c.is_redeemed)
+              .filter((c) => (showHistory ? c.is_redeemed : !c.is_redeemed))
+              .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
               .map((coupon) => (
-                <View key={coupon.id} style={styles.couponItem}>
+                <View
+                  key={coupon.id}
+                  style={[styles.couponItem, coupon.is_redeemed && styles.redeemedItem]}
+                >
                   <View style={styles.couponInfo}>
-                    <Text style={styles.couponTitle}>{coupon.title}</Text>
+                    <Text style={[styles.couponTitle, coupon.is_redeemed && styles.redeemedText]}>
+                      {coupon.title}
+                    </Text>
                     <Text style={styles.couponCost}>
                       {coupon.bolt_cost} Bolts • {coupon.category}
+                      {coupon.is_redeemed &&
+                        ` • Redeemed on ${new Date(coupon.created_at).toLocaleDateString()}`}
                     </Text>
                   </View>
-                  <View style={styles.itemActions}>
-                    <Pressable style={styles.iconButton} onPress={() => setEditingCoupon(coupon)}>
-                      <Edit2 size={18} color="#4A90E2" />
-                    </Pressable>
-                    <Pressable style={styles.iconButton} onPress={() => confirmDelete(coupon.id)}>
-                      <Trash2 size={18} color="#FF4B4B" />
-                    </Pressable>
-                  </View>
+                  {!coupon.is_redeemed && (
+                    <View style={styles.itemActions}>
+                      <Pressable style={styles.iconButton} onPress={() => setEditingCoupon(coupon)}>
+                        <Edit2 size={18} color="#4A90E2" />
+                      </Pressable>
+                      <Pressable style={styles.iconButton} onPress={() => confirmDelete(coupon.id)}>
+                        <Trash2 size={18} color="#FF4B4B" />
+                      </Pressable>
+                    </View>
+                  )}
                 </View>
               ))}
           </ScrollView>
@@ -179,7 +210,9 @@ export default function RewardShopScreen() {
           <Modal visible={showAddModal} animationType="slide" transparent>
             <View style={styles.modalOverlay}>
               <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>New Reward</Text>
+                <Text style={styles.modalTitle}>
+                  {editingCoupon ? 'Edit Reward' : 'New Reward'}
+                </Text>
 
                 <TextInput
                   style={styles.input}
@@ -365,6 +398,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 5,
     elevation: 2,
+  },
+  redeemedItem: {
+    backgroundColor: '#F0F0F0',
+    opacity: 0.8,
+  },
+  redeemedText: {
+    textDecorationLine: 'line-through',
+    color: '#999',
   },
   couponInfo: {
     flex: 1,

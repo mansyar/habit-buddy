@@ -22,10 +22,10 @@
 - [x] Task: Conductor - Build Reward Management screen c2541cc
   - [x] Red: Test that the "Add Reward" form validates that `bolt_cost` is a positive integer
   - [x] Green: Build the form and list view for active coupons
-- [~] Task: Conductor - Build "Edit Reward" and "Delete Reward" functionality
-  - [ ] Red: Test that deleting a coupon removes it from the local list immediately
-  - [ ] Green: Implement CRUD handlers and UI buttons for editing/deleting
-- [ ] Task: Conductor - Build Redeemed History screen
+- [x] Task: Conductor - Build "Edit Reward" and "Delete Reward" functionality e48201b
+  - [x] Red: Test that deleting a coupon removes it from the local list immediately
+  - [x] Green: Implement CRUD handlers and UI buttons for editing/deleting
+- [~] Task: Conductor - Build Redeemed History screen
   - [ ] Red: Test that the history list only displays coupons where `is_redeemed` is true
   - [ ] Green: Implement the filtered list view and date formatting for redemptions
 - [ ] Task: Conductor - User Manual Verification 'Parental Management UI' (Protocol in workflow.md)
