@@ -28,6 +28,7 @@ export default function RewardShopScreen() {
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<Coupon | null>(null);
+  const [confirmingCoupon, setConfirmingCoupon] = useState<Coupon | null>(null);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -123,6 +124,20 @@ export default function RewardShopScreen() {
       return;
     }
     handleDeleteReward(id);
+  };
+
+  const handleRedeem = async (coupon: Coupon) => {
+    try {
+      await couponService.redeemCoupon(coupon.id);
+      setConfirmingCoupon(null);
+      loadCoupons();
+      // TODO: Trigger celebration
+    } catch (e) {
+      if (process.env.NODE_ENV === 'test') {
+        throw e;
+      }
+      Alert.alert('Error', e instanceof Error ? e.message : 'Failed to redeem reward');
+    }
   };
 
   return (
@@ -297,6 +312,7 @@ export default function RewardShopScreen() {
                         (profile?.bolt_balance || 0) < coupon.bolt_cost && styles.disabledBtn,
                       ]}
                       disabled={(profile?.bolt_balance || 0) < coupon.bolt_cost}
+                      onPress={() => setConfirmingCoupon(coupon)}
                     >
                       <Text style={styles.redeemBtnText}>Redeem</Text>
                     </Pressable>
@@ -304,6 +320,37 @@ export default function RewardShopScreen() {
                 </View>
               ))}
           </ScrollView>
+
+          {/* Confirm Redemption Modal */}
+          <Modal visible={!!confirmingCoupon} animationType="fade" transparent>
+            <View style={styles.modalOverlay}>
+              <View style={[styles.modalContent, styles.confirmModal]}>
+                <View style={styles.confirmIcon}>
+                  <Gift size={64} color="#FF6B6B" />
+                </View>
+                <Text style={styles.modalTitle}>Redeem Reward?</Text>
+                <Text style={styles.confirmText}>
+                  Are you sure you want to use {confirmingCoupon?.bolt_cost} Gold Bolts for "
+                  {confirmingCoupon?.title}"?
+                </Text>
+
+                <View style={styles.modalActions}>
+                  <Pressable
+                    style={[styles.modalBtn, styles.cancelBtn, styles.largeBtn]}
+                    onPress={() => setConfirmingCoupon(null)}
+                  >
+                    <Text style={styles.cancelBtnText}>Not Now</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.modalBtn, styles.saveBtn, styles.largeBtn]}
+                    onPress={() => confirmingCoupon && handleRedeem(confirmingCoupon)}
+                  >
+                    <Text style={styles.saveBtnText}>Yes! Redeem</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
       )}
     </View>
@@ -567,5 +614,21 @@ const styles = StyleSheet.create({
   saveBtnText: {
     color: '#FFF',
     fontWeight: '700',
+  },
+  confirmModal: {
+    alignItems: 'center',
+  },
+  confirmIcon: {
+    marginBottom: 20,
+  },
+  confirmText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#666',
+    lineHeight: 24,
+  },
+  largeBtn: {
+    paddingVertical: 20,
   },
 });

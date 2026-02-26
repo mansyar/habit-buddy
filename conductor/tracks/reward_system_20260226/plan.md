@@ -32,13 +32,13 @@
 
 ## Phase 3: Reward Shop (Child Interface)
 
-- [ ] Task: Conductor - Build `RewardShop` screen layout
-  - [ ] Red: Test that the screen correctly displays the current user's `bolt_balance` from the store
-  - [ ] Green: Implement the shell with the balance display and reward grid
-- [ ] Task: Conductor - Implement `CouponCard` component
-  - [ ] Red: Test that the "Redeem" button is disabled if `userBolts < coupon.bolt_cost`
-  - [ ] Green: Implement the card UI with conditional button state logic
-- [ ] Task: Conductor - Create child-friendly "Confirm Redemption" modal
+- [x] Task: Conductor - Build `RewardShop` screen layout c2541cc
+  - [x] Red: Test that the screen correctly displays the current user's `bolt_balance` from the store
+  - [x] Green: Implement the shell with the balance display and reward grid
+- [x] Task: Conductor - Implement `CouponCard` component c2541cc
+  - [x] Red: Test that the "Redeem" button is disabled if `userBolts < coupon.bolt_cost`
+  - [x] Green: Implement the card UI with conditional button state logic
+- [~] Task: Conductor - Create child-friendly "Confirm Redemption" modal
   - [ ] Red: Test that tapping "Yes" in the modal triggers the `redeemCoupon` service call
   - [ ] Green: Build the modal with large, toddler-friendly buttons
 - [ ] Task: Conductor - Integrate celebration and success SFX
