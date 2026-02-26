@@ -1,6 +1,6 @@
 # Implementation Plan: Parent Dashboard (Phase 6)
 
-## Phase 1: Data Layer & Statistics
+## Phase 1: Data Layer & Statistics [checkpoint: d229c64]
 
 - [x] Task: Create `DashboardService` for optimized statistics queries (80ba746)
   - [x] [Red Phase] Write failing unit tests for `getBoltStats()`, `getDailyAverageHabits()`, and `getWeeklyStreakData()`
