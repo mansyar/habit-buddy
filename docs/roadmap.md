@@ -17,7 +17,7 @@ Phase 3   ✅✅✅✅✅✅✅✅✅✅  Home Screen
 Phase 4   ✅✅✅✅✅✅✅✅✅✅  Mission Flow (core feature)
 Phase 5   ✅✅✅✅✅✅✅✅✅✅  Reward System
 Phase 6   ✅✅✅✅✅✅✅✅✅✅  Parent Dashboard
-Phase 7   ░░░░░░░░░░░░░░░░██░░  Offline & Sync
+Phase 7   ✅✅✅✅✅✅✅✅✅✅  Offline & Sync
 Phase 8   ░░░░░░░░░░░░░░░░░░██  Polish, Testing & Release Prep
 ```
 
@@ -356,26 +356,26 @@ assets/
 
 ### Tasks
 
-| #   | Task                             | Details                                                                        |
-| :-- | :------------------------------- | :----------------------------------------------------------------------------- |
-| 7.1 | Offline detection UI             | Subtle banner: "Offline — data will sync when connected" (PRD §9)              |
-| 7.2 | Offline mission completion       | Missions complete and log to local DB when offline                             |
-| 7.3 | Sync queue                       | Queue all local writes (habit logs, bolt updates, coupon redemptions)          |
-| 7.4 | Background sync                  | When connectivity restored, replay queued writes to Supabase, in order         |
-| 7.5 | Conflict resolution              | Last-write-wins for simple fields. Additive merge for habit logs.              |
-| 7.6 | Data migration on sign-in        | Anonymous→Authenticated: migrate local data to Supabase (PRD FR-AUTH-03)       |
-| 7.7 | Migration error handling         | Retry 3x, keep local data on failure, show "Sync failed" message (PRD §9)      |
-| 7.8 | Supabase real-time subscriptions | Listen for remote changes to `habits_log` and `profiles` for multi-device sync |
-| 7.9 | Integration tests                | Simulate offline→online transitions, verify data integrity                     |
+| #   | Task                             | Status | Details                                                                        |
+| :-- | :------------------------------- | :----- | :----------------------------------------------------------------------------- |
+| 7.1 | Offline detection UI             | ✅     | Subtle banner: "Offline — data will sync when connected" (PRD §9)              |
+| 7.2 | Offline mission completion       | ✅     | Missions complete and log to local DB when offline                             |
+| 7.3 | Sync queue                       | ✅     | Queue all local writes (habit logs, bolt updates, coupon redemptions)          |
+| 7.4 | Background sync                  | ✅     | When connectivity restored, replay queued writes to Supabase, in order         |
+| 7.5 | Conflict resolution              | ✅     | Last-write-wins for simple fields. Additive merge for habit logs.              |
+| 7.6 | Data migration on sign-in        | ✅     | Anonymous→Authenticated: migrate local data to Supabase (PRD FR-AUTH-03)       |
+| 7.7 | Migration error handling         | ✅     | Retry 3x, keep local data on failure, show "Sync failed" message (PRD §9)      |
+| 7.8 | Supabase real-time subscriptions | ✅     | Listen for remote changes to `habits_log` and `profiles` for multi-device sync |
+| 7.9 | Integration tests                | ✅     | Simulate offline→online transitions, verify data integrity                     |
 
 ### Acceptance Criteria
 
-- [ ] App functions fully offline (missions, rewards, dashboard)
-- [ ] Offline banner appears/disappears based on connectivity
-- [ ] Queued writes sync correctly when connectivity returns
-- [ ] Anonymous → Authenticated migration preserves all data
-- [ ] Migration failure is handled gracefully (retry + user message)
-- [ ] Multi-device real-time sync works (change on Device A appears on Device B within 2s)
+- [x] App functions fully offline (missions, rewards, dashboard)
+- [x] Offline banner appears/disappears based on connectivity
+- [x] Queued writes sync correctly when connectivity returns
+- [x] Anonymous → Authenticated migration preserves all data
+- [x] Migration failure is handled gracefully (retry + user message)
+- [x] Multi-device real-time sync works (change on Device A appears on Device B within 2s)
 
 ---
 
@@ -461,7 +461,7 @@ assets/
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ✅ Complete    |
 | 5     | Reward System             | 3–4 days  | Phase 4    | ✅ Complete    |
 | 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ✅ Complete    |
-| 7     | Offline & Sync            | 3–5 days  | Phase 2, 5 | ⬜ Not Started |
+| 7     | Offline & Sync            | 3–5 days  | Phase 2, 5 | ✅ Complete    |
 | 8     | Polish, Testing & Release | 5–7 days  | All        | ⬜ Not Started |
 
 > **Note:** Phases 5 and 6 can run in parallel since they're independent of each other. Phase 7 depends on Phase 5 (coupon sync).
