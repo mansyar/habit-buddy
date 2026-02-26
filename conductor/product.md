@@ -13,7 +13,8 @@ HabitBuddy focuses on transforming daily routines from "chores" into "missions" 
 - **3 Fixed Core Habits**: Tooth brushing, eating meals, and picking up toys.
 - **Buddy Animation State Machine**: High-quality programmatic native animations of cute animals to delight children.
 - **Reward System**: A parent-managed shop where children redeem Gold Bolts for real-world rewards across three categories: Physical, Privilege, and Activity.
-- **Parental Dashboard & Offline Capability**: Giving parents peace of mind and robust offline support.
+- **Parental Dashboard**: A centralized, professional view for parents to monitor habit summary, 7-day streaks, and bolt statistics (earned, spent, balance). Includes administrative actions like resetting daily progress.
+- **Offline Capability**: Giving parents peace of mind and robust offline support.
 
 ## Non-Functional Traits
 
