@@ -8,7 +8,7 @@ interface ParentalGateProps {
 }
 
 export function ParentalGate({ onSuccess, children, delay = 3000 }: ParentalGateProps) {
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<any>(null);
 
   const handlePressIn = () => {
     timerRef.current = setTimeout(() => {

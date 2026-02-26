@@ -7,5 +7,18 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "docs",
+    "conductor",
+    "__tests__",
+    "app/(auth)/__tests__",
+    "app/(tabs)/__tests__",
+    "app/__tests__",
+    "src/components/__tests__",
+    "src/lib/__tests__",
+    "vitest.config.ts"
+  ]
 }

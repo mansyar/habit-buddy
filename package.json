@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "pnpm tsc --noEmit"
   },
   "dependencies": {
     "@expo-google-fonts/fredoka-one": "^0.2.3",

@@ -8,7 +8,7 @@ vi.mock('expo-audio', () => {
     play: vi.fn(),
     pause: vi.fn(),
     stop: vi.fn(),
-    terminate: vi.fn(),
+    remove: vi.fn(),
     addListener: vi.fn(() => ({ remove: vi.fn() })),
     volume: 1,
     loop: false,
@@ -51,14 +51,14 @@ describe('AudioService', () => {
     expect(mockPlayerInstance.play).toHaveBeenCalled();
   });
 
-  it('should stop and terminate music', async () => {
+  it('should stop and remove music', async () => {
     const musicKey = 'bg-music';
     const mockFile = { uri: 'test-music.mp3' };
 
     await audioService.playMusic(musicKey, mockFile);
     await audioService.stopMusic();
 
-    expect(mockPlayerInstance.terminate).toHaveBeenCalled();
+    expect(mockPlayerInstance.remove).toHaveBeenCalled();
   });
 
   it('should handle global mute', async () => {
@@ -83,5 +83,10 @@ describe('AudioService', () => {
     await audioService.playSound(soundKey, mockFile);
 
     expect(mockPlayerInstance.volume).toBe(0.5);
+  });
+
+  it('should reset service', async () => {
+    await audioService.reset();
+    expect(mockPlayerInstance.remove).toHaveBeenCalled();
   });
 });

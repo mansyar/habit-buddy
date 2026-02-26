@@ -14,7 +14,7 @@ class AudioService {
     try {
       if (this.sfxPlayers.has(key)) {
         const existingPlayer = this.sfxPlayers.get(key);
-        existingPlayer.terminate();
+        existingPlayer.remove();
       }
 
       const player = createAudioPlayer(source);
@@ -26,7 +26,7 @@ class AudioService {
       // Listen for playback completion to clean up
       const subscription = player.addListener('playbackStatusUpdate', (status) => {
         if (status.didJustFinish) {
-          player.terminate();
+          player.remove();
           this.sfxPlayers.delete(key);
           subscription.remove();
         }
@@ -39,7 +39,7 @@ class AudioService {
   async playMusic(key: string, source: AudioSource) {
     try {
       if (this.musicPlayer) {
-        this.musicPlayer.terminate();
+        this.musicPlayer.remove();
       }
 
       this.musicPlayer = createAudioPlayer(source);
@@ -53,7 +53,7 @@ class AudioService {
 
   async stopMusic() {
     if (this.musicPlayer) {
-      this.musicPlayer.terminate();
+      this.musicPlayer.remove();
       this.musicPlayer = null;
     }
   }
@@ -61,7 +61,7 @@ class AudioService {
   async reset() {
     await this.stopMusic();
     for (const player of this.sfxPlayers.values()) {
-      player.terminate();
+      player.remove();
     }
     this.sfxPlayers.clear();
     this.volume = 1.0;

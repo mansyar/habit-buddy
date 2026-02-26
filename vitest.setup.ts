@@ -248,7 +248,7 @@ vi.mock('expo-audio', () => ({
   createAudioPlayer: vi.fn(() => ({
     play: vi.fn(),
     pause: vi.fn(),
-    terminate: vi.fn(),
+    remove: vi.fn(),
     addListener: vi.fn(() => ({ remove: vi.fn() })),
     volume: 1.0,
     loop: false,

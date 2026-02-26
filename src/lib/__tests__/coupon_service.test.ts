@@ -59,6 +59,7 @@ describe('CouponService', () => {
       profile_id: 'p1',
       title: 'Ice Cream',
       bolt_cost: 10,
+      category: 'Physical' as const,
     };
 
     const coupon = await couponService.createCoupon(couponData);

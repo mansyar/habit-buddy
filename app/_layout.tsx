@@ -117,9 +117,9 @@ export function RootLayoutNav() {
   useEffect(() => {
     if (isLoading) return;
 
-    const inAuthGroup = segments.includes('(auth)');
-    const inOnboarding = segments.includes('onboarding');
-    const isLoginCallback = segments.includes('login-callback');
+    const inAuthGroup = (segments as any[]).includes('(auth)');
+    const inOnboarding = (segments as any[]).includes('onboarding');
+    const isLoginCallback = (segments as any[]).includes('login-callback');
 
     if (isLoginCallback) return;
 

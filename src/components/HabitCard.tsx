@@ -24,8 +24,8 @@ export function HabitCard({ habit, isCompleted }: HabitCardProps) {
       style={[
         styles.card,
         { backgroundColor: isCompleted ? '#E0E0E0' : '#FFFFFF' },
-        styles[
-          `border${habit.themeColor.charAt(0).toUpperCase() + habit.themeColor.slice(1)}` as keyof typeof styles
+        (styles as any)[
+          `border${habit.themeColor.charAt(0).toUpperCase() + habit.themeColor.slice(1)}`
         ],
       ]}
       onPress={handlePress}

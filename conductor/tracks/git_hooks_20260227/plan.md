@@ -15,11 +15,11 @@ Ensure the project is configured to automatically run quality checks before any 
 
 Validate that the hook correctly blocks pushes on failure and allows them on success.
 
-- [ ] Task: Temporarily introduce a linting error and verify `git push` fails.
-- [ ] Task: Temporarily introduce a TypeScript error and verify `git push` fails.
-- [ ] Task: Temporarily introduce a failing test case and verify `git push` fails.
-- [ ] Task: Revert all temporary errors and verify `git push` succeeds (using a dry-run).
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Behavioral Validation' (Protocol in workflow.md)
+- [x] Task: Temporarily introduce a linting error and verify `git push` fails.
+- [x] Task: Temporarily introduce a TypeScript error and verify `git push` fails.
+- [~] Task: Temporarily introduce a failing test case and verify `git push` fails.
+- [x] Task: Revert all temporary errors and verify `git push` succeeds (using a dry-run).
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Behavioral Validation' (Protocol in workflow.md) ce3d40e
 
 ## Phase 3: Final Integration
 

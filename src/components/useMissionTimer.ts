@@ -4,7 +4,7 @@ import { AppState, AppStateStatus } from 'react-native';
 export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () => void) => {
   const [timeLeft, setTimeLeft] = useState(defaultDurationMinutes * 60);
   const [isActive, setIsActive] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<any>(null);
   const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {

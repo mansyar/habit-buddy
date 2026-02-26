@@ -4,6 +4,7 @@ export type BuddyState = 'idle' | 'active' | 'paused' | 'success' | 'sleepy';
 
 interface BuddyStore {
   state: BuddyState;
+  selectedBuddy: string;
   startMission: () => void;
   pauseMission: () => void;
   resumeMission: () => void;
@@ -14,6 +15,7 @@ interface BuddyStore {
 
 export const useBuddyStore = create<BuddyStore>((set) => ({
   state: 'idle',
+  selectedBuddy: 'dino',
   startMission: () => set({ state: 'active' }),
   pauseMission: () => set({ state: 'paused' }),
   resumeMission: () => set({ state: 'active' }),

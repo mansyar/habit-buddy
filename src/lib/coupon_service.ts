@@ -10,7 +10,7 @@ class CouponService {
     profile_id: string;
     title: string;
     bolt_cost: number;
-    category: 'Physical' | 'Privilege' | 'Activity';
+    category?: 'Physical' | 'Privilege' | 'Activity';
   }): Promise<Coupon> {
     const isOnline = await checkIsOnline();
     const id = Crypto.randomUUID();
