@@ -16,7 +16,7 @@
 
 ## Phase 2: Parental Management UI
 
-- [ ] Task: Conductor - Implement `ParentalGate` component
+- [~] Task: Conductor - Implement `ParentalGate` component
   - [ ] Red: Test that the gate only triggers its `onSuccess` callback after a continuous 3-second press
   - [ ] Green: Implement logic using `Pressable` and a timer (or Reanimated) to track long-press duration
 - [ ] Task: Conductor - Build Reward Management screen

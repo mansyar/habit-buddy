@@ -33,6 +33,31 @@ vi.mock('react-native', () => {
         { ...props, 'data-testid': testID, onClick: onPress, style, disabled },
         children,
       ),
+    Pressable: ({
+      testID,
+      onPress,
+      onPressIn,
+      onPressOut,
+      children,
+      style,
+      disabled,
+      ...props
+    }: any) =>
+      React.createElement(
+        'div',
+        {
+          ...props,
+          'data-testid': testID,
+          onClick: onPress,
+          onMouseDown: onPressIn,
+          onMouseUp: onPressOut,
+          onTouchStart: onPressIn,
+          onTouchEnd: onPressOut,
+          style: { cursor: 'pointer', ...style },
+          disabled,
+        },
+        children,
+      ),
     TextInput: ({ testID, value, onChangeText, style, placeholder, ...props }: any) =>
       React.createElement('input', {
         ...props,
