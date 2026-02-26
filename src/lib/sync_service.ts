@@ -9,10 +9,12 @@ export interface SyncItem {
   operation: 'INSERT' | 'UPDATE' | 'DELETE' | 'UPSERT';
   data: string;
   status: 'pending' | 'processing' | 'failed';
+  retry_count: number;
 }
 
 class SyncService {
   private isSyncing = false;
+  private MAX_RETRIES = 3;
 
   /**
    * Main entry point for synchronization.
@@ -49,8 +51,10 @@ class SyncService {
     const tablesToSync = ['profiles', 'habits_log', 'coupons'];
 
     for (const table of tablesToSync) {
+      // Only pick records that haven't exceeded MAX_RETRIES
       const pendingRecords = (await db.getAllAsync(
-        `SELECT * FROM ${table} WHERE sync_status = 'pending'`,
+        `SELECT * FROM ${table} WHERE sync_status = 'pending' AND retry_count < ?`,
+        this.MAX_RETRIES,
       )) as any[];
 
       if (pendingRecords.length === 0) continue;
@@ -59,7 +63,7 @@ class SyncService {
 
       for (const record of pendingRecords) {
         // Prepare record for Supabase (remove internal sync columns)
-        const { sync_status, last_modified, ...supabaseData } = record;
+        const { sync_status, last_modified, retry_count, ...supabaseData } = record;
 
         // Handle boolean fields for SQLite -> Supabase mapping if needed
         if (table === 'profiles') {
@@ -73,9 +77,17 @@ class SyncService {
           const { error } = await supabase.from(table).upsert([supabaseData]);
 
           if (!error) {
-            // Success! Mark as synced locally
-            await db.runAsync(`UPDATE ${table} SET sync_status = 'synced' WHERE id = ?`, record.id);
+            // Success! Mark as synced locally and reset retry count
+            await db.runAsync(
+              `UPDATE ${table} SET sync_status = 'synced', retry_count = 0 WHERE id = ?`,
+              record.id,
+            );
           } else {
+            // Failure! Increment retry count
+            await db.runAsync(
+              `UPDATE ${table} SET retry_count = retry_count + 1 WHERE id = ?`,
+              record.id,
+            );
             console.error(
               `SyncService: Failed to sync ${table} record ${record.id}:`,
               error.message,
@@ -83,6 +95,10 @@ class SyncService {
           }
         } catch (e: any) {
           console.error(`SyncService: Error syncing ${table} record ${record.id}:`, e.message);
+          await db.runAsync(
+            `UPDATE ${table} SET retry_count = retry_count + 1 WHERE id = ?`,
+            record.id,
+          );
         }
       }
     }
@@ -94,7 +110,8 @@ class SyncService {
   private async processSyncQueue(): Promise<void> {
     const db = await initializeSQLite();
     const queue = (await db.getAllAsync(
-      `SELECT * FROM sync_queue WHERE status = 'pending' ORDER BY created_at ASC`,
+      `SELECT * FROM sync_queue WHERE status = 'pending' AND retry_count < ? ORDER BY created_at ASC`,
+      this.MAX_RETRIES,
     )) as SyncItem[];
 
     if (queue.length === 0) return;
@@ -129,11 +146,18 @@ class SyncService {
         if (success) {
           await db.runAsync(`DELETE FROM sync_queue WHERE id = ?`, item.id);
         } else {
-          await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
+          // Increment retry count
+          await db.runAsync(
+            `UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?`,
+            item.id,
+          );
         }
       } catch (e: any) {
         console.error(`SyncService: Error processing queue item ${item.id}:`, e.message);
-        await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
+        await db.runAsync(
+          `UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?`,
+          item.id,
+        );
       }
     }
   }
@@ -163,8 +187,8 @@ class SyncService {
             // Map types for SQLite
             if (table === 'profiles') {
               await db.runAsync(
-                `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, sync_status, last_modified, created_at, updated_at)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, sync_status, retry_count, last_modified, created_at, updated_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 record.id,
                 record.user_id,
                 record.child_name,
@@ -173,14 +197,15 @@ class SyncService {
                 record.bolt_balance,
                 0, // Came from Supabase, not guest
                 'synced',
+                0, // Reset retry count
                 new Date().toISOString(),
                 record.created_at,
                 record.updated_at,
               );
             } else if (table === 'habits_log') {
               await db.runAsync(
-                `INSERT OR REPLACE INTO habits_log (id, profile_id, habit_id, status, duration_seconds, bolts_earned, sync_status, last_modified, completed_at)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT OR REPLACE INTO habits_log (id, profile_id, habit_id, status, duration_seconds, bolts_earned, sync_status, retry_count, last_modified, completed_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 record.id,
                 record.profile_id,
                 record.habit_id,
@@ -188,13 +213,14 @@ class SyncService {
                 record.duration_seconds,
                 record.bolts_earned,
                 'synced',
+                0,
                 new Date().toISOString(),
                 record.completed_at,
               );
             } else if (table === 'coupons') {
               await db.runAsync(
-                `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, last_modified, created_at)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, retry_count, last_modified, created_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 record.id,
                 record.profile_id,
                 record.title,
@@ -202,6 +228,7 @@ class SyncService {
                 record.category || 'Physical',
                 record.is_redeemed ? 1 : 0,
                 'synced',
+                0,
                 new Date().toISOString(),
                 record.created_at,
               );

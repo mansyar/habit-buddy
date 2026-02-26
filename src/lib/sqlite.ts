@@ -79,6 +79,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           bolt_balance INTEGER DEFAULT 0,
           is_guest INTEGER DEFAULT 0,
           sync_status TEXT DEFAULT 'synced',
+          retry_count INTEGER DEFAULT 0,
           last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
           updated_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -92,6 +93,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           duration_seconds INTEGER DEFAULT 0,
           bolts_earned INTEGER DEFAULT 0,
           sync_status TEXT DEFAULT 'synced',
+          retry_count INTEGER DEFAULT 0,
           last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           completed_at TEXT DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
@@ -105,6 +107,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           category TEXT DEFAULT 'Physical',
           is_redeemed INTEGER DEFAULT 0,
           sync_status TEXT DEFAULT 'synced',
+          retry_count INTEGER DEFAULT 0,
           last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
@@ -116,6 +119,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           operation TEXT NOT NULL,
           data TEXT NOT NULL,
           status TEXT DEFAULT 'pending',
+          retry_count INTEGER DEFAULT 0,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP
         );
       `);
@@ -131,6 +135,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
 
           const hasSyncStatus = tableInfo.some((col) => col.name === 'sync_status');
           const hasLastModified = tableInfo.some((col) => col.name === 'last_modified');
+          const hasRetryCount = tableInfo.some((col) => col.name === 'retry_count');
 
           if (!hasSyncStatus) {
             await db.execAsync(`ALTER TABLE ${table} ADD COLUMN sync_status TEXT DEFAULT 'synced'`);
@@ -139,6 +144,9 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
             await db.execAsync(
               `ALTER TABLE ${table} ADD COLUMN last_modified TEXT DEFAULT CURRENT_TIMESTAMP`,
             );
+          }
+          if (!hasRetryCount) {
+            await db.execAsync(`ALTER TABLE ${table} ADD COLUMN retry_count INTEGER DEFAULT 0`);
           }
 
           // Legacy columns for profiles
@@ -165,6 +173,19 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
         } catch (e) {
           console.warn(`Migration check failed for ${table}:`, e);
         }
+      }
+
+      // 3. Migration for sync_queue
+      try {
+        const syncQueueInfo = (await db.getAllAsync('PRAGMA table_info(sync_queue)')) as {
+          name: string;
+        }[];
+        const hasRetryCount = syncQueueInfo.some((col) => col.name === 'retry_count');
+        if (!hasRetryCount) {
+          await db.execAsync('ALTER TABLE sync_queue ADD COLUMN retry_count INTEGER DEFAULT 0');
+        }
+      } catch (e) {
+        console.warn('Migration check failed for sync_queue:', e);
       }
 
       return db;
