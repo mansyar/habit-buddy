@@ -1,0 +1,8 @@
+{
+  "track_id": "git_hooks_20260227",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-27T00:14:00Z",
+  "updated_at": "2026-02-27T00:14:00Z",
+  "description": "implement a git hook that check for 'pnpm typecheck' and 'pnpm test' before pushing to remote repo/origin"
+}
