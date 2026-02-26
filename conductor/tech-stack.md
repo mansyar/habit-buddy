@@ -17,7 +17,7 @@
 ## 3. Testing & Quality
 
 - **Vitest & React Testing Library**: Unit and component testing framework for React Native.
-- **Husky & lint-staged**: Pre-commit hooks for automated linting and formatting.
+- **Husky & lint-staged**: Git hooks for automated linting, formatting, type checking, and unit testing (pre-push).
 
 ## 4. UI & Animation
 
