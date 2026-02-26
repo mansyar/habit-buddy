@@ -2,10 +2,10 @@
 
 ## Phase 1: Data Schema & Service Enhancements
 
-- [~] Task: Conductor - Update `Coupon` type and database schema
+- [x] Task: Conductor - Update `Coupon` type and database schema 07b482e
   - [ ] Add `category` field to `Coupon` interface and SQLite schema
   - [ ] Add `category` to Supabase migration script
-- [ ] Task: Conductor - Implement bolt deduction in `CouponService.redeemCoupon()`
+- [~] Task: Conductor - Implement bolt deduction in `CouponService.redeemCoupon()`
   - [ ] Red: Test that `redeemCoupon` calls `ProfileService.updateBalance` with the negative bolt cost
   - [ ] Red: Test that `redeemCoupon` fails if `profile.bolt_balance < coupon.bolt_cost`
   - [ ] Green: Implement logic to fetch coupon cost, check balance, and deduct bolts before marking as redeemed

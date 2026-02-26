@@ -1,5 +1,6 @@
 import { supabase } from './supabase';
 import { initializeSQLite } from './sqlite';
+import { profileService } from './profile_service';
 import { checkIsOnline } from './network';
 import { Coupon } from '../types/coupon';
 import * as Crypto from 'expo-crypto';
@@ -109,7 +110,27 @@ class CouponService {
     const isOnline = await checkIsOnline();
     const db = await initializeSQLite();
 
-    // Update locally
+    // 1. Fetch coupon details
+    const coupon = (await db.getFirstAsync(
+      `SELECT * FROM coupons WHERE id = ?`,
+      id,
+    )) as Coupon | null;
+
+    if (!coupon) throw new Error('Coupon not found');
+    if (coupon.is_redeemed) throw new Error('Coupon already redeemed');
+
+    // 2. Fetch profile to check balance
+    const profile = await profileService.getProfile(coupon.profile_id);
+    if (!profile) throw new Error('Profile not found');
+
+    if (profile.bolt_balance < coupon.bolt_cost) {
+      throw new Error('Insufficient bolts');
+    }
+
+    // 3. Deduct bolts
+    await profileService.updateBoltBalance(coupon.profile_id, -coupon.bolt_cost);
+
+    // 4. Update locally
     await db.runAsync(`UPDATE coupons SET is_redeemed = 1 WHERE id = ?`, id);
 
     // Sync to Supabase
