@@ -9,6 +9,9 @@ This file records all tracks created during the development process.
 
 ## In Progress
 
+- [ ] **Track: Parent Dashboard (Phase 6): View habit summary, 7-day streaks, and bolt statistics via a professional UI accessed by a parental gate.**
+      _Link: [./tracks/parent_dashboard_20260226/](./tracks/parent_dashboard_20260226/)_
+
 ## Planned
 
 ---
