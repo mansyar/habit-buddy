@@ -93,6 +93,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           profile_id TEXT NOT NULL,
           title TEXT NOT NULL,
           bolt_cost INTEGER NOT NULL,
+          category TEXT DEFAULT 'Physical',
           is_redeemed INTEGER DEFAULT 0,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
@@ -121,6 +122,14 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
         }
         if (!hasSelectedBuddy) {
           await db.execAsync("ALTER TABLE profiles ADD COLUMN selected_buddy TEXT DEFAULT 'dino'");
+        }
+
+        const couponInfo = (await db.getAllAsync('PRAGMA table_info(coupons)')) as {
+          name: string;
+        }[];
+        const hasCategory = couponInfo.some((col) => col.name === 'category');
+        if (!hasCategory) {
+          await db.execAsync("ALTER TABLE coupons ADD COLUMN category TEXT DEFAULT 'Physical'");
         }
       } catch (e) {
         console.warn('Migration check failed:', e);

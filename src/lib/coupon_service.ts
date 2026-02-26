@@ -9,6 +9,7 @@ class CouponService {
     profile_id: string;
     title: string;
     bolt_cost: number;
+    category: 'Physical' | 'Privilege' | 'Activity';
   }): Promise<Coupon> {
     const isOnline = await checkIsOnline();
     const id = Crypto.randomUUID();
@@ -16,6 +17,7 @@ class CouponService {
 
     const coupon: Coupon = {
       id,
+      category: 'Physical',
       ...data,
       is_redeemed: false,
       created_at,
@@ -24,12 +26,13 @@ class CouponService {
     // Save to local SQLite
     const db = await initializeSQLite();
     await db.runAsync(
-      `INSERT INTO coupons (id, profile_id, title, bolt_cost, is_redeemed, created_at)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       coupon.id,
       coupon.profile_id,
       coupon.title,
       coupon.bolt_cost,
+      coupon.category,
       0,
       coupon.created_at,
     );
@@ -84,12 +87,13 @@ class CouponService {
         // Cache to local SQLite
         for (const c of remoteCoupons) {
           await db.runAsync(
-            `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, is_redeemed, created_at)
-             VALUES (?, ?, ?, ?, ?, ?)`,
+            `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, created_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
             c.id,
             c.profile_id,
             c.title,
             c.bolt_cost,
+            c.category || 'Physical',
             c.is_redeemed ? 1 : 0,
             c.created_at,
           );

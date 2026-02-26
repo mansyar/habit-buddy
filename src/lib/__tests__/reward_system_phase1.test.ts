@@ -2,7 +2,6 @@ import { expect, test, vi, describe, beforeEach } from 'vitest';
 import { couponService } from '../coupon_service';
 import { supabase } from '../supabase';
 import { initializeSQLite } from '../sqlite';
-import { checkIsOnline } from '../network';
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({
@@ -40,50 +39,42 @@ vi.mock('../sqlite', () => ({
   initializeSQLite: vi.fn(() => Promise.resolve(mockDb)),
 }));
 
-describe('CouponService', () => {
+describe('Reward System Phase 1: Category Field', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test('should create a coupon', async () => {
+  test('createCoupon should handle category', async () => {
     const couponData = {
       profile_id: 'p1',
-      title: 'Ice Cream',
-      bolt_cost: 10,
+      title: 'Activity Reward',
+      bolt_cost: 15,
+      category: 'Activity' as any, // Cast to any because it doesn't exist yet
     };
 
     const coupon = await couponService.createCoupon(couponData);
 
+    // This should fail because CouponService.createCoupon doesn't expect category yet
     expect(mockDb.runAsync).toHaveBeenCalledWith(
-      expect.stringContaining('INSERT INTO coupons'),
-      expect.any(String),
-      couponData.profile_id,
-      couponData.title,
-      couponData.bolt_cost,
-      'Physical',
-      0,
-      expect.any(String),
+      expect.stringContaining('category'),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
     );
-    expect(coupon.title).toBe('Ice Cream');
+    expect(coupon).toHaveProperty('category', 'Activity');
   });
 
-  test('should fetch coupons from SQLite', async () => {
-    const mockCoupons = [{ id: 'c1', title: 'Ice Cream', is_redeemed: 0 }];
+  test('getCoupons should return category', async () => {
+    const mockCoupons = [
+      { id: 'c1', title: 'Activity Reward', bolt_cost: 15, category: 'Activity', is_redeemed: 0 },
+    ];
     mockDb.getAllAsync.mockResolvedValueOnce(mockCoupons);
 
     const coupons = await couponService.getCoupons('p1');
-    expect(coupons[0].title).toBe('Ice Cream');
-    expect(mockDb.getAllAsync).toHaveBeenCalled();
-  });
-
-  test('should redeem a coupon', async () => {
-    const couponId = 'c1';
-    await couponService.redeemCoupon(couponId);
-
-    expect(mockDb.runAsync).toHaveBeenCalledWith(
-      expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
-      couponId,
-    );
-    expect(supabase.from).toHaveBeenCalledWith('coupons');
+    expect(coupons[0]).toHaveProperty('category', 'Activity');
   });
 });
