@@ -10,5 +10,5 @@ This file records all tracks created during the development process.
 
 ---
 
-- [~] **Track: Reward System (Phase 5): Parents create coupons, children redeem them with Gold Bolts.**
-  _Link: [./tracks/reward_system_20260226/](./tracks/reward_system_20260226/)_
+- [x] **Track: Reward System (Phase 5): Parents create coupons, children redeem them with Gold Bolts.**
+      _Link: [./tracks/reward_system_20260226/](./tracks/reward_system_20260226/)_
