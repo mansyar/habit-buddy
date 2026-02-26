@@ -30,7 +30,7 @@
   - [x] Green: Implement the filtered list view and date formatting for redemptions
 - [x] Task: Conductor - User Manual Verification 'Parental Management UI' (Protocol in workflow.md)
 
-## Phase 3: Reward Shop (Child Interface)
+## Phase 3: Reward Shop (Child Interface) [checkpoint: 0ab99fe]
 
 - [x] Task: Conductor - Build `RewardShop` screen layout c2541cc
   - [x] Red: Test that the screen correctly displays the current user's `bolt_balance` from the store
@@ -44,7 +44,7 @@
 - [x] Task: Conductor - Integrate celebration and success SFX a1afb88
   - [x] Red: Test that `BuddyAnimation` receives the `success` state upon redemption resolve
   - [x] Green: Hook into the redemption promise to trigger SFX and animations
-- [ ] Task: Conductor - User Manual Verification 'Reward Shop' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Reward Shop' (Protocol in workflow.md)
 
 ## Phase 4: Final Polish & Verification
 
