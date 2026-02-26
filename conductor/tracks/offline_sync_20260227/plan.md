@@ -22,12 +22,12 @@
 
 ## Phase 3: Background Synchronization [checkpoint: ]
 
-- [ ] Task: Implement `SyncService` core logic
-  - [ ] [Red Phase] Write unit tests for `syncPendingChanges()` with mocked Supabase client
-  - [ ] [Green Phase] Implement the sync logic in `src/lib/sync_service.ts` using Last-Write-Wins (LWW)
-- [ ] Task: Automate sync on reconnection
-  - [ ] [Red Phase] Write integration test: Trigger connection change -> Verify `syncPendingChanges()` is called
-  - [ ] [Green Phase] Connect `NetworkService` listener to `SyncService.syncPendingChanges()`
+- [x] Task: Implement `SyncService` core logic 38ca6da
+  - [x] [Red Phase] Write unit tests for `syncPendingChanges()` with mocked Supabase client
+  - [x] [Green Phase] Implement the sync logic in `src/lib/sync_service.ts` using Last-Write-Wins (LWW)
+- [x] Task: Automate sync on reconnection 38ca6da
+  - [x] [Red Phase] Write integration test: Trigger connection change -> Verify `syncPendingChanges()` is called
+  - [x] [Green Phase] Connect `NetworkService` listener to `SyncService.syncPendingChanges()`
 - [ ] Task: Conductor - User Manual Verification 'Background Synchronization' (Protocol in workflow.md)
 
 ## Phase 4: Real-time Multi-device Sync & Completion [checkpoint: ]
