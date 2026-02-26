@@ -1,6 +1,6 @@
 # Implementation Plan: Phase 7: Offline & Sync
 
-## Phase 1: Connectivity Detection & UI [checkpoint: ]
+## Phase 1: Connectivity Detection & UI [checkpoint: 0c72d78]
 
 - [x] Task: Implement `NetworkService` wrapper (using `@react-native-community/netinfo`) 8194d91
   - [x] [Red Phase] Write unit tests for `isOnline()` and `subscribeToConnectionChange()`
