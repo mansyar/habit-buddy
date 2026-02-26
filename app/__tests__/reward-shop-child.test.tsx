@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, findByText } from '@testing-library/react';
 import RewardShopScreen from '../reward-shop';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { couponService } from '../../src/lib/coupon_service';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 vi.mock('../../src/lib/coupon_service', () => {
   const mockCoupon = {
@@ -58,18 +57,17 @@ describe('RewardShopScreen - Child Interface', () => {
   });
 
   it('disables the "Redeem" button if user has insufficient bolts', async () => {
-    const { getByText, findByText, getAllByText } = render(<RewardShopScreen />);
+    const { findByText, getAllByText } = render(<RewardShopScreen />);
 
     // Wait for rewards to load
     await findByText('Expensive Reward');
 
     const redeemButtons = getAllByText('Redeem');
     // Test Reward (10 bolts) - should be enabled
-    expect(redeemButtons[0].closest('div')).not.toHaveProperty('disabled', true);
+    expect(redeemButtons[0].closest('button')).not.toHaveProperty('disabled', true);
 
     // Expensive Reward (100 bolts) - should be disabled
-    // In our web mock, we use 'disabled' prop on div/button
-    const expensiveRedeemBtn = redeemButtons[1].parentElement;
+    const expensiveRedeemBtn = redeemButtons[1].closest('button');
     expect(expensiveRedeemBtn).toHaveProperty('disabled', true);
   });
 });

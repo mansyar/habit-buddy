@@ -43,9 +43,7 @@ describe('RewardShopScreen - Reward Management', () => {
   });
 
   it('validates that bolt_cost is a positive integer', async () => {
-    const { getByText, getByPlaceholderText, queryByText, findByText } = render(
-      <RewardShopScreen />,
-    );
+    const { getByText, getByPlaceholderText, findByText } = render(<RewardShopScreen />);
 
     // Trigger Parental Gate
     const gateButton = getByText('Parent Settings');

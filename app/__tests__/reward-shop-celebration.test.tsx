@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import RewardShopScreen from '../reward-shop';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { couponService } from '../../src/lib/coupon_service';

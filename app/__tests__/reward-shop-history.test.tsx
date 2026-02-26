@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, findByText, act } from '@testing-library/react';
 import RewardShopScreen from '../reward-shop';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { couponService } from '../../src/lib/coupon_service';
 
 vi.mock('../../src/lib/coupon_service', () => {

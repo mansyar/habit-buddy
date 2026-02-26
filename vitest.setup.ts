@@ -174,7 +174,7 @@ vi.mock('lucide-react-native', () => {
     Info: mockIcon('Info'),
     ArrowLeft: mockIcon('ArrowLeft'),
     Search: mockIcon('Search'),
-    Filter: mockIcon('Search'),
+    Filter: mockIcon('Filter'),
     CheckCircle: mockIcon('CheckCircle'),
     Zap: mockIcon('Zap'),
   };

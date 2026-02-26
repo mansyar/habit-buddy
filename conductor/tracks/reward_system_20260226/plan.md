@@ -56,3 +56,7 @@
   - [x] Green: Ensure `SyncService` processes the redemption and balance update when back online
 - [x] Task: Conductor - Update `docs/roadmap.md` to mark Phase 5 as complete d33cad8
 - [x] Task: Conductor - User Manual Verification 'Final Polish & Verification' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [~] Task: Apply review suggestions
