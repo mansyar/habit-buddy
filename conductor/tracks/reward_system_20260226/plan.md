@@ -1,18 +1,18 @@
 # Implementation Plan: Reward System (Phase 5)
 
-## Phase 1: Data Schema & Service Enhancements
+## Phase 1: Data Schema & Service Enhancements [checkpoint: 33d9567]
 
 - [x] Task: Conductor - Update `Coupon` type and database schema 07b482e
-  - [ ] Add `category` field to `Coupon` interface and SQLite schema
-  - [ ] Add `category` to Supabase migration script
+  - [x] Add `category` field to `Coupon` interface and SQLite schema
+  - [x] Add `category` to Supabase migration script
 - [x] Task: Conductor - Implement bolt deduction in `CouponService.redeemCoupon()` d900b8a
-  - [ ] Red: Test that `redeemCoupon` calls `ProfileService.updateBalance` with the negative bolt cost
-  - [ ] Red: Test that `redeemCoupon` fails if `profile.bolt_balance < coupon.bolt_cost`
-  - [ ] Green: Implement logic to fetch coupon cost, check balance, and deduct bolts before marking as redeemed
+  - [x] Red: Test that `redeemCoupon` calls `ProfileService.updateBalance` with the negative bolt cost
+  - [x] Red: Test that `redeemCoupon` fails if `profile.bolt_balance < coupon.bolt_cost`
+  - [x] Green: Implement logic to fetch coupon cost, check balance, and deduct bolts before marking as redeemed
 - [x] Task: Conductor - Enhance `CouponService` CRUD for categories 07b482e
-  - [ ] Red: Test `createCoupon` and `getCoupons` properly handle/return the `category` field
-  - [ ] Green: Update SQL queries and Supabase calls to include the `category` column
-- [ ] Task: Conductor - User Manual Verification 'Data Schema & Service Enhancements' (Protocol in workflow.md)
+  - [x] Red: Test `createCoupon` and `getCoupons` properly handle/return the `category` field
+  - [x] Green: Update SQL queries and Supabase calls to include the `category` column
+- [x] Task: Conductor - User Manual Verification 'Data Schema & Service Enhancements' (Protocol in workflow.md)
 
 ## Phase 2: Parental Management UI
 
