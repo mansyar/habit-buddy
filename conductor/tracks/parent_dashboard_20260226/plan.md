@@ -15,7 +15,7 @@
 - [x] Task: Implement `ParentalGate` trigger on Home Screen (78536b0)
   - [x] [Red Phase] Write component test for 3-second long-press interaction expectation
   - [x] [Green Phase] Add 3-second long-press handler to the settings gear or child profile area
-- [ ] Task: Build `DashboardScreen` layout (Professional Theme)
+- [~] Task: Build `DashboardScreen` layout (Professional Theme)
   - [ ] [Red Phase] Write component test ensuring `DashboardScreen` and its sub-sections (Summary, Streak, Stats) render correctly with mock data
   - [ ] [Green Phase] Implement `DashboardScreen` and its child components with professional theme styling
 - [ ] Task: Add administrative action buttons

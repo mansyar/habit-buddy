@@ -7,7 +7,6 @@ import { CORE_HABITS } from '@/constants/habits';
 import { HabitCard } from '@/components/HabitCard';
 import { BoltCounter } from '@/components/BoltCounter';
 import { CautionTapeProgress } from '@/components/CautionTapeProgress';
-import { ParentalGate } from '@/components/ParentalGate';
 import { Settings, Gift } from 'lucide-react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -42,15 +41,15 @@ export default function HomeScreen() {
         </View>
         <View style={styles.headerRight}>
           <BoltCounter balance={profile?.bolt_balance || 0} />
-          <ParentalGate onSuccess={() => router.push('/parent-dashboard')}>
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() => router.push('/settings')}
-              testID="settings-button"
-            >
-              <Settings size={24} color="#555" />
-            </TouchableOpacity>
-          </ParentalGate>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => router.push('/settings')}
+            onLongPress={() => router.push('/parent-dashboard')}
+            delayLongPress={3000}
+            testID="settings-button"
+          >
+            <Settings size={24} color="#555" />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reward-shop')}>
             <Gift size={24} color="#FF6B6B" />
           </TouchableOpacity>

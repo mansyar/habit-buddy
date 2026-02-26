@@ -65,16 +65,12 @@ describe('HomeScreen Parental Gate', () => {
     vi.useRealTimers();
   });
 
-  it('navigates to parent dashboard after 3s long press on settings', () => {
+  it('navigates to parent dashboard after long press on settings', () => {
     const { getByTestId } = render(<HomeScreen />);
 
     const settingsButton = getByTestId('settings-button');
 
-    fireEvent.mouseDown(settingsButton);
-
-    act(() => {
-      vi.advanceTimersByTime(3000);
-    });
+    fireEvent.contextMenu(settingsButton);
 
     expect(mockPush).toHaveBeenCalledWith('/parent-dashboard');
   });

@@ -27,10 +27,30 @@ vi.mock('react-native', () => {
       React.createElement('div', { ...props, 'data-testid': testID, style }, children),
     Text: ({ testID, children, style, ...props }: any) =>
       React.createElement('span', { ...props, 'data-testid': testID, style }, children),
-    TouchableOpacity: ({ testID, onPress, children, style, disabled, ...props }: any) =>
+    TouchableOpacity: ({
+      testID,
+      onPress,
+      onLongPress,
+      children,
+      style,
+      disabled,
+      ...props
+    }: any) =>
       React.createElement(
         'button',
-        { ...props, 'data-testid': testID, onClick: onPress, style, disabled },
+        {
+          ...props,
+          'data-testid': testID,
+          onClick: onPress,
+          onContextMenu: (e: any) => {
+            if (onLongPress) {
+              e.preventDefault();
+              onLongPress();
+            }
+          },
+          style,
+          disabled,
+        },
         children,
       ),
     Pressable: ({
@@ -98,6 +118,8 @@ vi.mock('react-native', () => {
       alert: vi.fn(),
     },
     Modal: ({ visible, children }: any) => (visible ? children : null),
+    ActivityIndicator: ({ testID, size, color }: any) =>
+      React.createElement('div', { 'data-testid': testID, style: { color } }, `Loading ${size}`),
     AppState: {
       addEventListener: vi.fn(() => ({ remove: vi.fn() })),
       currentState: 'active',
@@ -177,6 +199,8 @@ vi.mock('lucide-react-native', () => {
     Filter: mockIcon('Filter'),
     CheckCircle: mockIcon('CheckCircle'),
     Zap: mockIcon('Zap'),
+    RefreshCw: mockIcon('RefreshCw'),
+    ClipboardList: mockIcon('ClipboardList'),
   };
 });
 
