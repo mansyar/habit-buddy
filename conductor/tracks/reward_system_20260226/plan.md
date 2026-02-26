@@ -14,11 +14,11 @@
   - [x] Green: Update SQL queries and Supabase calls to include the `category` column
 - [x] Task: Conductor - User Manual Verification 'Data Schema & Service Enhancements' (Protocol in workflow.md)
 
-## Phase 2: Parental Management UI
+## Phase 2: Parental Management UI [checkpoint: c0c9fcf]
 
 - [x] Task: Conductor - Implement `ParentalGate` component 1f511b2
-  - [ ] Red: Test that the gate only triggers its `onSuccess` callback after a continuous 3-second press
-  - [ ] Green: Implement logic using `Pressable` and a timer (or Reanimated) to track long-press duration
+  - [x] Red: Test that the gate only triggers its `onSuccess` callback after a continuous 3-second press
+  - [x] Green: Implement logic using `Pressable` and a timer (or Reanimated) to track long-press duration
 - [x] Task: Conductor - Build Reward Management screen c2541cc
   - [x] Red: Test that the "Add Reward" form validates that `bolt_cost` is a positive integer
   - [x] Green: Build the form and list view for active coupons
@@ -28,7 +28,7 @@
 - [x] Task: Conductor - Build Redeemed History screen 6692239
   - [x] Red: Test that the history list only displays coupons where `is_redeemed` is true
   - [x] Green: Implement the filtered list view and date formatting for redemptions
-- [ ] Task: Conductor - User Manual Verification 'Parental Management UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Parental Management UI' (Protocol in workflow.md)
 
 ## Phase 3: Reward Shop (Child Interface)
 
