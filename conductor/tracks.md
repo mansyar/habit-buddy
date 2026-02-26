@@ -11,8 +11,8 @@ This file records all tracks created during the development process.
 
 ## Planned
 
-- [ ] **Track: Phase 7: Offline & Sync (Connectivity UI, Sync Queue, Background Sync, Real-time updates)**
-      _Link: [./tracks/offline_sync_20260227/](./tracks/offline_sync_20260227/)_
+- [~] **Track: Phase 7: Offline & Sync (Connectivity UI, Sync Queue, Background Sync, Real-time updates)**
+  _Link: [./tracks/offline_sync_20260227/](./tracks/offline_sync_20260227/)_
 
 ---
 
