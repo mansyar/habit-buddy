@@ -88,6 +88,7 @@ vi.mock('react-native', () => {
     Alert: {
       alert: vi.fn(),
     },
+    Modal: ({ visible, children }: any) => (visible ? children : null),
     AppState: {
       addEventListener: vi.fn(() => ({ remove: vi.fn() })),
       currentState: 'active',
@@ -101,9 +102,27 @@ vi.mock('expo-router', () => ({
   useSegments: vi.fn(() => []),
   Link: ({ children }: any) => children,
   Stack: Object.assign(({ children }: any) => children, {
-    Screen: vi.fn(() => null),
+    Screen: vi.fn(({ options }: any) => {
+      if (options?.headerRight) {
+        const HeaderRight = options.headerRight;
+        return React.createElement(
+          'div',
+          { 'data-testid': 'header-right' },
+          typeof HeaderRight === 'function' ? React.createElement(HeaderRight, null) : HeaderRight,
+        );
+      }
+      return null;
+    }),
   }),
   Tabs: ({ children }: any) => children,
+}));
+
+// Mock useColorScheme from components
+vi.mock('@/components/useClientOnlyValue', () => ({
+  useClientOnlyValue: vi.fn((light: any, dark: any) => light),
+}));
+vi.mock('@/components/useColorScheme', () => ({
+  useColorScheme: vi.fn(() => 'light'),
 }));
 
 // Mock expo-font
