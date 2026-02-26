@@ -61,6 +61,7 @@ describe('RewardShopScreen - Reward History', () => {
     fireEvent.mouseUp(gateButton);
 
     // Should see active reward by default in management
+    expect(await findByText('Parent Control Panel')).toBeTruthy();
     expect(await findByText('Active Reward')).toBeTruthy();
     expect(queryByText('Old Reward')).toBeNull();
 

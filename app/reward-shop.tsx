@@ -397,6 +397,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 15,
+    minHeight: 44,
   },
   headerButtonText: {
     fontSize: 12,
@@ -448,9 +449,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#4ECDC4',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     borderRadius: 10,
+    minHeight: 44,
   },
   addButtonText: {
     color: '#FFF',
@@ -497,8 +499,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   iconButton: {
-    padding: 8,
+    padding: 12,
     marginLeft: 5,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   shopGrid: {
     flexDirection: 'row',
@@ -548,9 +554,11 @@ const styles = StyleSheet.create({
   },
   redeemBtn: {
     backgroundColor: '#FF6B6B',
-    paddingVertical: 8,
+    paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
+    minHeight: 44,
+    justifyContent: 'center',
   },
   redeemBtnText: {
     color: '#FFF',

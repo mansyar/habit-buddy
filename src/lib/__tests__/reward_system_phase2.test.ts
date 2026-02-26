@@ -87,6 +87,45 @@ describe('Reward System Phase 2: Bolt Deduction', () => {
     );
   });
 
+  test('redeemCoupon should queue for sync when offline', async () => {
+    const mockCoupon = {
+      id: 'c1',
+      profile_id: 'p1',
+      title: 'Ice Cream',
+      bolt_cost: 10,
+      is_redeemed: false,
+    };
+
+    const mockProfile = {
+      id: 'p1',
+      bolt_balance: 15,
+    };
+
+    // Setup mocks
+    mockDb.getFirstAsync.mockResolvedValueOnce(mockCoupon);
+    (profileService.getProfile as any).mockResolvedValueOnce(mockProfile);
+
+    // Mock offline
+    const { checkIsOnline } = await import('../network');
+    (checkIsOnline as any).mockResolvedValueOnce(false);
+
+    await couponService.redeemCoupon('c1');
+
+    // Should still update locally
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
+      'c1',
+    );
+
+    // Should queue for sync
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining('INSERT INTO sync_queue'),
+      'coupons',
+      'UPDATE',
+      expect.stringContaining('"is_redeemed":true'),
+    );
+  });
+
   test('redeemCoupon should throw error if insufficient bolts', async () => {
     const mockCoupon = {
       id: 'c1',

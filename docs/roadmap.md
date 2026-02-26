@@ -15,7 +15,7 @@ Phase 1   ✅✅✅✅✅✅✅✅✅✅  Auth & Onboarding
 Phase 2   ✅✅✅✅✅✅✅✅✅✅  Core Data Layer
 Phase 3   ✅✅✅✅✅✅✅✅✅✅  Home Screen
 Phase 4   ✅✅✅✅✅✅✅✅✅✅  Mission Flow (core feature)
-Phase 5   ░░░░░░░░░░░░██░░░░░░  Reward System
+Phase 5   ✅✅✅✅✅✅✅✅✅✅  Reward System
 Phase 6   ░░░░░░░░░░░░░░██░░░░  Parent Dashboard
 Phase 7   ░░░░░░░░░░░░░░░░██░░  Offline & Sync
 Phase 8   ░░░░░░░░░░░░░░░░░░██  Polish, Testing & Release Prep
@@ -299,25 +299,25 @@ assets/
 
 ### Tasks
 
-| #   | Task                             | Details                                                                  |
-| :-- | :------------------------------- | :----------------------------------------------------------------------- |
-| 5.1 | Build Reward Shop screen         | List of available coupons, bolt balance at top, "Redeem" buttons         |
-| 5.2 | Build Coupon Card component      | Title, bolt cost, redeem button (disabled if insufficient bolts)         |
-| 5.3 | Redeem flow                      | Tap "Redeem" → confirmation dialog → deduct bolts → mark coupon redeemed |
-| 5.4 | Redeemed history                 | Expandable section or tab showing previously redeemed coupons            |
-| 5.5 | Build Coupon Management (parent) | CRUD interface under Settings: add coupon (title + cost), edit, delete   |
-| 5.6 | Empty state                      | "No rewards yet — ask a parent to add some!" message                     |
-| 5.7 | Bolt balance validation          | Prevent redemption if `balance < bolts_required` (PRD §9)                |
+| #   | Task                             | Status | Details                                                                  |
+| :-- | :------------------------------- | :----- | :----------------------------------------------------------------------- |
+| 5.1 | Build Reward Shop screen         | ✅     | List of available coupons, bolt balance at top, "Redeem" buttons         |
+| 5.2 | Build Coupon Card component      | ✅     | Title, bolt cost, redeem button (disabled if insufficient bolts)         |
+| 5.3 | Redeem flow                      | ✅     | Tap "Redeem" → confirmation dialog → deduct bolts → mark coupon redeemed |
+| 5.4 | Redeemed history                 | ✅     | Expandable section or tab showing previously redeemed coupons            |
+| 5.5 | Build Coupon Management (parent) | ✅     | CRUD interface under Settings: add coupon (title + cost), edit, delete   |
+| 5.6 | Empty state                      | ✅     | "No rewards yet — ask a parent to add some!" message                     |
+| 5.7 | Bolt balance validation          | ✅     | Prevent redemption if `balance < bolts_required` (PRD §9)                |
 
 ### Acceptance Criteria
 
-- [ ] Parent can create a coupon with title and bolt cost
-- [ ] Parent can edit and delete coupons
-- [ ] Reward Shop shows available coupons with correct bolt costs
-- [ ] "Redeem" button disabled when bolt balance is insufficient
-- [ ] Redemption deducts bolts and marks coupon as redeemed
-- [ ] Redeemed coupons appear in history
-- [ ] Confirmation dialog prevents accidental redemption
+- [x] Parent can create a coupon with title and bolt cost
+- [x] Parent can edit and delete coupons
+- [x] Reward Shop shows available coupons with correct bolt costs
+- [x] "Redeem" button disabled when bolt balance is insufficient
+- [x] Redemption deducts bolts and marks coupon as redeemed
+- [x] Redeemed coupons appear in history
+- [x] Confirmation dialog prevents accidental redemption
 
 ---
 
@@ -459,7 +459,7 @@ assets/
 | 2     | Core Data Layer           | 4–5 days  | Phase 1    | ✅ Complete    |
 | 3     | Home Screen               | 3–4 days  | Phase 2    | ✅ Complete    |
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ✅ Complete    |
-| 5     | Reward System             | 3–4 days  | Phase 4    | ⬜ Not Started |
+| 5     | Reward System             | 3–4 days  | Phase 4    | ✅ Complete    |
 | 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ⬜ Not Started |
 | 7     | Offline & Sync            | 3–5 days  | Phase 2, 5 | ⬜ Not Started |
 | 8     | Polish, Testing & Release | 5–7 days  | All        | ⬜ Not Started |
