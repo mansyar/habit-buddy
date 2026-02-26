@@ -11,7 +11,7 @@ This file records all tracks created during the development process.
 
 ---
 
-- [ ] **Track: implement a git hook that check for 'pnpm typecheck' and 'pnpm test' before pushing to remote repo/origin**
-      _Link: [./tracks/git_hooks_20260227/](./tracks/git_hooks_20260227/)_
+- [~] **Track: implement a git hook that check for 'pnpm typecheck' and 'pnpm test' before pushing to remote repo/origin**
+  _Link: [./tracks/git_hooks_20260227/](./tracks/git_hooks_20260227/)_
 
 ---
