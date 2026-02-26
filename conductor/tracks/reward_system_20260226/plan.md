@@ -5,11 +5,11 @@
 - [x] Task: Conductor - Update `Coupon` type and database schema 07b482e
   - [ ] Add `category` field to `Coupon` interface and SQLite schema
   - [ ] Add `category` to Supabase migration script
-- [~] Task: Conductor - Implement bolt deduction in `CouponService.redeemCoupon()`
+- [x] Task: Conductor - Implement bolt deduction in `CouponService.redeemCoupon()` d900b8a
   - [ ] Red: Test that `redeemCoupon` calls `ProfileService.updateBalance` with the negative bolt cost
   - [ ] Red: Test that `redeemCoupon` fails if `profile.bolt_balance < coupon.bolt_cost`
   - [ ] Green: Implement logic to fetch coupon cost, check balance, and deduct bolts before marking as redeemed
-- [ ] Task: Conductor - Enhance `CouponService` CRUD for categories
+- [x] Task: Conductor - Enhance `CouponService` CRUD for categories 07b482e
   - [ ] Red: Test `createCoupon` and `getCoupons` properly handle/return the `category` field
   - [ ] Green: Update SQL queries and Supabase calls to include the `category` column
 - [ ] Task: Conductor - User Manual Verification 'Data Schema & Service Enhancements' (Protocol in workflow.md)

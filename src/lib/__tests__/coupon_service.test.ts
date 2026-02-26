@@ -3,6 +3,15 @@ import { couponService } from '../coupon_service';
 import { supabase } from '../supabase';
 import { initializeSQLite } from '../sqlite';
 import { checkIsOnline } from '../network';
+import { profileService } from '../profile_service';
+
+// Mock ProfileService
+vi.mock('../profile_service', () => ({
+  profileService: {
+    getProfile: vi.fn(() => Promise.resolve({ id: 'p1', bolt_balance: 100 })),
+    updateBoltBalance: vi.fn(() => Promise.resolve({})),
+  },
+}));
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({
@@ -78,6 +87,9 @@ describe('CouponService', () => {
 
   test('should redeem a coupon', async () => {
     const couponId = 'c1';
+    const mockCoupon = { id: 'c1', profile_id: 'p1', bolt_cost: 10, is_redeemed: 0 };
+    mockDb.getFirstAsync.mockResolvedValueOnce(mockCoupon);
+
     await couponService.redeemCoupon(couponId);
 
     expect(mockDb.runAsync).toHaveBeenCalledWith(
