@@ -74,15 +74,17 @@ export default function ParentDashboardScreen() {
       <Stack.Screen
         options={{
           title: 'Parent Dashboard',
-          headerTitleStyle: { fontFamily: 'Fredoka-One', color: '#333' },
+          headerStyle: { backgroundColor: '#1A1A2E' },
+          headerTintColor: '#F8FAFC',
+          headerTitleStyle: { fontFamily: 'Fredoka-One', color: '#F8FAFC' },
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
-              <ChevronLeft size={24} color="#333" />
+              <ChevronLeft size={24} color="#F8FAFC" />
             </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => router.push('/settings')} style={styles.headerButton}>
-              <SettingsIcon size={24} color="#333" />
+              <SettingsIcon size={24} color="#F8FAFC" />
             </TouchableOpacity>
           ),
         }}
@@ -182,12 +184,13 @@ export default function ParentDashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#1A1A2E', // deepIndigo
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#1A1A2E',
   },
   headerButton: {
     padding: 8,
@@ -198,15 +201,15 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
+    backgroundColor: '#2A2A4A', // cardDark
+    borderRadius: 20, // xl radius
     padding: 16,
     marginBottom: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
     shadowRadius: 10,
-    elevation: 3,
+    elevation: 4,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -217,7 +220,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     marginLeft: 8,
-    color: '#333',
+    color: '#F8FAFC', // textPrimary
+    fontFamily: 'Nunito-Bold',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -226,7 +230,7 @@ const styles = StyleSheet.create({
   },
   statCard: {
     width: '48%',
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#16213E', // nightPurple
     padding: 12,
     borderRadius: 12,
     marginBottom: 12,
@@ -235,12 +239,14 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#2f95dc',
+    color: '#FBBF24', // rewardGold
+    fontFamily: 'Fredoka-One',
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: '#CBD5E1', // textSecondary
     marginTop: 4,
+    fontFamily: 'Nunito-Regular',
   },
   summaryList: {
     gap: 12,
@@ -249,81 +255,96 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: '#3A3A5C', // cardMedium
   },
   habitName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#444',
+    color: '#F8FAFC',
+    fontFamily: 'Nunito-SemiBold',
   },
   statusDone: {
-    color: '#4CAF50',
+    color: '#4ADE80', // dinoGreen
     fontWeight: '600',
+    fontSize: 14,
   },
   statusTodo: {
-    color: '#9E9E9E',
+    color: '#64748B', // textMuted
+    fontSize: 14,
   },
   streakContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingHorizontal: 5,
   },
   streakDay: {
     alignItems: 'center',
   },
   streakCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36, // Match design guide
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 6,
   },
   streakCircleDone: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#4ADE80',
+    shadowColor: '#4ADE80',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 3,
   },
   streakCirclePartial: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#3A3A5C',
+    borderWidth: 1,
+    borderColor: '#4A4A6A',
   },
   streakCount: {
     color: '#FFF',
     fontSize: 10,
     fontWeight: '700',
+    fontFamily: 'Nunito-Bold',
   },
   dayLabel: {
     fontSize: 10,
-    color: '#999',
+    color: '#64748B',
+    fontFamily: 'Nunito-Regular',
   },
   actionsContainer: {
     marginTop: 10,
     gap: 12,
   },
   resetButton: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#EF4444', // error
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 16,
   },
   resetButtonText: {
     color: '#FFF',
     fontSize: 16,
     fontWeight: '700',
+    fontFamily: 'Fredoka-One',
   },
   manageRewardsButton: {
-    backgroundColor: '#FFF',
+    backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: '#2f95dc',
+    borderColor: '#FBBF24', // rewardGold
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 16,
   },
   manageRewardsText: {
-    color: '#2f95dc',
+    color: '#FBBF24',
     fontSize: 16,
     fontWeight: '700',
+    fontFamily: 'Fredoka-One',
   },
 });

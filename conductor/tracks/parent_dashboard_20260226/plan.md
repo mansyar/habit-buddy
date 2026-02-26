@@ -25,13 +25,13 @@
 
 ## Phase 3: Integration & Completion
 
-- [ ] Task: Connect `DashboardScreen` to `DashboardService`
-  - [ ] [Red Phase] Write integration test for end-to-end data fetching and display
-  - [ ] [Green Phase] Integrate `DashboardScreen` with `DashboardService` and ensure optimized loading < 1s
-- [ ] Task: Final visual polish for "Professional" theme variant
-  - [ ] [Red Phase] Verify contrast and font choices against `design-guide.md` or `product-guidelines.md`
-  - [ ] [Green Phase] Refine UI for professional look
-- [ ] Task: Update project documentation
-  - [ ] Update `docs/roadmap.md` to mark Phase 6 as complete
-  - [ ] Update `GEMINI.md` with new feature details
-- [ ] Task: Conductor - User Manual Verification 'Integration & Completion' (Protocol in workflow.md)
+- [x] Task: Connect `DashboardScreen` to `DashboardService` (c7a2a34)
+  - [x] [Red Phase] Write integration test for end-to-end data fetching and display
+  - [x] [Green Phase] Integrate `DashboardScreen` with `DashboardService` and ensure optimized loading < 1s
+- [x] Task: Final visual polish for "Professional" theme variant (c7a2a34)
+  - [x] [Red Phase] Verify contrast and font choices against `design-guide.md` or `product-guidelines.md`
+  - [x] [Green Phase] Refine UI for professional look
+- [x] Task: Update project documentation (bdc0152)
+  - [x] Update `docs/roadmap.md` to mark Phase 6 as complete
+  - [x] Update `GEMINI.md` with new feature details
+- [x] Task: Conductor - User Manual Verification 'Integration & Completion' (Protocol in workflow.md) (bdc0152)

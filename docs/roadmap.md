@@ -16,7 +16,7 @@ Phase 2   ✅✅✅✅✅✅✅✅✅✅  Core Data Layer
 Phase 3   ✅✅✅✅✅✅✅✅✅✅  Home Screen
 Phase 4   ✅✅✅✅✅✅✅✅✅✅  Mission Flow (core feature)
 Phase 5   ✅✅✅✅✅✅✅✅✅✅  Reward System
-Phase 6   ░░░░░░░░░░░░░░██░░░░  Parent Dashboard
+Phase 6   ✅✅✅✅✅✅✅✅✅✅  Parent Dashboard
 Phase 7   ░░░░░░░░░░░░░░░░██░░  Offline & Sync
 Phase 8   ░░░░░░░░░░░░░░░░░░██  Polish, Testing & Release Prep
 ```
@@ -330,20 +330,20 @@ assets/
 
 ### Tasks
 
-| #   | Task                   | Details                                                             |
-| :-- | :--------------------- | :------------------------------------------------------------------ |
-| 6.1 | Build Dashboard screen | Accessible from Home screen (tab or icon)                           |
-| 6.2 | Today's summary        | List of 3 habits with ✅/❌ status for today                        |
-| 6.3 | 7-day streak calendar  | Row of 7 day circles: filled = all habits done, hollow = incomplete |
-| 6.4 | Bolt stats             | Total earned (all time), total spent, current balance               |
-| 6.5 | Query optimization     | Efficient queries for streak data (last 7 days of `habits_log`)     |
+| #   | Task                   | Status | Details                                                             |
+| :-- | :--------------------- | :----- | :------------------------------------------------------------------ |
+| 6.1 | Build Dashboard screen | ✅     | Accessible from Home screen (tab or icon)                           |
+| 6.2 | Today's summary        | ✅     | List of 3 habits with ✅/❌ status for today                        |
+| 6.3 | 7-day streak calendar  | ✅     | Row of 7 day circles: filled = all habits done, hollow = incomplete |
+| 6.4 | Bolt stats             | ✅     | Total earned (all time), total spent, current balance               |
+| 6.5 | Query optimization     | ✅     | Efficient queries for streak data (last 7 days of `habits_log`)     |
 
 ### Acceptance Criteria
 
-- [ ] Dashboard shows accurate today's habit status
-- [ ] 7-day streak calendar renders correctly with accurate data
-- [ ] Bolt statistics are correct (earned, spent, balance)
-- [ ] Screen loads in < 1 second
+- [x] Dashboard shows accurate today's habit status
+- [x] 7-day streak calendar renders correctly with accurate data
+- [x] Bolt statistics are correct (earned, spent, balance)
+- [x] Screen loads in < 1 second
 
 ---
 
@@ -460,7 +460,7 @@ assets/
 | 3     | Home Screen               | 3–4 days  | Phase 2    | ✅ Complete    |
 | 4     | Mission Flow ⭐           | 8–12 days | Phase 3    | ✅ Complete    |
 | 5     | Reward System             | 3–4 days  | Phase 4    | ✅ Complete    |
-| 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ⬜ Not Started |
+| 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ✅ Complete    |
 | 7     | Offline & Sync            | 3–5 days  | Phase 2, 5 | ⬜ Not Started |
 | 8     | Polish, Testing & Release | 5–7 days  | All        | ⬜ Not Started |
 
