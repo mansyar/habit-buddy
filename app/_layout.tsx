@@ -13,6 +13,7 @@ import { profileService } from '@/lib/profile_service';
 import { initializeSQLite } from '@/lib/sqlite';
 import { syncService } from '@/lib/sync_service';
 import NetInfo from '@react-native-community/netinfo';
+import { OfflineBanner } from '@/components/OfflineBanner';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -136,6 +137,7 @@ export function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <OfflineBanner />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
