@@ -1,8 +1,13 @@
 import * as SQLite from 'expo-sqlite';
 import { Platform } from 'react-native';
 
-let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
-let dbInstance: SQLite.SQLiteDatabase | null = null;
+export let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
+export let dbInstance: SQLite.SQLiteDatabase | null = null;
+
+export const resetSQLite = () => {
+  dbPromise = null;
+  dbInstance = null;
+};
 
 /**
  * Ensures the database is closed on web when the window is unloaded.
@@ -73,6 +78,8 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           selected_buddy TEXT DEFAULT 'dino',
           bolt_balance INTEGER DEFAULT 0,
           is_guest INTEGER DEFAULT 0,
+          sync_status TEXT DEFAULT 'synced',
+          last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
           updated_at TEXT DEFAULT CURRENT_TIMESTAMP
         );
@@ -84,6 +91,8 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           status TEXT NOT NULL CHECK (status IN ('success', 'sleepy')),
           duration_seconds INTEGER DEFAULT 0,
           bolts_earned INTEGER DEFAULT 0,
+          sync_status TEXT DEFAULT 'synced',
+          last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           completed_at TEXT DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
         );
@@ -95,6 +104,8 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           bolt_cost INTEGER NOT NULL,
           category TEXT DEFAULT 'Physical',
           is_redeemed INTEGER DEFAULT 0,
+          sync_status TEXT DEFAULT 'synced',
+          last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
         );
@@ -110,29 +121,50 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
       `);
 
       // 2. Migration: Ensure necessary columns exist (for users with existing DB)
-      try {
-        const tableInfo = (await db.getAllAsync('PRAGMA table_info(profiles)')) as {
-          name: string;
-        }[];
-        const hasIsGuest = tableInfo.some((col) => col.name === 'is_guest');
-        const hasSelectedBuddy = tableInfo.some((col) => col.name === 'selected_buddy');
+      const tablesToSync = ['profiles', 'habits_log', 'coupons'];
 
-        if (!hasIsGuest) {
-          await db.execAsync('ALTER TABLE profiles ADD COLUMN is_guest INTEGER DEFAULT 0');
-        }
-        if (!hasSelectedBuddy) {
-          await db.execAsync("ALTER TABLE profiles ADD COLUMN selected_buddy TEXT DEFAULT 'dino'");
-        }
+      for (const table of tablesToSync) {
+        try {
+          const tableInfo = (await db.getAllAsync(`PRAGMA table_info(${table})`)) as {
+            name: string;
+          }[];
 
-        const couponInfo = (await db.getAllAsync('PRAGMA table_info(coupons)')) as {
-          name: string;
-        }[];
-        const hasCategory = couponInfo.some((col) => col.name === 'category');
-        if (!hasCategory) {
-          await db.execAsync("ALTER TABLE coupons ADD COLUMN category TEXT DEFAULT 'Physical'");
+          const hasSyncStatus = tableInfo.some((col) => col.name === 'sync_status');
+          const hasLastModified = tableInfo.some((col) => col.name === 'last_modified');
+
+          if (!hasSyncStatus) {
+            await db.execAsync(`ALTER TABLE ${table} ADD COLUMN sync_status TEXT DEFAULT 'synced'`);
+          }
+          if (!hasLastModified) {
+            await db.execAsync(
+              `ALTER TABLE ${table} ADD COLUMN last_modified TEXT DEFAULT CURRENT_TIMESTAMP`,
+            );
+          }
+
+          // Legacy columns for profiles
+          if (table === 'profiles') {
+            const hasIsGuest = tableInfo.some((col) => col.name === 'is_guest');
+            const hasSelectedBuddy = tableInfo.some((col) => col.name === 'selected_buddy');
+            if (!hasIsGuest) {
+              await db.execAsync('ALTER TABLE profiles ADD COLUMN is_guest INTEGER DEFAULT 0');
+            }
+            if (!hasSelectedBuddy) {
+              await db.execAsync(
+                "ALTER TABLE profiles ADD COLUMN selected_buddy TEXT DEFAULT 'dino'",
+              );
+            }
+          }
+
+          // Legacy columns for coupons
+          if (table === 'coupons') {
+            const hasCategory = tableInfo.some((col) => col.name === 'category');
+            if (!hasCategory) {
+              await db.execAsync("ALTER TABLE coupons ADD COLUMN category TEXT DEFAULT 'Physical'");
+            }
+          }
+        } catch (e) {
+          console.warn(`Migration check failed for ${table}:`, e);
         }
-      } catch (e) {
-        console.warn('Migration check failed:', e);
       }
 
       return db;
