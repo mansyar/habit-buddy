@@ -10,18 +10,18 @@
   - [x] [Green Phase] Add method to delete logs for the current profile and current date
 - [ ] Task: Conductor - User Manual Verification 'Data Layer & Statistics' (Protocol in workflow.md)
 
-## Phase 2: Dashboard UI & Components
+## Phase 2: Dashboard UI & Components [checkpoint: 47eb08d]
 
 - [x] Task: Implement `ParentalGate` trigger on Home Screen (78536b0)
   - [x] [Red Phase] Write component test for 3-second long-press interaction expectation
   - [x] [Green Phase] Add 3-second long-press handler to the settings gear or child profile area
-- [~] Task: Build `DashboardScreen` layout (Professional Theme)
-  - [ ] [Red Phase] Write component test ensuring `DashboardScreen` and its sub-sections (Summary, Streak, Stats) render correctly with mock data
-  - [ ] [Green Phase] Implement `DashboardScreen` and its child components with professional theme styling
-- [ ] Task: Add administrative action buttons
-  - [ ] [Red Phase] Write component test for 'Reset Today' and 'Manage Rewards' button interactions
-  - [ ] [Green Phase] Implement "Reset Today's Progress" button with confirmation dialog and "Manage Rewards" link navigating to `reward-shop.tsx`
-- [ ] Task: Conductor - User Manual Verification 'Dashboard UI & Components' (Protocol in workflow.md)
+- [x] Task: Build `DashboardScreen` layout (Professional Theme) (78536b0)
+  - [x] [Red Phase] Write component test ensuring `DashboardScreen` and its sub-sections (Summary, Streak, Stats) render correctly with mock data
+  - [x] [Green Phase] Implement `DashboardScreen` and its child components with professional theme styling
+- [x] Task: Add administrative action buttons (78536b0)
+  - [x] [Red Phase] Write component test for 'Reset Today' and 'Manage Rewards' button interactions
+  - [x] [Green Phase] Implement "Reset Today's Progress" button with confirmation dialog and "Manage Rewards" link navigating to `reward-shop.tsx`
+- [x] Task: Conductor - User Manual Verification 'Dashboard UI & Components' (Protocol in workflow.md) (47eb08d)
 
 ## Phase 3: Integration & Completion
 
