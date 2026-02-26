@@ -30,7 +30,7 @@
   - [x] [Green Phase] Connect `NetworkService` listener to `SyncService.syncPendingChanges()`
 - [ ] Task: Conductor - User Manual Verification 'Background Synchronization' (Protocol in workflow.md)
 
-## Phase 4: Real-time Multi-device Sync & Completion [checkpoint: ]
+## Phase 4: Real-time Multi-device Sync & Completion [checkpoint: a65b4bf]
 
 - [x] Task: Enable Supabase Realtime subscriptions 86a5237
   - [x] [Red Phase] Write integration test: Remote change in Supabase -> Verify local state updates
