@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  useWindowDimensions,
 } from 'react-native';
 import { Text } from '@/components/Themed';
 import { Stack, useRouter } from 'expo-router';
@@ -21,12 +22,15 @@ import { useAuthStore } from '@/store/auth_store';
 import { dashboardService } from '@/lib/dashboard_service';
 import { DashboardStats } from '@/types/dashboard';
 import { habitLogService } from '@/lib/habit_log_service';
+import { AppColors } from '@/theme/Colors';
+import { ScaleButton } from '@/components/ScaleButton';
 
 export default function ParentDashboardScreen() {
   const router = useRouter();
   const { profile } = useAuthStore();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const { width } = useWindowDimensions();
 
   const loadStats = React.useCallback(async () => {
     if (profile?.id) {
@@ -64,53 +68,63 @@ export default function ParentDashboardScreen() {
   if (loading && !stats) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#2f95dc" />
+        <ActivityIndicator size="large" color={AppColors.dinoGreen} />
       </View>
     );
   }
+
+  // Tablet scaling logic
+  const isTablet = width >= 600;
+  const isLargeTablet = width > 900;
 
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          title: 'Parent Dashboard',
-          headerStyle: { backgroundColor: '#1A1A2E' },
-          headerTintColor: '#F8FAFC',
-          headerTitleStyle: { fontFamily: 'Fredoka-One', color: '#F8FAFC' },
+          title: 'Dashboard',
+          headerStyle: { backgroundColor: AppColors.deepIndigo },
+          headerTintColor: AppColors.textPrimary,
+          headerTitleStyle: { fontFamily: 'FredokaOne_400Regular', color: AppColors.textPrimary },
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
-              <ChevronLeft size={24} color="#F8FAFC" />
+              <ChevronLeft size={24} color={AppColors.textPrimary} />
             </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => router.push('/settings')} style={styles.headerButton}>
-              <SettingsIcon size={24} color="#F8FAFC" />
+              <SettingsIcon size={24} color={AppColors.textPrimary} />
             </TouchableOpacity>
           ),
         }}
       />
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          isLargeTablet && { alignSelf: 'center', width: 600 },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Bolt Statistics */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Zap size={20} color="#FFD700" fill="#FFD700" />
+            <Zap size={20} color={AppColors.rewardGold} fill={AppColors.rewardGold} />
             <Text style={styles.sectionTitle}>Bolt Statistics</Text>
           </View>
-          <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
+          <View style={[styles.statsGrid, isTablet && styles.statsGridTablet]}>
+            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
               <Text style={styles.statValue}>{stats?.bolt_stats.total_earned || 0}</Text>
               <Text style={styles.statLabel}>Total Earned</Text>
             </View>
-            <View style={styles.statCard}>
+            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
               <Text style={styles.statValue}>{stats?.bolt_stats.total_spent || 0}</Text>
               <Text style={styles.statLabel}>Total Spent</Text>
             </View>
-            <View style={styles.statCard}>
+            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
               <Text style={styles.statValue}>{stats?.bolt_stats.current_balance || 0}</Text>
               <Text style={styles.statLabel}>Current Balance</Text>
             </View>
-            <View style={styles.statCard}>
+            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
               <Text style={styles.statValue}>
                 {stats?.daily_average_habits.toFixed(1) || '0.0'}
               </Text>
@@ -122,7 +136,7 @@ export default function ParentDashboardScreen() {
         {/* Today's Summary */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <ClipboardList size={20} color="#4ECDC4" />
+            <ClipboardList size={20} color={AppColors.dinoGreen} />
             <Text style={styles.sectionTitle}>Today's Summary</Text>
           </View>
           <View style={styles.summaryList}>
@@ -140,7 +154,7 @@ export default function ParentDashboardScreen() {
         {/* 7-Day Streak */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Calendar size={20} color="#FF6B6B" />
+            <Calendar size={20} color={AppColors.error} />
             <Text style={styles.sectionTitle}>7-Day Streak</Text>
           </View>
           <View style={styles.streakContainer}>
@@ -164,17 +178,17 @@ export default function ParentDashboardScreen() {
 
         {/* Administrative Actions */}
         <View style={styles.actionsContainer}>
-          <TouchableOpacity style={styles.resetButton} onPress={handleResetToday}>
+          <ScaleButton style={styles.resetButton} onPress={handleResetToday}>
             <RefreshCw size={18} color="#FFF" style={{ marginRight: 8 }} />
             <Text style={styles.resetButtonText}>Reset Today's Progress</Text>
-          </TouchableOpacity>
+          </ScaleButton>
 
-          <TouchableOpacity
+          <ScaleButton
             style={styles.manageRewardsButton}
             onPress={() => router.push('/reward-shop')}
           >
             <Text style={styles.manageRewardsText}>Manage Rewards</Text>
-          </TouchableOpacity>
+          </ScaleButton>
         </View>
       </ScrollView>
     </View>
@@ -184,13 +198,13 @@ export default function ParentDashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1A2E', // deepIndigo
+    backgroundColor: AppColors.deepIndigo,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1A1A2E',
+    backgroundColor: AppColors.deepIndigo,
   },
   headerButton: {
     padding: 8,
@@ -201,15 +215,10 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#2A2A4A', // cardDark
-    borderRadius: 20, // xl radius
+    backgroundColor: AppColors.cardDark,
+    borderRadius: 20,
     padding: 16,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 4,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -220,33 +229,43 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     marginLeft: 8,
-    color: '#F8FAFC', // textPrimary
-    fontFamily: 'Nunito-Bold',
+    color: AppColors.textPrimary,
+    fontFamily: 'FredokaOne_400Regular',
   },
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
+  statsGridTablet: {
+    justifyContent: 'flex-start',
+    gap: 16,
+  },
   statCard: {
     width: '48%',
-    backgroundColor: '#16213E', // nightPurple
+    backgroundColor: AppColors.nightPurple,
     padding: 12,
     borderRadius: 12,
     marginBottom: 12,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: AppColors.elevated,
+  },
+  statCardTablet: {
+    width: '23%',
+    marginBottom: 0,
   },
   statValue: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#FBBF24', // rewardGold
-    fontFamily: 'Fredoka-One',
+    color: AppColors.rewardGold,
+    fontFamily: 'FredokaOne_400Regular',
   },
   statLabel: {
     fontSize: 12,
-    color: '#CBD5E1', // textSecondary
+    color: AppColors.textSecondary,
     marginTop: 4,
-    fontFamily: 'Nunito-Regular',
+    fontFamily: 'Nunito_400Regular',
   },
   summaryList: {
     gap: 12,
@@ -257,22 +276,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#3A3A5C', // cardMedium
+    borderBottomColor: AppColors.cardMedium,
   },
   habitName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#F8FAFC',
-    fontFamily: 'Nunito-SemiBold',
+    color: AppColors.textPrimary,
+    fontFamily: 'Nunito_600SemiBold',
   },
   statusDone: {
-    color: '#4ADE80', // dinoGreen
+    color: AppColors.dinoGreen,
     fontWeight: '600',
     fontSize: 14,
+    fontFamily: 'Nunito_700Bold',
   },
   statusTodo: {
-    color: '#64748B', // textMuted
+    color: AppColors.textMuted,
     fontSize: 14,
+    fontFamily: 'Nunito_400Regular',
   },
   streakContainer: {
     flexDirection: 'row',
@@ -283,7 +304,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   streakCircle: {
-    width: 36, // Match design guide
+    width: 36,
     height: 36,
     borderRadius: 18,
     justifyContent: 'center',
@@ -291,35 +312,30 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   streakCircleDone: {
-    backgroundColor: '#4ADE80',
-    shadowColor: '#4ADE80',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 3,
+    backgroundColor: AppColors.dinoGreen,
   },
   streakCirclePartial: {
-    backgroundColor: '#3A3A5C',
+    backgroundColor: AppColors.cardMedium,
     borderWidth: 1,
-    borderColor: '#4A4A6A',
+    borderColor: AppColors.elevated,
   },
   streakCount: {
     color: '#FFF',
     fontSize: 10,
     fontWeight: '700',
-    fontFamily: 'Nunito-Bold',
+    fontFamily: 'Nunito_700Bold',
   },
   dayLabel: {
     fontSize: 10,
-    color: '#64748B',
-    fontFamily: 'Nunito-Regular',
+    color: AppColors.textMuted,
+    fontFamily: 'Nunito_400Regular',
   },
   actionsContainer: {
     marginTop: 10,
     gap: 12,
   },
   resetButton: {
-    backgroundColor: '#EF4444', // error
+    backgroundColor: AppColors.error,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -330,21 +346,21 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 16,
     fontWeight: '700',
-    fontFamily: 'Fredoka-One',
+    fontFamily: 'FredokaOne_400Regular',
   },
   manageRewardsButton: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: '#FBBF24', // rewardGold
+    borderColor: AppColors.rewardGold,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
     borderRadius: 16,
   },
   manageRewardsText: {
-    color: '#FBBF24',
+    color: AppColors.rewardGold,
     fontSize: 16,
     fontWeight: '700',
-    fontFamily: 'Fredoka-One',
+    fontFamily: 'FredokaOne_400Regular',
   },
 });
