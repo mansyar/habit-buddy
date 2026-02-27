@@ -5,24 +5,27 @@ import Animated, {
   useAnimatedStyle,
   withRepeat,
   withTiming,
+  withSpring,
   Easing,
 } from 'react-native-reanimated';
 import { Svg, Rect, Defs, Pattern, Path } from 'react-native-svg';
+import { AppColors } from '../theme/Colors';
 
 interface CautionTapeProgressProps {
   progress: number; // 0 to 100
 }
 
-const STRIPE_WIDTH = 40;
-const TAPE_HEIGHT = 24;
+const STRIPE_WIDTH = 20;
+const TAPE_HEIGHT = 12; // AppSizes.progressBarHeight
 
 export function CautionTapeProgress({ progress }: CautionTapeProgressProps) {
   const offset = useSharedValue(0);
+  const animatedWidth = useSharedValue(progress);
 
   useEffect(() => {
     offset.value = withRepeat(
       withTiming(-STRIPE_WIDTH, {
-        duration: 1000,
+        duration: 1500,
         easing: Easing.linear,
       }),
       -1,
@@ -30,15 +33,23 @@ export function CautionTapeProgress({ progress }: CautionTapeProgressProps) {
     );
   }, [offset]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  useEffect(() => {
+    animatedWidth.value = withSpring(progress, { damping: 15, stiffness: 100 });
+  }, [progress, animatedWidth]);
+
+  const stripeStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.value }],
+  }));
+
+  const fillStyle = useAnimatedStyle(() => ({
+    width: `${animatedWidth.value}%`,
   }));
 
   return (
     <View style={styles.container} testID="caution-tape-container">
       <View style={styles.track}>
-        <View style={[styles.fill, { width: `${progress}%` }]} testID="caution-tape-fill">
-          <Animated.View style={[styles.stripeContainer, animatedStyle]}>
+        <Animated.View style={[styles.fill, fillStyle]} testID="caution-tape-fill">
+          <Animated.View style={[styles.stripeContainer, stripeStyle]}>
             <Svg width="200%" height={TAPE_HEIGHT}>
               <Defs>
                 <Pattern
@@ -47,17 +58,17 @@ export function CautionTapeProgress({ progress }: CautionTapeProgressProps) {
                   height={TAPE_HEIGHT}
                   patternUnits="userSpaceOnUse"
                 >
-                  <Rect width={STRIPE_WIDTH} height={TAPE_HEIGHT} fill="#FFD700" />
+                  <Rect width={STRIPE_WIDTH} height={TAPE_HEIGHT} fill={AppColors.rewardGold} />
                   <Path
                     d={`M0 ${TAPE_HEIGHT} L${STRIPE_WIDTH / 2} 0 L${STRIPE_WIDTH} 0 L${STRIPE_WIDTH / 2} ${TAPE_HEIGHT} Z`}
-                    fill="#333"
+                    fill={AppColors.missionOrange}
                   />
                 </Pattern>
               </Defs>
               <Rect width="100%" height="100%" fill="url(#stripe)" />
             </Svg>
           </Animated.View>
-        </View>
+        </Animated.View>
       </View>
     </View>
   );
@@ -65,24 +76,21 @@ export function CautionTapeProgress({ progress }: CautionTapeProgressProps) {
 
 const styles = StyleSheet.create({
   container: {
-    height: TAPE_HEIGHT + 4,
+    height: TAPE_HEIGHT,
     width: '100%',
-    paddingHorizontal: 20,
     justifyContent: 'center',
-    marginVertical: 10,
   },
   track: {
     height: TAPE_HEIGHT,
-    backgroundColor: '#EEE',
+    backgroundColor: AppColors.cardMedium,
     borderRadius: TAPE_HEIGHT / 2,
     overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: '#333',
   },
   fill: {
     height: '100%',
-    backgroundColor: '#FFD700',
+    backgroundColor: AppColors.rewardGold,
     overflow: 'hidden',
+    borderRadius: TAPE_HEIGHT / 2,
   },
   stripeContainer: {
     flexDirection: 'row',

@@ -25,6 +25,19 @@ export const AppColors = {
   textMuted: '#64748B',
 };
 
+export const getHabitColor = (habitId: string) => {
+  switch (habitId) {
+    case 'tooth-brushing':
+      return AppColors.dinoGreen;
+    case 'meal-time':
+      return AppColors.missionOrange;
+    case 'toy-cleanup':
+      return AppColors.sleepyBlue;
+    default:
+      return AppColors.dinoGreen;
+  }
+};
+
 // Legacy Expo format compatibility
 export const Colors = {
   light: {

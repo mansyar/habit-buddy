@@ -1,9 +1,11 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text } from './Themed';
 import * as Icons from 'lucide-react-native';
 import { Habit } from '../types/habit';
 import { useRouter } from 'expo-router';
+import { AppColors, getHabitColor } from '../theme/Colors';
+import { ScaleButton } from './ScaleButton';
 
 interface HabitCardProps {
   habit: Habit;
@@ -13,141 +15,83 @@ interface HabitCardProps {
 export function HabitCard({ habit, isCompleted }: HabitCardProps) {
   const router = useRouter();
   const Icon = (Icons as any)[habit.iconName] || Icons.HelpCircle;
+  const habitColor = getHabitColor(habit.id);
 
   const handlePress = () => {
     router.push(`/mission/${habit.id}`);
   };
 
   return (
-    <TouchableOpacity
+    <ScaleButton
       testID={`habit-card-${habit.id}`}
-      style={[
-        styles.card,
-        { backgroundColor: isCompleted ? '#E0E0E0' : '#FFFFFF' },
-        (styles as any)[
-          `border${habit.themeColor.charAt(0).toUpperCase() + habit.themeColor.slice(1)}`
-        ],
-      ]}
+      style={[styles.card, isCompleted && styles.completedCard]}
       onPress={handlePress}
-      activeOpacity={0.7}
     >
-      <View
-        style={[styles.iconContainer, { backgroundColor: getThemeLightColor(habit.themeColor) }]}
-      >
-        <Icon size={32} color={getThemeDarkColor(habit.themeColor)} />
+      <View style={[styles.leftAccent, { backgroundColor: habitColor }]} />
+
+      <View style={[styles.iconArea, { backgroundColor: `${habitColor}1A` }]}>
+        <Icon size={32} color={habitColor} />
       </View>
 
       <View style={styles.infoContainer}>
-        <Text style={styles.habitName}>{habit.name}</Text>
-        <Text style={styles.duration}>{habit.defaultDuration} min</Text>
+        <Text style={[styles.habitName, isCompleted && styles.completedText]}>{habit.name}</Text>
+        <Text style={styles.duration}>⏱ {habit.defaultDuration}:00</Text>
       </View>
 
       <View style={styles.statusContainer}>
-        {isCompleted ? (
-          <View style={styles.statusBadge}>
-            <Icons.CheckCircle2 size={16} color="#4CAF50" />
-            <Text style={[styles.statusText, { color: '#4CAF50' }]}>Done!</Text>
-          </View>
-        ) : (
-          <Text style={styles.statusTextNotDone}>Not Done</Text>
-        )}
+        {isCompleted && <Icons.CheckCircle2 size={24} color={AppColors.dinoGreen} />}
       </View>
-    </TouchableOpacity>
+    </ScaleButton>
   );
-}
-
-function getThemeLightColor(color: string) {
-  switch (color) {
-    case 'blue':
-      return '#E3F2FD';
-    case 'green':
-      return '#E8F5E9';
-    case 'yellow':
-      return '#FFFDE7';
-    case 'purple':
-      return '#F3E5F5';
-    case 'orange':
-      return '#FFF3E0';
-    default:
-      return '#F5F5F5';
-  }
-}
-
-function getThemeDarkColor(color: string) {
-  switch (color) {
-    case 'blue':
-      return '#2196F3';
-    case 'green':
-      return '#4CAF50';
-    case 'yellow':
-      return '#FBC02D';
-    case 'purple':
-      return '#9C27B0';
-    case 'orange':
-      return '#FF9800';
-    default:
-      return '#757575';
-  }
 }
 
 const styles = StyleSheet.create({
   card: {
+    height: 96, // AppSizes.habitCardHeight
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    borderRadius: 20,
-    marginBottom: 12,
-    borderWidth: 2,
-    borderColor: '#F0F0F0',
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    elevation: 3,
+    backgroundColor: AppColors.cardDark,
+    borderRadius: 20, // AppRadius.xl
+    overflow: 'hidden',
+    paddingRight: 16,
   },
-  borderBlue: { borderColor: '#BBDEFB' },
-  borderGreen: { borderColor: '#C8E6C9' },
-  borderYellow: { borderColor: '#FFF9C4' },
-  borderPurple: { borderColor: '#E1BEE7' },
-  borderOrange: { borderColor: '#FFE0B2' },
-  iconContainer: {
+  completedCard: {
+    opacity: 0.6,
+  },
+  leftAccent: {
+    width: 4,
+    height: '100%',
+  },
+  iconArea: {
     width: 56,
     height: 56,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginHorizontal: 16,
   },
   infoContainer: {
     flex: 1,
   },
   habitName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
-    fontFamily: 'Fredoka-One', // Fallback handled by theme if font not loaded
-    color: '#333',
+    fontFamily: 'FredokaOne_400Regular',
+    color: AppColors.textPrimary,
+  },
+  completedText: {
+    textDecorationLine: 'line-through',
   },
   duration: {
     fontSize: 14,
-    color: '#757575',
-    marginTop: 2,
+    color: AppColors.textSecondary,
+    marginTop: 4,
+    fontFamily: 'Nunito_600SemiBold',
   },
   statusContainer: {
-    alignItems: 'flex-end',
-  },
-  statusBadge: {
-    flexDirection: 'row',
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#E8F5E9',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  statusText: {
-    fontSize: 12,
-    fontWeight: '700',
-    marginLeft: 4,
-  },
-  statusTextNotDone: {
-    fontSize: 12,
-    color: '#BDBDBD',
-    fontWeight: '600',
   },
 });
