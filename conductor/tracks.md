@@ -10,12 +10,9 @@ This file records all tracks created during the development process.
       _Link: [./archive/reward_system_20260226/](./archive/reward_system_20260226/)_
 - [x] **Track: implement a git hook that check for 'pnpm typecheck' and 'pnpm test' before pushing to remote repo/origin**
       _Link: [./archive/git_hooks_20260227/](./archive/git_hooks_20260227/)_
+- [x] **Track: make sure pnpm lint has 0 error and 0 warning. no shortcut. proper solution only**
+      _Link: [./archive/lint_cleanup_20260227/](./archive/lint_cleanup_20260227/)_
 
 ## Planned
-
----
-
-- [x] **Track: make sure pnpm lint has 0 error and 0 warning. no shortcut. proper solution only**
-      _Link: [./tracks/lint_cleanup_20260227/](./tracks/lint_cleanup_20260227/)_
 
 ---

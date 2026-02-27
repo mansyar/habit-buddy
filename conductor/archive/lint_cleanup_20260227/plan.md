@@ -15,13 +15,13 @@
 
 ## Phase 3: Manual TypeScript Resolution
 
-- [~] Task: Resolve type errors in `app/` directory.
-- [ ] Task: Resolve type errors in `src/` directory.
-- [ ] Task: Resolve type errors in test files.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Resolve type errors in `app/` directory.
+- [x] Task: Resolve type errors in `src/` directory.
+- [x] Task: Resolve type errors in test files.
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
 ## Phase 4: Final Verification and Regression Testing
 
-- [ ] Task: Run all existing unit and component tests (`pnpm test`).
-- [ ] Task: Final full check with `pnpm lint` and `pnpm typecheck` ensuring zero errors and warnings.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+- [x] Task: Run all existing unit and component tests (`pnpm test`).
+- [x] Task: Final full check with `pnpm lint` and `pnpm typecheck` ensuring zero errors and warnings.
+- [x] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
