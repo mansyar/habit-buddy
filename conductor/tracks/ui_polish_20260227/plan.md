@@ -45,3 +45,7 @@
 - [x] Task: Update `docs/roadmap.md` to mark Sub-Phase 8A (UI Polish) as complete. 43a6d91
 
 ### 3.3 Conductor - User Manual Verification 'Phase 3: Final Testing & Documentation' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions a4498a8
