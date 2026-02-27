@@ -46,13 +46,13 @@ describe('RewardShopScreen - Reward Management', () => {
     const { getByText, getByPlaceholderText, findByText } = render(<RewardShopScreen />);
 
     // Trigger Parental Gate
-    const gateButton = getByText('Parent Settings');
+    const gateButton = getByText('Parent');
     fireEvent.mouseDown(gateButton);
     await new Promise((resolve) => setTimeout(resolve, 50));
     fireEvent.mouseUp(gateButton);
 
     // Should now be in Admin mode
-    const addRewardButton = await findByText('Add New Reward');
+    const addRewardButton = await findByText('Add New');
     fireEvent.click(addRewardButton);
 
     const titleInput = getByPlaceholderText('Reward title (e.g., Ice Cream)');
@@ -80,7 +80,7 @@ describe('RewardShopScreen - Reward Management', () => {
     const { getByText, findByText } = render(<RewardShopScreen />);
 
     // Trigger Parental Gate
-    const gateButton = getByText('Parent Settings');
+    const gateButton = getByText('Parent');
     fireEvent.mouseDown(gateButton);
     await new Promise((resolve) => setTimeout(resolve, 50));
     fireEvent.mouseUp(gateButton);

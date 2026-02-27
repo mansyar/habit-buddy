@@ -10,6 +10,9 @@ import { BuddyAnimation } from '@/components/BuddyAnimation';
 import { Coupon } from '@/types/coupon';
 import { useAuthStore } from '@/store/auth_store';
 import { useBuddyStore } from '@/store/buddy_store';
+import { AppColors } from '@/theme/Colors';
+import { EmptyState } from '@/components/EmptyState';
+import { ScaleButton } from '@/components/ScaleButton';
 import {
   Plus,
   Settings,
@@ -152,19 +155,28 @@ export default function RewardShopScreen() {
     }
   };
 
+  const filteredCoupons = coupons.filter((c) => (showHistory ? c.is_redeemed : !c.is_redeemed));
+
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          title: isAdmin ? (showHistory ? 'Reward History' : 'Manage Rewards') : 'Reward Shop',
+          headerStyle: { backgroundColor: AppColors.deepIndigo },
+          headerTintColor: AppColors.textPrimary,
+          headerTitleStyle: { fontFamily: 'FredokaOne_400Regular' },
+          title: isAdmin ? (showHistory ? 'History' : 'Manage') : 'Shop',
           headerRight: () => (
             <ParentalGate
               onSuccess={() => setIsAdmin(!isAdmin)}
               delay={process.env.NODE_ENV === 'test' ? 10 : 3000}
             >
               <View style={styles.headerButton}>
-                {isAdmin ? <X size={24} color="#FF4B4B" /> : <Settings size={24} color="#666" />}
-                <Text style={styles.headerButtonText}>{isAdmin ? 'Exit' : 'Parent Settings'}</Text>
+                {isAdmin ? (
+                  <X size={20} color={AppColors.error} />
+                ) : (
+                  <Settings size={20} color={AppColors.textMuted} />
+                )}
+                <Text style={styles.headerButtonText}>{isAdmin ? 'Exit' : 'Parent'}</Text>
               </View>
             </ParentalGate>
           ),
@@ -179,59 +191,82 @@ export default function RewardShopScreen() {
             </Text>
             <View style={{ flexDirection: 'row' }}>
               <Pressable
-                style={[styles.addButton, { backgroundColor: '#FFD700', marginRight: 10 }]}
+                style={[
+                  styles.addButton,
+                  { backgroundColor: AppColors.rewardGold, marginRight: 10 },
+                ]}
                 onPress={() => setShowHistory(!showHistory)}
               >
                 {showHistory ? (
-                  <Activity size={20} color="#333" />
+                  <Activity size={20} color={AppColors.cardDark} />
                 ) : (
-                  <History size={20} color="#333" />
+                  <History size={20} color={AppColors.cardDark} />
                 )}
-                <Text style={[styles.addButtonText, { color: '#333' }]}>
+                <Text style={[styles.addButtonText, { color: AppColors.cardDark }]}>
                   {showHistory ? 'Active' : 'History'}
                 </Text>
               </Pressable>
               {!showHistory && (
-                <Pressable style={styles.addButton} onPress={() => setShowAddModal(true)}>
+                <Pressable
+                  style={[styles.addButton, { backgroundColor: AppColors.dinoGreen }]}
+                  onPress={() => setShowAddModal(true)}
+                >
                   <Plus size={20} color="#FFF" />
-                  <Text style={styles.addButtonText}>Add New Reward</Text>
+                  <Text style={styles.addButtonText}>Add New</Text>
                 </Pressable>
               )}
             </View>
           </View>
 
-          <ScrollView style={styles.list}>
-            {coupons
-              .filter((c) => (showHistory ? c.is_redeemed : !c.is_redeemed))
-              .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-              .map((coupon) => (
-                <View
-                  key={coupon.id}
-                  style={[styles.couponItem, coupon.is_redeemed && styles.redeemedItem]}
-                >
-                  <View style={styles.couponInfo}>
-                    <Text style={[styles.couponTitle, coupon.is_redeemed && styles.redeemedText]}>
-                      {coupon.title}
-                    </Text>
-                    <Text style={styles.couponCost}>
-                      {coupon.bolt_cost} Bolts • {coupon.category}
-                      {coupon.is_redeemed &&
-                        ` • Redeemed on ${new Date(coupon.created_at).toLocaleDateString()}`}
-                    </Text>
-                  </View>
-                  {!coupon.is_redeemed && (
-                    <View style={styles.itemActions}>
-                      <Pressable style={styles.iconButton} onPress={() => setEditingCoupon(coupon)}>
-                        <Edit2 size={18} color="#4A90E2" />
-                      </Pressable>
-                      <Pressable style={styles.iconButton} onPress={() => confirmDelete(coupon.id)}>
-                        <Trash2 size={18} color="#FF4B4B" />
-                      </Pressable>
+          {filteredCoupons.length === 0 ? (
+            <EmptyState
+              icon={showHistory ? History : Gift}
+              title={showHistory ? 'No History' : 'No Rewards'}
+              message={
+                showHistory
+                  ? "You haven't redeemed any rewards yet."
+                  : 'Create some rewards for your buddy!'
+              }
+            />
+          ) : (
+            <ScrollView style={styles.list}>
+              {filteredCoupons
+                .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+                .map((coupon) => (
+                  <View
+                    key={coupon.id}
+                    style={[styles.couponItem, coupon.is_redeemed && styles.redeemedItem]}
+                  >
+                    <View style={styles.couponInfo}>
+                      <Text style={[styles.couponTitle, coupon.is_redeemed && styles.redeemedText]}>
+                        {coupon.title}
+                      </Text>
+                      <Text style={styles.couponCost}>
+                        {coupon.bolt_cost} Bolts • {coupon.category}
+                        {coupon.is_redeemed &&
+                          ` • ${new Date(coupon.created_at).toLocaleDateString()}`}
+                      </Text>
                     </View>
-                  )}
-                </View>
-              ))}
-          </ScrollView>
+                    {!coupon.is_redeemed && (
+                      <View style={styles.itemActions}>
+                        <Pressable
+                          style={styles.iconButton}
+                          onPress={() => setEditingCoupon(coupon)}
+                        >
+                          <Edit2 size={18} color={AppColors.sleepyBlue} />
+                        </Pressable>
+                        <Pressable
+                          style={styles.iconButton}
+                          onPress={() => confirmDelete(coupon.id)}
+                        >
+                          <Trash2 size={18} color={AppColors.error} />
+                        </Pressable>
+                      </View>
+                    )}
+                  </View>
+                ))}
+            </ScrollView>
+          )}
 
           {/* Add Reward Modal */}
           <Modal visible={showAddModal} animationType="slide" transparent>
@@ -244,6 +279,7 @@ export default function RewardShopScreen() {
                 <TextInput
                   style={styles.input}
                   placeholder="Reward title (e.g., Ice Cream)"
+                  placeholderTextColor={AppColors.textMuted}
                   value={title}
                   onChangeText={setTitle}
                 />
@@ -251,6 +287,7 @@ export default function RewardShopScreen() {
                 <TextInput
                   style={styles.input}
                   placeholder="Bolt cost"
+                  placeholderTextColor={AppColors.textMuted}
                   value={boltCost}
                   onChangeText={setBoltCost}
                   keyboardType="number-pad"
@@ -300,25 +337,37 @@ export default function RewardShopScreen() {
         <View style={styles.content}>
           <Text style={styles.title}>Reward Shop</Text>
           <View style={styles.balanceContainer}>
-            <Star size={24} color="#FFD700" fill="#FFD700" />
+            <Star size={20} color={AppColors.rewardGold} fill={AppColors.rewardGold} />
             <Text style={styles.balanceText}>{profile?.bolt_balance || 0} Gold Bolts</Text>
           </View>
           <Text style={styles.description}>Trade your Gold Bolts for awesome prizes here!</Text>
 
-          <ScrollView contentContainerStyle={styles.shopGrid}>
-            {coupons
-              .filter((c) => !c.is_redeemed)
-              .map((coupon) => (
+          {filteredCoupons.length === 0 ? (
+            <EmptyState
+              icon={Gift}
+              title="Shop is Empty"
+              message="Ask your parent to add some rewards for you!"
+            />
+          ) : (
+            <ScrollView
+              contentContainerStyle={styles.shopGrid}
+              showsVerticalScrollIndicator={false}
+            >
+              {filteredCoupons.map((coupon) => (
                 <View key={coupon.id} style={styles.shopCard}>
                   <View style={styles.cardIcon}>
-                    {coupon.category === 'Physical' && <Gift size={32} color="#FF6B6B" />}
-                    {coupon.category === 'Privilege' && <Shield size={32} color="#4ECDC4" />}
-                    {coupon.category === 'Activity' && <Activity size={32} color="#45B7D1" />}
+                    {coupon.category === 'Physical' && <Gift size={32} color={AppColors.error} />}
+                    {coupon.category === 'Privilege' && (
+                      <Shield size={32} color={AppColors.dinoGreen} />
+                    )}
+                    {coupon.category === 'Activity' && (
+                      <Activity size={32} color={AppColors.missionOrange} />
+                    )}
                   </View>
                   <Text style={styles.cardTitle}>{coupon.title}</Text>
                   <View style={styles.cardFooter}>
                     <Text style={styles.cardCost}>{coupon.bolt_cost} Bolts</Text>
-                    <Pressable
+                    <ScaleButton
                       style={[
                         styles.redeemBtn,
                         (profile?.bolt_balance || 0) < coupon.bolt_cost && styles.disabledBtn,
@@ -327,18 +376,19 @@ export default function RewardShopScreen() {
                       onPress={() => setConfirmingCoupon(coupon)}
                     >
                       <Text style={styles.redeemBtnText}>Redeem</Text>
-                    </Pressable>
+                    </ScaleButton>
                   </View>
                 </View>
               ))}
-          </ScrollView>
+            </ScrollView>
+          )}
 
           {/* Confirm Redemption Modal */}
           <Modal visible={!!confirmingCoupon} animationType="fade" transparent>
             <View style={styles.modalOverlay}>
               <View style={[styles.modalContent, styles.confirmModal]}>
                 <View style={styles.confirmIcon}>
-                  <Gift size={64} color="#FF6B6B" />
+                  <Gift size={64} color={AppColors.error} />
                 </View>
                 <Text style={styles.modalTitle}>Redeem Reward?</Text>
                 <Text style={styles.confirmText}>
@@ -369,12 +419,12 @@ export default function RewardShopScreen() {
             <View style={styles.successOverlay}>
               <BuddyAnimation buddy={(selectedBuddy as any) || 'dino'} state="success" size={250} />
               <View style={styles.successContent}>
-                <CheckCircle2 size={80} color="#4ECDC4" />
+                <CheckCircle2 size={80} color={AppColors.dinoGreen} />
                 <Text style={styles.successTitle}>Hooray!</Text>
                 <Text style={styles.successText}>You got "{successReward?.title}"!</Text>
-                <Pressable style={styles.successBtn} onPress={() => setShowSuccess(false)}>
+                <ScaleButton style={styles.successBtn} onPress={() => setShowSuccess(false)}>
                   <Text style={styles.successBtnText}>Awesome!</Text>
-                </Pressable>
+                </ScaleButton>
               </View>
             </View>
           </Modal>
@@ -387,7 +437,7 @@ export default function RewardShopScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: AppColors.deepIndigo,
   },
   content: {
     flex: 1,
@@ -401,43 +451,47 @@ const styles = StyleSheet.create({
   },
   headerButtonText: {
     fontSize: 12,
-    color: '#666',
+    color: AppColors.textMuted,
     marginLeft: 5,
     fontWeight: '600',
+    fontFamily: 'Nunito_600SemiBold',
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '800',
-    fontFamily: 'Fredoka-One',
-    color: '#333',
+    fontFamily: 'FredokaOne_400Regular',
+    color: AppColors.textPrimary,
     marginBottom: 5,
   },
   subtitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#333',
+    color: AppColors.textPrimary,
+    fontFamily: 'FredokaOne_400Regular',
   },
   description: {
     fontSize: 16,
-    color: '#666',
+    color: AppColors.textSecondary,
     marginBottom: 20,
+    fontFamily: 'Nunito_400Regular',
   },
   balanceContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: `${AppColors.rewardGold}1A`,
     padding: 10,
     borderRadius: 15,
     alignSelf: 'flex-start',
     marginBottom: 15,
     borderWidth: 2,
-    borderColor: '#FFD700',
+    borderColor: AppColors.rewardGold,
   },
   balanceText: {
     fontSize: 18,
     fontWeight: '800',
     marginLeft: 8,
-    color: '#333',
+    color: AppColors.rewardGold,
+    fontFamily: 'FredokaOne_400Regular',
   },
   adminHeader: {
     flexDirection: 'row',
@@ -448,7 +502,6 @@ const styles = StyleSheet.create({
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4ECDC4',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -458,30 +511,26 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: '700',
     marginLeft: 5,
+    fontFamily: 'Nunito_700Bold',
   },
   list: {
     flex: 1,
   },
   couponItem: {
     flexDirection: 'row',
-    backgroundColor: '#FFF',
+    backgroundColor: AppColors.cardDark,
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
   },
   redeemedItem: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: AppColors.cardMedium,
     opacity: 0.8,
   },
   redeemedText: {
     textDecorationLine: 'line-through',
-    color: '#999',
+    color: AppColors.textMuted,
   },
   couponInfo: {
     flex: 1,
@@ -489,11 +538,13 @@ const styles = StyleSheet.create({
   couponTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#333',
+    color: AppColors.textPrimary,
+    fontFamily: 'FredokaOne_400Regular',
   },
   couponCost: {
     fontSize: 14,
-    color: '#666',
+    color: AppColors.textSecondary,
+    fontFamily: 'Nunito_400Regular',
   },
   itemActions: {
     flexDirection: 'row',
@@ -510,26 +561,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    paddingBottom: 20,
   },
   shopCard: {
     width: '48%',
-    backgroundColor: '#FFF',
+    backgroundColor: AppColors.cardDark,
     borderRadius: 20,
     padding: 15,
     marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
     borderWidth: 1,
-    borderColor: '#EEE',
+    borderColor: AppColors.elevated,
   },
   cardIcon: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: AppColors.elevated,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
@@ -537,23 +584,25 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#333',
+    color: AppColors.textPrimary,
     marginBottom: 10,
     height: 40,
+    fontFamily: 'FredokaOne_400Regular',
   },
   cardFooter: {
     borderTopWidth: 1,
-    borderTopColor: '#F0F0F0',
+    borderTopColor: AppColors.elevated,
     paddingTop: 10,
   },
   cardCost: {
     fontSize: 14,
     fontWeight: '800',
-    color: '#FFD700',
+    color: AppColors.rewardGold,
     marginBottom: 8,
+    fontFamily: 'FredokaOne_400Regular',
   },
   redeemBtn: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: AppColors.error,
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
@@ -563,38 +612,47 @@ const styles = StyleSheet.create({
   redeemBtnText: {
     color: '#FFF',
     fontWeight: '700',
+    fontFamily: 'Nunito_700Bold',
   },
   disabledBtn: {
-    backgroundColor: '#CCC',
+    backgroundColor: AppColors.cardMedium,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'center',
     padding: 20,
   },
   modalContent: {
-    backgroundColor: '#FFF',
+    backgroundColor: AppColors.cardDark,
     borderRadius: 20,
     padding: 25,
+    borderWidth: 1,
+    borderColor: AppColors.elevated,
   },
   modalTitle: {
     fontSize: 22,
     fontWeight: '800',
     marginBottom: 20,
     textAlign: 'center',
+    color: AppColors.textPrimary,
+    fontFamily: 'FredokaOne_400Regular',
   },
   input: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: AppColors.elevated,
     padding: 15,
     borderRadius: 12,
     marginBottom: 15,
     fontSize: 16,
+    color: AppColors.textPrimary,
+    fontFamily: 'Nunito_400Regular',
   },
   label: {
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 10,
+    color: AppColors.textPrimary,
+    fontFamily: 'Nunito_700Bold',
   },
   categoryPicker: {
     flexDirection: 'row',
@@ -606,21 +664,22 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginHorizontal: 4,
     borderRadius: 10,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: AppColors.elevated,
     alignItems: 'center',
   },
   categoryBtnActive: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: AppColors.dinoGreen,
   },
   categoryBtnText: {
     fontWeight: '600',
-    color: '#666',
+    color: AppColors.textSecondary,
+    fontFamily: 'Nunito_600SemiBold',
   },
   categoryBtnTextActive: {
     color: '#FFF',
   },
   errorText: {
-    color: '#FF4B4B',
+    color: AppColors.error,
     marginBottom: 15,
     textAlign: 'center',
     fontWeight: '600',
@@ -637,18 +696,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   cancelBtn: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: AppColors.cardMedium,
   },
   saveBtn: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: AppColors.dinoGreen,
   },
   cancelBtnText: {
-    color: '#666',
+    color: AppColors.textSecondary,
     fontWeight: '700',
+    fontFamily: 'Nunito_700Bold',
   },
   saveBtnText: {
     color: '#FFF',
     fontWeight: '700',
+    fontFamily: 'Nunito_700Bold',
   },
   confirmModal: {
     alignItems: 'center',
@@ -660,15 +721,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginBottom: 30,
-    color: '#666',
+    color: AppColors.textSecondary,
     lineHeight: 24,
+    fontFamily: 'Nunito_600SemiBold',
   },
   largeBtn: {
     paddingVertical: 20,
   },
   successOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.95)',
+    backgroundColor: 'rgba(26, 26, 46, 0.95)',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -678,31 +740,31 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   successTitle: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '900',
-    color: '#4ECDC4',
-    fontFamily: 'Fredoka-One',
+    color: AppColors.dinoGreen,
+    fontFamily: 'FredokaOne_400Regular',
     marginTop: 20,
   },
   successText: {
     fontSize: 20,
-    color: '#666',
+    color: AppColors.textPrimary,
     textAlign: 'center',
     marginVertical: 15,
     fontWeight: '600',
+    fontFamily: 'Nunito_600SemiBold',
   },
   successBtn: {
-    backgroundColor: '#FFD700',
+    backgroundColor: AppColors.rewardGold,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 20,
     marginTop: 20,
-    borderWidth: 3,
-    borderColor: '#DAA520',
   },
   successBtnText: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#333',
+    color: AppColors.cardDark,
+    fontFamily: 'FredokaOne_400Regular',
   },
 });
