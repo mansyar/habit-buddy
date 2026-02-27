@@ -4,7 +4,7 @@
 
 ### 1.1 Animated Splash Screen
 
-- [ ] Task: Create `src/components/AnimatedSplash.tsx` component with Reanimated entrance animation.
+- [x] Task: Create `src/components/AnimatedSplash.tsx` component with Reanimated entrance animation. f372c47
 - [ ] Task: Integrate `AnimatedSplash` into `app/_layout.tsx` to ensure it shows for 2s on cold start.
 - [ ] Task: Generate and configure native Android/iOS app icons from master asset (1024x1024).
 
