@@ -36,10 +36,10 @@ export const ScaleButton: React.FC<ScaleButtonProps> = ({
 
   return (
     <AnimatedPressable
-      {...props}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       style={[style, animatedStyle]}
+      {...props}
     >
       {children}
     </AnimatedPressable>

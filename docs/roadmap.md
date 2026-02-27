@@ -388,15 +388,15 @@ assets/
 
 ### Sub-Phase 8A: UI Polish (2–3 days)
 
-| #    | Task                     | Details                                                                      |
-| :--- | :----------------------- | :--------------------------------------------------------------------------- |
-| 8A.1 | Splash screen            | Animated Animal logo using Reanimated (or static fallback), 2-second minimum |
-| 8A.2 | App icon                 | Generate Android icons from 1024×1024 master                                 |
-| 8A.3 | Color palette refinement | Vibrant, toddler-friendly palette. Test on tablet screens.                   |
-| 8A.4 | Micro-animations         | Button press feedback, bolt counter increment, card completion check-mark    |
-| 8A.5 | Loading states           | Skeleton screens or playful loading indicators (bouncing buddy?)             |
-| 8A.6 | Empty states             | Friendly illustrations for empty reward shop, no logs, etc.                  |
-| 8A.7 | Responsive layout        | Test on phone (small), tablet (large), landscape + portrait                  |
+| #    | Task                     | Status | Details                                                                      |
+| :--- | :----------------------- | :----- | :--------------------------------------------------------------------------- |
+| 8A.1 | Splash screen            | ✅     | Animated Animal logo using Reanimated (or static fallback), 2-second minimum |
+| 8A.2 | App icon                 | ✅     | Generate Android icons from 1024×1024 master                                 |
+| 8A.3 | Color palette refinement | ✅     | Vibrant, toddler-friendly palette. Test on tablet screens.                   |
+| 8A.4 | Micro-animations         | ✅     | Button press feedback, bolt counter increment, card completion check-mark    |
+| 8A.5 | Loading states           | ✅     | Skeleton screens or playful loading indicators (bouncing buddy?)             |
+| 8A.6 | Empty states             | ✅     | Friendly illustrations for empty reward shop, no logs, etc.                  |
+| 8A.7 | Responsive layout        | ✅     | Test on phone (small), tablet (large), landscape + portrait                  |
 
 ### Sub-Phase 8B: Error Handling & Edge Cases (1–2 days)
 
@@ -462,7 +462,7 @@ assets/
 | 5     | Reward System             | 3–4 days  | Phase 4    | ✅ Complete    |
 | 6     | Parent Dashboard          | 2–3 days  | Phase 4    | ✅ Complete    |
 | 7     | Offline & Sync            | 3–5 days  | Phase 2, 5 | ✅ Complete    |
-| 8     | Polish, Testing & Release | 5–7 days  | All        | ⬜ Not Started |
+| 8     | Polish, Testing & Release | 5–7 days  | All        | 🔄 In Progress |
 
 > **Note:** Phases 5 and 6 can run in parallel since they're independent of each other. Phase 7 depends on Phase 5 (coupon sync).
 
