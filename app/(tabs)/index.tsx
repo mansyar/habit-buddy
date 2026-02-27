@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, ScrollView, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Text } from '@/components/Themed';
 import { useAuthStore } from '@/store/auth_store';
 import { useHabitStore } from '@/store/habit_store';
@@ -10,12 +10,15 @@ import { CautionTapeProgress } from '@/components/CautionTapeProgress';
 import { Settings, Gift } from 'lucide-react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AppColors } from '@/theme/Colors';
+import { ScaleButton } from '@/components/ScaleButton';
 
 export default function HomeScreen() {
   const { profile } = useAuthStore();
   const { completedHabitIds, getCompletionPercentage, loadTodaysHabits } = useHabitStore();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (profile?.id) {
@@ -24,6 +27,12 @@ export default function HomeScreen() {
   }, [profile?.id, loadTodaysHabits]);
 
   const progress = getCompletionPercentage();
+
+  // Tablet scaling logic
+  const isTablet = width >= 600;
+  const isLargeTablet = width > 900;
+  const contentWidth = isLargeTablet ? 600 : '100%';
+  const numColumns = isTablet ? 2 : 1;
 
   return (
     <View style={styles.container}>
@@ -40,34 +49,42 @@ export default function HomeScreen() {
         </View>
         <View style={styles.headerRight}>
           <BoltCounter balance={profile?.bolt_balance || 0} />
-          <TouchableOpacity
+          <ScaleButton
             style={styles.iconButton}
             onPress={() => router.push('/settings')}
             onLongPress={() => router.push('/parent-dashboard')}
             delayLongPress={3000}
             testID="settings-button"
           >
-            <Settings size={24} color="#555" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reward-shop')}>
-            <Gift size={24} color="#FF6B6B" />
-          </TouchableOpacity>
+            <Settings size={22} color={AppColors.textMuted} />
+          </ScaleButton>
+          <ScaleButton style={styles.iconButton} onPress={() => router.push('/reward-shop')}>
+            <Gift size={22} color={AppColors.error} />
+          </ScaleButton>
         </View>
       </View>
 
-      {/* Progress Indicator */}
-      <CautionTapeProgress progress={progress} />
-
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          isLargeTablet && { alignSelf: 'center', width: 600 },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.sectionTitle}>Daily Missions</Text>
 
-        {CORE_HABITS.map((habit) => (
-          <HabitCard
-            key={habit.id}
-            habit={habit}
-            isCompleted={completedHabitIds.includes(habit.id)}
-          />
-        ))}
+        {/* Progress Indicator */}
+        <View style={styles.progressContainer}>
+          <CautionTapeProgress progress={progress} />
+        </View>
+
+        <View style={[styles.habitsGrid, isTablet && styles.habitsGridTablet]}>
+          {CORE_HABITS.map((habit) => (
+            <View key={habit.id} style={isTablet ? styles.habitWrapperTablet : styles.habitWrapper}>
+              <HabitCard habit={habit} isCompleted={completedHabitIds.includes(habit.id)} />
+            </View>
+          ))}
+        </View>
 
         <View style={styles.footerSpacer} />
       </ScrollView>
@@ -78,7 +95,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FBFCFE',
+    backgroundColor: AppColors.deepIndigo,
   },
   header: {
     flexDirection: 'row',
@@ -86,9 +103,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingBottom: 15,
-    backgroundColor: '#FFF',
+    backgroundColor: AppColors.deepIndigo,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: AppColors.cardDark,
   },
   headerLeft: {
     flex: 1,
@@ -100,23 +117,45 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 24,
     fontWeight: '800',
-    fontFamily: 'Fredoka-One',
-    color: '#333',
+    fontFamily: 'FredokaOne_400Regular',
+    color: AppColors.textPrimary,
   },
   iconButton: {
-    marginLeft: 15,
-    padding: 8,
-    borderRadius: 12,
-    backgroundColor: '#F5F5F5',
+    marginLeft: 12,
+    padding: 10,
+    borderRadius: 15,
+    backgroundColor: AppColors.cardDark,
+    borderWidth: 1,
+    borderColor: AppColors.elevated,
   },
   scrollContent: {
     padding: 20,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '700',
     marginBottom: 15,
-    color: '#444',
+    color: AppColors.textPrimary,
+    fontFamily: 'FredokaOne_400Regular',
+  },
+  progressContainer: {
+    marginBottom: 20,
+  },
+  habitsGrid: {
+    width: '100%',
+  },
+  habitsGridTablet: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  habitWrapper: {
+    width: '100%',
+    marginBottom: 12,
+  },
+  habitWrapperTablet: {
+    width: '48%',
+    marginBottom: 16,
   },
   footerSpacer: {
     height: 40,

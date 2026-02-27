@@ -114,6 +114,7 @@ vi.mock('react-native', () => {
       get: vi.fn(() => ({ width: 375, height: 812 })),
       addEventListener: vi.fn(() => ({ remove: vi.fn() })),
     },
+    useWindowDimensions: vi.fn(() => ({ width: 375, height: 812 })),
     Alert: {
       alert: vi.fn(),
     },
