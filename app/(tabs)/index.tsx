@@ -49,7 +49,7 @@ export default function HomeScreen() {
         </View>
         <View style={styles.headerRight}>
           <BoltCounter balance={profile?.bolt_balance || 0} />
-          <ScaleButton
+          <TouchableOpacity
             style={styles.iconButton}
             onPress={() => router.push('/settings')}
             onLongPress={() => router.push('/parent-dashboard')}
@@ -57,7 +57,7 @@ export default function HomeScreen() {
             testID="settings-button"
           >
             <Settings size={22} color={AppColors.textMuted} />
-          </ScaleButton>
+          </TouchableOpacity>
           <ScaleButton style={styles.iconButton} onPress={() => router.push('/reward-shop')}>
             <Gift size={22} color={AppColors.error} />
           </ScaleButton>

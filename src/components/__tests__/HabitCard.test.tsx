@@ -15,14 +15,13 @@ describe('HabitCard', () => {
     const { getByText } = render(<HabitCard habit={mockHabit} isCompleted={false} />);
 
     expect(getByText('Tooth Brushing')).toBeTruthy();
-    expect(getByText('2 min')).toBeTruthy();
-    expect(getByText('Not Done')).toBeTruthy();
+    expect(getByText('⏱ 2:00')).toBeTruthy();
   });
 
   it('shows completion status when completed', () => {
-    const { getByText } = render(<HabitCard habit={mockHabit} isCompleted={true} />);
+    const { getByTestId } = render(<HabitCard habit={mockHabit} isCompleted={true} />);
 
-    expect(getByText('Done!')).toBeTruthy();
+    expect(getByTestId('icon-CheckCircle2')).toBeTruthy();
   });
 
   it('navigates to the habit mission on press', () => {

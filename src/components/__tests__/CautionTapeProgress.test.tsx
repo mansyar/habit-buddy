@@ -11,22 +11,6 @@ vi.mock('react-native-svg', () => ({
   Path: () => <div />,
 }));
 
-// Mock Reanimated
-vi.mock('react-native-reanimated', () => {
-  return {
-    default: {
-      View: ({ children, style }: any) => <div style={style}>{children}</div>,
-    },
-    useSharedValue: vi.fn(() => ({ value: 0 })),
-    useAnimatedStyle: vi.fn(() => ({})),
-    withRepeat: vi.fn((val) => val),
-    withTiming: vi.fn((val) => val),
-    Easing: {
-      linear: vi.fn(),
-    },
-  };
-});
-
 vi.mock('../useColorScheme', () => ({
   useColorScheme: vi.fn(() => 'light'),
 }));

@@ -54,7 +54,7 @@ describe('RewardShopScreen - Reward History', () => {
     const { getByText, queryByText, findByText, getByTestId } = render(<RewardShopScreen />);
 
     // Trigger Parental Gate
-    const gateButton = getByText('Parent Settings');
+    const gateButton = getByText('Parent');
     fireEvent.mouseDown(gateButton);
     await new Promise((resolve) => setTimeout(resolve, 50));
     fireEvent.mouseUp(gateButton);
