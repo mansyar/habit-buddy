@@ -56,7 +56,7 @@ describe('MissionScreen', () => {
 
   test('displays mission name based on id param', () => {
     const { getByText } = render(<MissionScreen />);
-    expect(getByText('Brushing teeth')).toBeTruthy();
+    expect(getByText('Brush Your Teeth')).toBeTruthy();
   });
 
   test('starts mission when Start button is pressed', () => {

@@ -1,24 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/Themed';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useAuthStore } from '../../src/store/auth_store';
-import { useBuddyStore } from '../../src/store/buddy_store';
-import { useMissionTimer } from '../../src/components/useMissionTimer';
-import { TimerDisplay } from '../../src/components/TimerDisplay';
-import { BuddyAnimation } from '../../src/components/BuddyAnimation';
-import { FloatingProp } from '../../src/components/FloatingProp';
-import { Confetti } from '../../src/components/Confetti';
-import { Colors } from '../../src/theme/Colors';
-import { audioService } from '../../src/lib/audio_service';
-import { AUDIO_ASSETS } from '../../src/constants/audio';
-import { Volume2, VolumeX, Bolt } from 'lucide-react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
-import { habitLogService } from '../../src/lib/habit_log_service';
+import { useAuthStore } from '@/store/auth_store';
+import { useBuddyStore } from '@/store/buddy_store';
+import { useMissionTimer } from '@/components/useMissionTimer';
+import { TimerDisplay } from '@/components/TimerDisplay';
+import { BuddyAnimation } from '@/components/BuddyAnimation';
+import { FloatingProp } from '@/components/FloatingProp';
+import { Confetti } from '@/components/Confetti';
+import { AppColors } from '@/theme/Colors';
+import { audioService } from '@/lib/audio_service';
+import { AUDIO_ASSETS } from '@/constants/audio';
+import { Volume2, VolumeX, Zap } from 'lucide-react-native';
+import Animated, {
+  FadeIn,
+  ZoomIn,
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withDelay,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
+import { habitLogService } from '@/lib/habit_log_service';
+import { ScaleButton } from '@/components/ScaleButton';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
-  'tooth-brushing': { name: 'Brushing teeth', duration: 2 },
-  'meal-time': { name: 'Eating meal', duration: 15 },
-  'toy-cleanup': { name: 'Picking up toys', duration: 5 },
+  'tooth-brushing': { name: 'Brush Your Teeth', duration: 2 },
+  'meal-time': { name: 'Eat Your Meal', duration: 15 },
+  'toy-cleanup': { name: 'Pick Up Toys', duration: 5 },
 };
 
 export default function MissionScreen() {
@@ -41,6 +52,10 @@ export default function MissionScreen() {
 
   const [initialTime, setInitialTime] = useState(config.duration * 60);
   const [isMuted, setIsMuted] = useState(false);
+
+  // Result animation values
+  const boltScale = useSharedValue(0);
+  const resultTextOpacity = useSharedValue(0);
 
   // Initialize Audio
   useEffect(() => {
@@ -75,8 +90,13 @@ export default function MissionScreen() {
         setBuddySuccess();
         audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
         audioService.playSound('vo-success', { uri: AUDIO_ASSETS.vo.success });
+
+        // Trigger "Completion Pop"
+        boltScale.value = withDelay(300, withSpring(1, { damping: 10, stiffness: 100 }));
+        resultTextOpacity.value = withDelay(600, withTiming(1, { duration: 500 }));
       } else {
         setBuddySleepy();
+        resultTextOpacity.value = withDelay(300, withTiming(1, { duration: 500 }));
       }
 
       if (profile?.id) {
@@ -117,6 +137,8 @@ export default function MissionScreen() {
       timeLeft,
       setProfile,
       setBuddySleepy,
+      boltScale,
+      resultTextOpacity,
     ],
   );
 
@@ -132,6 +154,7 @@ export default function MissionScreen() {
     stop();
     handleFinish('success');
   };
+
   // VO trigger points
   useEffect(() => {
     if (!isActive) return;
@@ -163,43 +186,60 @@ export default function MissionScreen() {
     setInitialTime((prev) => Math.max(0, prev + seconds));
   };
 
+  const boltAnimationStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: boltScale.value }],
+  }));
+
+  const textAnimationStyle = useAnimatedStyle(() => ({
+    opacity: resultTextOpacity.value,
+  }));
+
   return (
     <View style={styles.container}>
       <Confetti isActive={buddyState === 'success'} />
+
       {/* Result Overlay */}
       {isSubmitting && (
         <Animated.View entering={FadeIn} style={[StyleSheet.absoluteFill, styles.resultOverlay]}>
           {buddyState === 'success' ? (
-            <Animated.View entering={ZoomIn} style={styles.resultContent}>
-              <View style={styles.boltCircle}>
-                <Bolt size={60} color="#FFD700" fill="#FFD700" />
-              </View>
-              <Text style={styles.resultTitle}>Great Job!</Text>
-              <Text style={styles.resultSubtitle}>You earned 1 Bolt!</Text>
-            </Animated.View>
+            <View style={styles.resultContent}>
+              <Animated.View style={[styles.boltCircle, boltAnimationStyle]}>
+                <Zap size={60} color={AppColors.rewardGold} fill={AppColors.rewardGold} />
+              </Animated.View>
+              <Animated.View style={textAnimationStyle}>
+                <Text style={styles.resultTitle}>Great Job!</Text>
+                <Text style={styles.resultSubtitle}>You earned 1 Bolt!</Text>
+              </Animated.View>
+            </View>
           ) : (
-            <Animated.View entering={ZoomIn} style={styles.resultContent}>
-              <Text style={[styles.resultTitle, { color: '#607D8B' }]}>Zzz...</Text>
-              <Text style={styles.resultSubtitle}>
-                Your buddy got sleepy. Let's try again next time!
-              </Text>
-            </Animated.View>
+            <View style={styles.resultContent}>
+              <Animated.View style={textAnimationStyle}>
+                <Text style={[styles.resultTitle, { color: AppColors.sleepyBlue }]}>Zzz...</Text>
+                <Text style={styles.resultSubtitle}>
+                  Your buddy got sleepy. Let's try again next time!
+                </Text>
+              </Animated.View>
+            </View>
           )}
         </Animated.View>
       )}
-      {/* Top Header for controls like Mute */}{' '}
+
       <View style={styles.header}>
         <TouchableOpacity style={styles.iconButton} onPress={toggleMute} testID="mute-toggle">
-          {isMuted ? <VolumeX size={24} color="#555" /> : <Volume2 size={24} color="#555" />}
+          {isMuted ? (
+            <VolumeX size={24} color={AppColors.textMuted} />
+          ) : (
+            <Volume2 size={24} color={AppColors.textMuted} />
+          )}
         </TouchableOpacity>
       </View>
-      {/* Buddy Area (60%) */}
+
       <View testID="buddy-area" style={styles.buddyArea}>
         <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
         <FloatingProp habitId={id as string} isActive={buddyState === 'active'} />
         <Text style={styles.habitTitle}>{config.name}</Text>
       </View>
-      {/* Controls Area (40%) */}
+
       <View testID="controls-area" style={styles.controlsArea}>
         <View style={styles.timerContainer}>
           <TimerDisplay timeLeft={timeLeft} totalTime={initialTime} />
@@ -224,23 +264,24 @@ export default function MissionScreen() {
                 <Text style={styles.adjustButtonText}>+30s</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
+            <ScaleButton
               testID="start-mission-button"
               style={styles.startButton}
               onPress={onStartPress}
             >
               <Text style={styles.startButtonText}>Start Mission</Text>
-            </TouchableOpacity>
+            </ScaleButton>
           </View>
         ) : (
-          <TouchableOpacity
+          <ScaleButton
             testID="done-button"
             style={[styles.doneButton, isSubmitting && styles.disabledButton]}
             onPress={onDonePress}
             disabled={isSubmitting}
+            scaleTo={0.9}
           >
             <Text style={styles.doneButtonText}>Done!</Text>
-          </TouchableOpacity>
+          </ScaleButton>
         )}
 
         <TouchableOpacity
@@ -261,7 +302,7 @@ export default function MissionScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.background,
+    backgroundColor: AppColors.deepIndigo,
   },
   header: {
     position: 'absolute',
@@ -271,32 +312,31 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: AppColors.cardDark,
     borderRadius: 20,
   },
   buddyArea: {
     flex: 0.6,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: AppColors.deepIndigo,
   },
   controlsArea: {
     flex: 0.4,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: AppColors.cardDark,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     marginTop: -30,
     padding: 20,
-    boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)',
-    elevation: 5,
   },
   habitTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: Colors.light.text,
+    color: AppColors.textPrimary,
     marginTop: 20,
+    fontFamily: 'FredokaOne_400Regular',
   },
   timerContainer: {
     marginBottom: 20,
@@ -311,51 +351,60 @@ const styles = StyleSheet.create({
   },
   adjustButton: {
     padding: 10,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: AppColors.elevated,
     borderRadius: 8,
     marginHorizontal: 10,
   },
   adjustButtonText: {
     fontSize: 16,
     fontWeight: '600',
+    color: AppColors.textPrimary,
+    fontFamily: 'Nunito_600SemiBold',
   },
   startButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: AppColors.dinoGreen,
     paddingHorizontal: 40,
     paddingVertical: 15,
     borderRadius: 30,
     marginBottom: 20,
+    width: '100%',
+    alignItems: 'center',
   },
   startButtonText: {
     color: '#FFF',
     fontSize: 20,
     fontWeight: 'bold',
+    fontFamily: 'FredokaOne_400Regular',
   },
   doneButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: AppColors.rewardGold,
     paddingHorizontal: 60,
     paddingVertical: 15,
     borderRadius: 30,
     marginBottom: 20,
+    width: '100%',
+    alignItems: 'center',
   },
   disabledButton: {
-    backgroundColor: '#BDBDBD',
+    backgroundColor: AppColors.cardMedium,
   },
   doneButtonText: {
     color: '#FFF',
     fontSize: 20,
     fontWeight: 'bold',
+    fontFamily: 'FredokaOne_400Regular',
   },
   backButton: {
     padding: 15,
   },
   backButtonText: {
     fontSize: 18,
-    color: '#FF5252',
+    color: AppColors.error,
     fontWeight: 'bold',
+    fontFamily: 'Nunito_700Bold',
   },
   resultOverlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: 'rgba(26, 26, 46, 0.95)', // Deep Indigo with opacity
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 100,
@@ -368,25 +417,26 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#FFF9C4',
+    backgroundColor: `${AppColors.rewardGold}20`,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    boxShadow: '0px 4px 10px rgba(255, 215, 0, 0.3)',
-    elevation: 8,
+    borderWidth: 2,
+    borderColor: AppColors.rewardGold,
   },
   resultTitle: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: 'bold',
-    color: '#4CAF50',
-    fontFamily: 'Fredoka-One',
+    color: AppColors.dinoGreen,
+    fontFamily: 'FredokaOne_400Regular',
     marginBottom: 10,
     textAlign: 'center',
   },
   resultSubtitle: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: 20,
+    color: AppColors.textSecondary,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 28,
+    fontFamily: 'Nunito_600SemiBold',
   },
 });
