@@ -11,7 +11,7 @@
 ### 1.2 Micro-animations (Delighters)
 
 - [x] Task: Create a reusable `ScaleButton` component to replace standard Pressables with scale-down feedback. 096f3d9
-- [ ] Task: Refactor `src/components/BoltCounter.tsx` to implement a numeric "roll" or sliding animation on balance change.
+- [x] Task: Refactor `src/components/BoltCounter.tsx` to implement a numeric "roll" or sliding animation on balance change. 60295c3
 - [ ] Task: Implement "Completion Pop" effect in `app/mission/success.tsx` (e.g., scale-up pop-in for the checkmark or bolt).
 
 ### 1.3 Conductor - User Manual Verification 'Phase 1: Branding & Micro-animations' (Protocol in workflow.md)
