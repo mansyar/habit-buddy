@@ -22,7 +22,7 @@
 
 - [x] Task: Create `src/components/SkeletonCard.tsx` for loading states in Home and Dashboard. 581ad0f
 - [x] Task: Implement `src/components/BouncingBuddyLoader.tsx` for full-screen loading transitions. ffe894d
-- [ ] Task: Add friendly illustrations (PNG props) to empty Reward Shop (`app/reward-shop.tsx`) and empty History.
+- [x] Task: Add friendly illustrations (PNG props) to empty Reward Shop (`app/reward-shop.tsx`) and empty History. 99ec355
 
 ### 2.2 Responsive Layout & Accessibility
 
