@@ -11,7 +11,8 @@
   - **Authentication Libraries**: `expo-auth-session` and `expo-web-browser` for managing OAuth flows on native mobile platforms.
 - **Database Schema**: Centralized tables for `profiles`, `habits_log` (habit completions), and `coupons` (reward system).
 - **Local Storage**: `expo-sqlite` for managing offline data and the anonymous/local-only first-run mode.
-- **Synchronization**: Custom `SyncService` using a `sync_queue` pattern to ensure eventual consistency between local and remote data.
+- **Synchronization**: Custom `SyncService` using both `sync_queue` and table-level `sync_status` markers for robust background synchronization. Uses Supabase Realtime for instant multi-device updates.
+- **Connectivity Detection**: `@react-native-community/netinfo` for reliable network status monitoring.
 - **UUID Generation**: `expo-crypto` for native-compatible unique identifiers across platforms.
 
 ## 3. Testing & Quality
