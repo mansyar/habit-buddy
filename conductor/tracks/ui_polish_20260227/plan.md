@@ -27,7 +27,7 @@
 ### 2.2 Responsive Layout & Accessibility
 
 - [x] Task: Audit `app/(tabs)/index.tsx` (Home) for tablet scaling; adjust card widths and spacing using `Dimensions` or `useWindowDimensions`. 3017f1a
-- [ ] Task: Audit `app/parent-dashboard.tsx` for tablet scaling; ensure charts and tables are readable.
+- [x] Task: Audit `app/parent-dashboard.tsx` for tablet scaling; ensure charts and tables are readable. 2c8daf0
 - [ ] Task: Perform tap target audit: verify all buttons are at least 48x48dp across the app.
 
 ### 2.3 Conductor - User Manual Verification 'Phase 2: UI States & Layout Refinement' (Protocol in workflow.md)
