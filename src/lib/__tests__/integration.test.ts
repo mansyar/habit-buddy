@@ -64,15 +64,17 @@ describe('Data Layer Integration', () => {
 
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO profiles'),
-      expect.any(String),
-      null,
-      'Offline Buddy',
-      expect.anything(),
-      expect.anything(),
-      expect.anything(),
-      1,
-      expect.anything(),
-      expect.anything(),
+      expect.any(String), // id
+      null, // user_id
+      'Offline Buddy', // child_name
+      expect.anything(), // avatar_id
+      expect.anything(), // selected_buddy
+      expect.anything(), // bolt_balance
+      1, // is_guest
+      'pending', // sync_status
+      expect.anything(), // last_modified
+      expect.anything(), // created_at
+      expect.anything(), // updated_at
     );
     expect(supabase.from).not.toHaveBeenCalled();
 
@@ -105,7 +107,12 @@ describe('Data Layer Integration', () => {
         data: JSON.stringify({ ...logData, id: 'l1' }),
       },
     ];
-    mockDb.getAllAsync.mockResolvedValueOnce(mockQueueItems);
+    // syncPendingChanges is called first in processQueue
+    mockDb.getAllAsync
+      .mockResolvedValueOnce([]) // profiles pending
+      .mockResolvedValueOnce([]) // habits_log pending
+      .mockResolvedValueOnce([]) // coupons pending
+      .mockResolvedValueOnce(mockQueueItems); // sync_queue items
 
     await syncService.processQueue();
 

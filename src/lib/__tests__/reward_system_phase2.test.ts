@@ -83,7 +83,9 @@ describe('Reward System Phase 2: Bolt Deduction', () => {
     // Should update coupon status
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
-      'c1',
+      'synced', // syncStatus
+      expect.any(String), // lastModified
+      'c1', // id
     );
   });
 
@@ -114,7 +116,9 @@ describe('Reward System Phase 2: Bolt Deduction', () => {
     // Should still update locally
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
-      'c1',
+      'pending', // syncStatus
+      expect.any(String), // lastModified
+      'c1', // id
     );
 
     // Should queue for sync

@@ -66,13 +66,15 @@ describe('HabitLogService', () => {
 
       expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('INSERT INTO habits_log'),
-        expect.any(String),
+        expect.any(String), // id
         logData.profile_id,
         logData.habit_id,
         logData.status,
         logData.duration_seconds,
         logData.bolts_earned,
-        expect.any(String),
+        'synced', // sync_status
+        expect.any(String), // last_modified
+        expect.any(String), // completed_at
       );
       expect(supabase.from).toHaveBeenCalledWith('habits_log');
       expect(log.habit_id).toBe('brush_teeth');
@@ -131,9 +133,11 @@ describe('HabitLogService', () => {
       expect(result.profile?.bolt_balance).toBe(6);
       expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE profiles SET bolt_balance = ?'),
-        6,
-        expect.any(String),
-        'p1',
+        6, // newBalance
+        'synced', // syncStatus
+        expect.any(String), // lastModified
+        expect.any(String), // updatedAt
+        'p1', // profileId
       );
     });
   });

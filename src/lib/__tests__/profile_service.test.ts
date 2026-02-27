@@ -66,15 +66,17 @@ describe('ProfileService', () => {
 
       expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('INSERT INTO profiles'),
-        expect.any(String),
-        null,
-        'Offline Buddy',
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        1,
-        expect.anything(),
-        expect.anything(),
+        expect.any(String), // id
+        null, // user_id
+        'Offline Buddy', // child_name
+        expect.anything(), // avatar_id
+        expect.anything(), // selected_buddy
+        expect.anything(), // bolt_balance
+        1, // is_guest
+        'pending', // sync_status
+        expect.anything(), // last_modified
+        expect.anything(), // created_at
+        expect.anything(), // updated_at
       );
     });
 
@@ -103,8 +105,10 @@ describe('ProfileService', () => {
       expect(updatedProfile?.bolt_balance).toBe(7);
       expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE profiles SET bolt_balance = ?'),
-        7,
-        expect.any(String),
+        7, // newBalance
+        'synced', // syncStatus
+        expect.any(String), // lastModified
+        expect.any(String), // updatedAt
         profileId,
       );
       expect(supabase.from).toHaveBeenCalledWith('profiles');

@@ -49,17 +49,18 @@ describe('Reward System Phase 1: Category Field', () => {
       profile_id: 'p1',
       title: 'Activity Reward',
       bolt_cost: 15,
-      category: 'Activity' as any, // Cast to any because it doesn't exist yet
+      category: 'Activity' as any,
     };
 
     const coupon = await couponService.createCoupon(couponData);
 
-    // This should fail because CouponService.createCoupon doesn't expect category yet
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('category'),
       expect.anything(),
       expect.anything(),
       expect.anything(),
+      expect.anything(),
+      'Activity', // category
       expect.anything(),
       expect.anything(),
       expect.anything(),

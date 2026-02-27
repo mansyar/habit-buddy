@@ -42,8 +42,6 @@ describe('Profile Buddy Selection', () => {
     const profile = await profileService.createProfile(profileData, 'user-123');
 
     // Check if SQLite insert includes selected_buddy
-    // Current ProfileService.createProfile has 8 parameters in its SQL query.
-    // If we add selected_buddy, it should have 9.
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('selected_buddy'),
       expect.anything(), // id
@@ -53,6 +51,8 @@ describe('Profile Buddy Selection', () => {
       'dino', // selected_buddy
       0, // bolt_balance
       0, // is_guest
+      'synced', // sync_status
+      expect.anything(), // last_modified
       expect.anything(), // created_at
       expect.anything(), // updated_at
     );

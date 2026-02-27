@@ -66,13 +66,15 @@ describe('CouponService', () => {
 
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO coupons'),
-      expect.any(String),
+      expect.any(String), // id
       couponData.profile_id,
       couponData.title,
       couponData.bolt_cost,
-      'Physical',
-      0,
-      expect.any(String),
+      'Physical', // category
+      0, // is_redeemed
+      'synced', // sync_status
+      expect.any(String), // last_modified
+      expect.any(String), // created_at
     );
     expect(coupon.title).toBe('Ice Cream');
   });
@@ -95,6 +97,8 @@ describe('CouponService', () => {
 
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
+      'synced', // syncStatus
+      expect.any(String), // lastModified
       couponId,
     );
     expect(supabase.from).toHaveBeenCalledWith('coupons');

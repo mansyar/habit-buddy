@@ -12,6 +12,7 @@ vi.mock('../supabase', () => ({
       update: vi.fn(() => ({
         eq: vi.fn(() => Promise.resolve({ error: null })),
       })),
+      upsert: vi.fn(() => Promise.resolve({ error: null })),
       delete: vi.fn(() => ({
         eq: vi.fn(() => Promise.resolve({ error: null })),
       })),
@@ -50,7 +51,13 @@ describe('SyncService', () => {
         data: JSON.stringify({ id: 'l1', habit_id: 'brush_teeth' }),
       },
     ];
-    mockDb.getAllAsync.mockResolvedValueOnce(mockQueueItems);
+
+    // syncPendingChanges is called first (3 tables)
+    mockDb.getAllAsync
+      .mockResolvedValueOnce([]) // profiles
+      .mockResolvedValueOnce([]) // habits_log
+      .mockResolvedValueOnce([]) // coupons
+      .mockResolvedValueOnce(mockQueueItems); // sync_queue
 
     await syncService.processQueue();
 

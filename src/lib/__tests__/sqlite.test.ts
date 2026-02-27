@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { initializeSQLite } from '../sqlite';
+import { initializeSQLite, resetSQLite } from '../sqlite';
 import * as SQLite from 'expo-sqlite';
 
 const mockDb = {
@@ -15,9 +15,7 @@ vi.mock('expo-sqlite', () => ({
 describe('SQLite Initialization', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
-    // Use resetModules to clear singleton if needed, or manually re-import
-    const sqlite = await import('../sqlite');
-    (sqlite as any).dbPromise = null;
+    resetSQLite();
   });
 
   test('should create profiles, habits_log, and coupons tables', async () => {

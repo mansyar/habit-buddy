@@ -55,15 +55,18 @@ describe('SyncService v2 (Sync Markers)', () => {
 
     expect(mockDb.getAllAsync).toHaveBeenCalledWith(
       expect.stringContaining("SELECT * FROM profiles WHERE sync_status = 'pending'"),
+      3, // MAX_RETRIES
     );
     expect(supabase.from).toHaveBeenCalledWith('profiles');
     expect(supabase.upsert).toHaveBeenCalledWith(
       expect.arrayContaining([expect.objectContaining({ id: 'p1' })]),
     );
 
-    // Should mark as synced
+    // Should mark as synced and reset retry_count
     expect(mockDb.runAsync).toHaveBeenCalledWith(
-      expect.stringContaining("UPDATE profiles SET sync_status = 'synced' WHERE id = ?"),
+      expect.stringContaining(
+        "UPDATE profiles SET sync_status = 'synced', retry_count = 0 WHERE id = ?",
+      ),
       'p1',
     );
   });
