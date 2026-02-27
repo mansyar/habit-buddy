@@ -2,9 +2,9 @@
 
 ## Phase 1: Assessment and Automated Cleanup
 
-- [ ] Task: Baseline Assessment - Run `pnpm lint` and `pnpm typecheck` to record current state.
-- [ ] Task: Automated Fixes - Run `pnpm format` and `eslint --fix` to resolve common issues.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Baseline Assessment - Run `pnpm lint` and `pnpm typecheck` to record current state.
+- [x] Task: Automated Fixes - Run `pnpm format` and `eslint --fix` to resolve common issues.
+- [~] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Manual ESLint Resolution
 
