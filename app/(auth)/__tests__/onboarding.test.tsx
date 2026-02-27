@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import OnboardingScreen from '../onboarding';
 import { profileService } from '../../../src/lib/profile_service';
-import { useAuthStore } from '../../../src/store/auth_store';
 import { routerMock } from '../../../vitest.setup';
 
 // Mock ProfileService

@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import TabTwoScreen from '../two';
 import { supabase } from '../../../src/lib/supabase';
-import { useAuthStore } from '../../../src/store/auth_store';
 
 // Mock Supabase
 vi.mock('../../../src/lib/supabase', () => ({
