@@ -16,3 +16,6 @@ This file records all tracks created during the development process.
 ## Planned
 
 ---
+
+- [ ] **Track: UI Polish (Splash screen, App icon, Color refinement, Micro-animations, Loading states, Empty states, Responsive layout)**
+      _Link: [./tracks/ui_polish_20260227/](./tracks/ui_polish_20260227/)_
