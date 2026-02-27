@@ -20,7 +20,7 @@
 
 ### 2.1 Loading & Empty States
 
-- [ ] Task: Create `src/components/SkeletonCard.tsx` for loading states in Home and Dashboard.
+- [x] Task: Create `src/components/SkeletonCard.tsx` for loading states in Home and Dashboard. 581ad0f
 - [ ] Task: Implement `src/components/BouncingBuddyLoader.tsx` for full-screen loading transitions.
 - [ ] Task: Add friendly illustrations (PNG props) to empty Reward Shop (`app/reward-shop.tsx`) and empty History.
 
