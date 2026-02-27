@@ -16,7 +16,7 @@
 
 ### 1.3 Conductor - User Manual Verification 'Phase 1: Branding & Micro-animations' (Protocol in workflow.md)
 
-## Phase 2: UI States & Layout Refinement
+## Phase 2: UI States & Layout Refinement [checkpoint: 6f85061]
 
 ### 2.1 Loading & Empty States
 
