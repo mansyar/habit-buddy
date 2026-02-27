@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '700',
     color: AppColors.textPrimary,
-    // Note: In a real app, we'd use 'FredokaOne-Regular' here
-    // but we'll stick to system bold for now to avoid font loading issues in tests
+    fontFamily: 'FredokaOne_400Regular',
   },
 });

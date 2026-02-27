@@ -1,6 +1,8 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import { FredokaOne_400Regular } from '@expo-google-fonts/fredoka-one';
+import { Nunito_400Regular, Nunito_600SemiBold, Nunito_700Bold } from '@expo-google-fonts/nunito';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
@@ -14,6 +16,7 @@ import { initializeSQLite } from '@/lib/sqlite';
 import { syncService } from '@/lib/sync_service';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { networkService } from '@/lib/network';
+import { AnimatedSplash } from '@/components/AnimatedSplash';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -31,10 +34,15 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    FredokaOne_400Regular,
+    Nunito_400Regular,
+    Nunito_600SemiBold,
+    Nunito_700Bold,
     ...FontAwesome.font,
   });
 
   const [dbLoaded, setDbLoaded] = useState(false);
+  const [showAnimatedSplash, setShowAnimatedSplash] = useState(true);
 
   useEffect(() => {
     initializeSQLite().then(() => {
@@ -55,6 +63,10 @@ export default function RootLayout() {
 
   if (!loaded || !dbLoaded) {
     return null;
+  }
+
+  if (showAnimatedSplash) {
+    return <AnimatedSplash onFinish={() => setShowAnimatedSplash(false)} />;
   }
 
   return <RootLayoutNav />;
