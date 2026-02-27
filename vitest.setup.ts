@@ -158,9 +158,12 @@ vi.mock('@/components/useColorScheme', () => ({
 
 // Mock Lucide icons
 vi.mock('lucide-react-native', () => {
-  const React = require('react');
-  const mockIcon = (name: string) => (props: any) =>
-    React.createElement('div', { ...props, 'data-testid': `icon-${name}` }, name);
+  const mockIcon = (name: string) => {
+    const Icon = (props: any) =>
+      React.createElement('div', { ...props, 'data-testid': `icon-${name}` }, name);
+    Icon.displayName = `Icon(${name})`;
+    return Icon;
+  };
   return {
     __esModule: true,
     Sparkles: mockIcon('Sparkles'),

@@ -12,7 +12,6 @@ import { useAuthStore } from '@/store/auth_store';
 import { profileService } from '@/lib/profile_service';
 import { initializeSQLite } from '@/lib/sqlite';
 import { syncService } from '@/lib/sync_service';
-import NetInfo from '@react-native-community/netinfo';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { networkService } from '@/lib/network';
 
@@ -103,7 +102,7 @@ export function RootLayoutNav() {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [setLoading, setProfile, setUser]);
 
   useEffect(() => {
     // Listen for network changes to trigger sync
@@ -143,7 +142,7 @@ export function RootLayoutNav() {
     } else if (isAuthenticated && profile && (inAuthGroup || inOnboarding)) {
       router.replace('/(tabs)');
     }
-  }, [user, profile, isLoading, segments]);
+  }, [user, profile, isLoading, segments, router]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

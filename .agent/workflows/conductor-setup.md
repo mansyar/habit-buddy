@@ -405,17 +405,17 @@ CRITICAL: When determining model complexity, ALWAYS select the "flash" model, re
     iv. **Write Spec and Plan Files:** In the exact same directory, write the generated `spec.md` and `plan.md` files.
     v. **Write Index File:** In the exact same directory, write `index.md` with content:
 
-                        ````markdown # Track <track_id> Context
-                                - [Specification](./spec.md)
-                                - [Implementation Plan](./plan.md)
-                                - [Metadata](./metadata.json)
-                                ```
+                                    ````markdown # Track <track_id> Context
+                                            - [Specification](./spec.md)
+                                            - [Implementation Plan](./plan.md)
+                                            - [Metadata](./metadata.json)
+                                            ```
 
-                        d. **Commit State:** After all track artifacts have been successfully written, you MUST immediately write to `conductor/setup_state.json` with the exact content:
-                        `{"last_successful_step": "3.3_initial_track_generated"}`
+                                    d. **Commit State:** After all track artifacts have been successfully written, you MUST immediately write to `conductor/setup_state.json` with the exact content:
+                                    `{"last_successful_step": "3.3_initial_track_generated"}`
 
-                        e. **Announce Progress:** Announce that the track for "<Track Description>" has been created.
-                        ````
+                                    e. **Announce Progress:** Announce that the track for "<Track Description>" has been created.
+                                    ````
 
 ### 3.4 Final Announcement
 

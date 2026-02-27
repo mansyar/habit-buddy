@@ -31,7 +31,7 @@ const NavigationMonitor = () => {
     } else if (isAuthenticated && profile && (inAuthGroup || inOnboarding)) {
       router.replace('/(tabs)');
     }
-  }, [user, profile, isLoading, segments]);
+  }, [user, profile, isLoading, segments, router]);
 
   return (
     <View>

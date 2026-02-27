@@ -12,7 +12,7 @@ import { Colors } from '../../src/theme/Colors';
 import { audioService } from '../../src/lib/audio_service';
 import { AUDIO_ASSETS } from '../../src/constants/audio';
 import { Volume2, VolumeX, Bolt } from 'lucide-react-native';
-import Animated, { FadeIn, ZoomIn, ZoomOut } from 'react-native-reanimated';
+import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { habitLogService } from '../../src/lib/habit_log_service';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
@@ -31,7 +31,6 @@ export default function MissionScreen() {
     state: buddyState,
     startMission: setBuddyActive,
     pauseMission: setBuddyPaused,
-    resumeMission: setBuddyResumed,
     completeMission: setBuddySuccess,
     failMission: setBuddySleepy,
     reset: resetBuddy,
@@ -155,7 +154,7 @@ export default function MissionScreen() {
     } else if (buddyState === 'active') {
       setBuddyPaused();
     }
-  }, [isActive]);
+  }, [isActive, buddyState, setBuddyActive, setBuddyPaused]);
 
   // Update initial time when adjusted
   const handleAdjustTime = (seconds: number) => {

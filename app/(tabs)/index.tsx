@@ -13,8 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const { profile } = useAuthStore();
-  const { completedHabitIds, getCompletionPercentage, loadTodaysHabits, isLoading } =
-    useHabitStore();
+  const { completedHabitIds, getCompletionPercentage, loadTodaysHabits } = useHabitStore();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -22,7 +21,7 @@ export default function HomeScreen() {
     if (profile?.id) {
       loadTodaysHabits(profile.id);
     }
-  }, [profile?.id]);
+  }, [profile?.id, loadTodaysHabits]);
 
   const progress = getCompletionPercentage();
 

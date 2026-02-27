@@ -21,7 +21,7 @@ export const OfflineBanner = () => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [translateY]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

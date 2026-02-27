@@ -1,7 +1,6 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
 import { couponService } from '../coupon_service';
 import { profileService } from '../profile_service';
-import { initializeSQLite } from '../sqlite';
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({

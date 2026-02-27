@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -74,7 +73,7 @@ export const BuddyAnimation: React.FC<BuddyAnimationProps> = ({ buddy, state, si
         translateY.value = withTiming(10, { duration: 1000 });
         break;
     }
-  }, [state]);
+  }, [state, translateY, scale, rotate]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

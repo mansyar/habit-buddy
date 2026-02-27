@@ -7,7 +7,6 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   withSequence,
-  interpolateColor,
 } from 'react-native-reanimated';
 
 interface BoltCounterProps {
@@ -23,7 +22,7 @@ export function BoltCounter({ balance }: BoltCounterProps) {
       withSpring(1.5, { damping: 10, stiffness: 100 }),
       withSpring(1, { damping: 10, stiffness: 100 }),
     );
-  }, [balance]);
+  }, [balance, scale]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

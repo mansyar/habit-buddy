@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Pressable, View, StyleSheet, Text } from 'react-native';
+import React, { useRef } from 'react';
+import { Pressable } from 'react-native';
 
 interface ParentalGateProps {
   onSuccess: () => void;

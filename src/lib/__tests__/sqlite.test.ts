@@ -1,6 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { initializeSQLite, resetSQLite } from '../sqlite';
-import * as SQLite from 'expo-sqlite';
 
 const mockDb = {
   execAsync: vi.fn(),

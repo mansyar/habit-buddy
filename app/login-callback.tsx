@@ -18,7 +18,7 @@ export default function LoginCallback() {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [router]);
 
   return null;
 }

@@ -1,7 +1,6 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
 import { profileService } from '../profile_service';
 import { supabase } from '../supabase';
-import { initializeSQLite } from '../sqlite';
 import { checkIsOnline } from '../network';
 
 // Mock Network

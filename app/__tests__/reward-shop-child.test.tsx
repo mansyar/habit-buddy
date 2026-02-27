@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, findByText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import RewardShopScreen from '../reward-shop';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 

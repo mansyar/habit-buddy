@@ -1,8 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import MissionScreen from '../mission/[id]';
-import { useLocalSearchParams } from 'expo-router';
-import { useAuthStore } from '../../src/store/auth_store';
 
 // Mock expo-router
 const mockBack = vi.fn();

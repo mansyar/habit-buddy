@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { CORE_HABITS } from '../constants/habits';
-import { Habit } from '../types/habit';
 
 describe('Habit Definitions', () => {
   it('should have exactly 3 core habits', () => {

@@ -44,11 +44,18 @@ export default function RewardShopScreen() {
   const [category, setCategory] = useState<Category>('Physical');
   const [error, setError] = useState('');
 
+  const loadCoupons = React.useCallback(async () => {
+    if (profile) {
+      const data = await couponService.getCoupons(profile.id);
+      setCoupons(data);
+    }
+  }, [profile]);
+
   useEffect(() => {
     if (profile) {
       loadCoupons();
     }
-  }, [profile]);
+  }, [profile, loadCoupons]);
 
   useEffect(() => {
     if (editingCoupon) {
@@ -58,13 +65,6 @@ export default function RewardShopScreen() {
       setShowAddModal(true);
     }
   }, [editingCoupon]);
-
-  const loadCoupons = async () => {
-    if (profile) {
-      const data = await couponService.getCoupons(profile.id);
-      setCoupons(data);
-    }
-  };
 
   const handleAddReward = async () => {
     if (!profile) return;
@@ -97,7 +97,7 @@ export default function RewardShopScreen() {
       resetForm();
       setShowAddModal(false);
       loadCoupons();
-    } catch (e) {
+    } catch {
       setError('Failed to save reward');
     }
   };
@@ -144,11 +144,11 @@ export default function RewardShopScreen() {
 
       // Play success sound
       audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
-    } catch (e) {
+    } catch (err) {
       if (process.env.NODE_ENV === 'test') {
-        throw e;
+        throw err;
       }
-      Alert.alert('Error', e instanceof Error ? e.message : 'Failed to redeem reward');
+      Alert.alert('Error', err instanceof Error ? err.message : 'Failed to redeem reward');
     }
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Rect, Circle, G } from 'react-native-svg';
+import Svg, { Rect, G } from 'react-native-svg';
 
 export const Toothbrush: React.FC<{ size?: number }> = ({ size = 100 }) => {
   return (

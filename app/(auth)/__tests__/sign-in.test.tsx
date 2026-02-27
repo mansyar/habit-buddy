@@ -2,8 +2,6 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Alert } from 'react-native';
 import SignInScreen from '../sign-in';
-import { profileService } from '../../../src/lib/profile_service';
-import { useAuthStore } from '../../../src/store/auth_store';
 import { routerMock } from '../../../vitest.setup';
 
 // Mock AuthStore

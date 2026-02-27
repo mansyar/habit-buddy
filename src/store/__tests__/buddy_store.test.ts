@@ -1,4 +1,4 @@
-import { useBuddyStore, BuddyState } from '../buddy_store';
+import { useBuddyStore } from '../buddy_store';
 import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('useBuddyStore', () => {

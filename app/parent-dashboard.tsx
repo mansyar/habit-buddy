@@ -28,18 +28,18 @@ export default function ParentDashboardScreen() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const loadStats = async () => {
+  const loadStats = React.useCallback(async () => {
     if (profile?.id) {
       setLoading(true);
       const data = await dashboardService.getDashboardStats(profile.id);
       setStats(data);
       setLoading(false);
     }
-  };
+  }, [profile?.id]);
 
   useEffect(() => {
     loadStats();
-  }, [profile?.id]);
+  }, [profile?.id, loadStats]);
 
   const handleResetToday = async () => {
     Alert.alert(

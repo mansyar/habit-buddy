@@ -1,10 +1,8 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import ParentDashboardScreen from '../parent-dashboard';
 import { useAuthStore } from '../../src/store/auth_store';
-import { initializeSQLite } from '../../src/lib/sqlite';
 import { vi, expect, test, describe, beforeEach } from 'vitest';
-import { checkIsOnline } from '../../src/lib/network';
 
 // Mock SQLite
 const mockDb = {

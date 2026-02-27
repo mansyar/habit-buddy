@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { TimerDisplay } from '../TimerDisplay';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // Svg components are mocked in vitest.setup.ts
 describe('TimerDisplay', () => {

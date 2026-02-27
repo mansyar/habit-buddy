@@ -1,4 +1,4 @@
-import { createAudioPlayer, AudioSource, AudioModule } from 'expo-audio';
+import { createAudioPlayer, AudioSource } from 'expo-audio';
 
 class AudioService {
   private musicPlayer: any = null;

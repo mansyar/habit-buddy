@@ -3,7 +3,6 @@ import { profileService } from '../profile_service';
 import { habitLogService } from '../habit_log_service';
 import { syncService } from '../sync_service';
 import { supabase } from '../supabase';
-import { initializeSQLite } from '../sqlite';
 import { checkIsOnline } from '../network';
 
 // Mock Supabase client

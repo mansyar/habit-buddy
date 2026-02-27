@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -25,7 +25,7 @@ const Particle = ({ delay }: { delay: number }) => {
       delay,
       withTiming(1, { duration: 2000, easing: Easing.bezier(0.25, 0.1, 0.25, 1) }),
     );
-  }, []);
+  }, [delay, progress]);
 
   const animatedStyle = useAnimatedStyle(() => {
     const translateY = interpolate(progress.value, [0, 1], [-50, SCREEN_HEIGHT]);

@@ -119,7 +119,7 @@ class SyncService {
       let data;
       try {
         data = JSON.parse(item.data);
-      } catch (e) {
+      } catch {
         console.error(`SyncService: Malformed data in item ${item.id}`);
         await db.runAsync(`UPDATE sync_queue SET status = 'failed' WHERE id = ?`, item.id);
         continue;

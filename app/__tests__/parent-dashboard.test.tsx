@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import ParentDashboardScreen from '../parent-dashboard';
 import { useAuthStore } from '../../src/store/auth_store';
 import { dashboardService } from '../../src/lib/dashboard_service';

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useHabitStore } from '../habit_store';
 import { habitLogService } from '../../lib/habit_log_service';
-import { CORE_HABITS } from '../../constants/habits';
 
 vi.mock('../../lib/habit_log_service', () => ({
   habitLogService: {
@@ -13,7 +12,6 @@ describe('HabitStore', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset store state manually if needed, or by calling a reset action if implemented
-    const store = useHabitStore.getState();
     // Assuming we have a reset or can just set initial values
   });
 

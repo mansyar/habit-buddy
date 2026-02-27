@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import HomeScreen from '../index';
 import { useAuthStore } from '../../../src/store/auth_store';
 import { useHabitStore } from '../../../src/store/habit_store';

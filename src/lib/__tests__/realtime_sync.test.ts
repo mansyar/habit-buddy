@@ -1,7 +1,6 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
 import { syncService } from '../sync_service';
 import { supabase } from '../supabase';
-import { initializeSQLite } from '../sqlite';
 
 // Mock Supabase with Realtime
 vi.mock('../supabase', () => {

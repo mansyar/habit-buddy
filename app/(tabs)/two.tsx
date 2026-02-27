@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { EditScreenInfo } from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { supabase } from '@/lib/supabase';
-import { profileService } from '@/lib/profile_service';
 import { useAuthStore } from '@/store/auth_store';
 
 export default function TabTwoScreen() {

@@ -1,7 +1,6 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
 import { habitLogService } from '../habit_log_service';
 import { supabase } from '../supabase';
-import { initializeSQLite } from '../sqlite';
 import { checkIsOnline } from '../network';
 
 // Mock Supabase client

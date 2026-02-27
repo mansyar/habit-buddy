@@ -1,5 +1,4 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
-import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { useAuthStore } from '../auth_store';
 import { supabase } from '../../lib/supabase';

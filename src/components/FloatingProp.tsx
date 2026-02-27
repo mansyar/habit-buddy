@@ -48,7 +48,7 @@ export const FloatingProp: React.FC<FloatingPropProps> = ({ habitId, isActive, s
       cancelAnimation(translateY);
       cancelAnimation(rotate);
     }
-  }, [isActive]);
+  }, [isActive, opacity, rotate, translateY]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
   withTiming,
-  linear,
   Easing,
 } from 'react-native-reanimated';
 import { Svg, Rect, Defs, Pattern, Path } from 'react-native-svg';
@@ -29,7 +28,7 @@ export function CautionTapeProgress({ progress }: CautionTapeProgressProps) {
       -1,
       false,
     );
-  }, []);
+  }, [offset]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.value }],
