@@ -1,0 +1,8 @@
+{
+  "track_id": "lint_cleanup_20260227",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-27T20:54:00Z",
+  "updated_at": "2026-02-27T20:54:00Z",
+  "description": "make sure pnpm lint has 0 error and 0 warning. no shortcut. proper solution only"
+}

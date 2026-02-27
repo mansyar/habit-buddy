@@ -15,4 +15,7 @@ This file records all tracks created during the development process.
 
 ---
 
+- [ ] **Track: make sure pnpm lint has 0 error and 0 warning. no shortcut. proper solution only**
+      _Link: [./tracks/lint_cleanup_20260227/](./tracks/lint_cleanup_20260227/)_
+
 ---
