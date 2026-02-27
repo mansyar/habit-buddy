@@ -6,7 +6,7 @@
 
 - [x] Task: Create `src/components/AnimatedSplash.tsx` component with Reanimated entrance animation. f372c47
 - [x] Task: Integrate `AnimatedSplash` into `app/_layout.tsx` to ensure it shows for 2s on cold start. ac41389
-- [ ] Task: Generate and configure native Android/iOS app icons from master asset (1024x1024).
+- [x] Task: Generate and configure native Android/iOS app icons from master asset (1024x1024). 4190e27
 
 ### 1.2 Micro-animations (Delighters)
 
