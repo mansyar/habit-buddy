@@ -1,7 +1,6 @@
 import { supabase } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
-import { RealtimePostgresPayload } from '@supabase/supabase-js';
 
 export interface SyncItem {
   id: number;
@@ -175,7 +174,7 @@ class SyncService {
           event: '*',
           schema: 'public',
         },
-        async (payload: RealtimePostgresPayload<any>) => {
+        async (payload: any) => {
           const { table, eventType, new: newRecord, old: oldRecord } = payload;
           const db = await initializeSQLite();
 

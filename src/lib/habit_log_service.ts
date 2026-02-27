@@ -40,8 +40,8 @@ class HabitLogService {
       log.status,
       log.duration_seconds,
       log.bolts_earned,
-      log.sync_status,
-      log.last_modified,
+      log.sync_status || 'pending',
+      log.last_modified || new Date().toISOString(),
       log.completed_at,
     );
 

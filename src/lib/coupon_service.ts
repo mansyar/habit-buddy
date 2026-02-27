@@ -39,8 +39,8 @@ class CouponService {
       coupon.bolt_cost,
       coupon.category,
       0,
-      coupon.sync_status,
-      coupon.last_modified,
+      coupon.sync_status || 'pending',
+      coupon.last_modified || new Date().toISOString(),
       coupon.created_at,
     );
 

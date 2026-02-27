@@ -39,8 +39,8 @@ class ProfileService {
       profile.selected_buddy,
       profile.bolt_balance,
       profile.is_guest ? 1 : 0,
-      profile.sync_status,
-      profile.last_modified,
+      profile.sync_status || 'pending',
+      profile.last_modified || new Date().toISOString(),
       profile.created_at,
       profile.updated_at,
     );
