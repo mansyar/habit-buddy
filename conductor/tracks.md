@@ -14,8 +14,3 @@ This file records all tracks created during the development process.
       _Link: [./archive/lint_cleanup_20260227/](./archive/lint_cleanup_20260227/)_
 
 ## Planned
-
----
-
-- [x] **Track: UI Polish (Splash screen, App icon, Color refinement, Micro-animations, Loading states, Empty states, Responsive layout)**
-      _Link: [./tracks/ui_polish_20260227/](./tracks/ui_polish_20260227/)_
