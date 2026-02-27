@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from './Themed';
 import { Zap } from 'lucide-react-native';
@@ -7,7 +7,9 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   withSequence,
+  withTiming,
 } from 'react-native-reanimated';
+import { AppColors } from '../theme/Colors';
 
 interface BoltCounterProps {
   balance: number;
@@ -15,27 +17,64 @@ interface BoltCounterProps {
 
 export function BoltCounter({ balance }: BoltCounterProps) {
   const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+  const translateY = useSharedValue(0);
+  const [displayBalance, setDisplayBalance] = useState(balance);
+  const prevBalance = useRef(balance);
 
   useEffect(() => {
-    // Bounce effect when balance changes
-    scale.value = withSequence(
-      withSpring(1.5, { damping: 10, stiffness: 100 }),
-      withSpring(1, { damping: 10, stiffness: 100 }),
-    );
-  }, [balance, scale]);
+    if (balance !== prevBalance.current) {
+      // 1. Icon bounce
+      scale.value = withSequence(
+        withSpring(1.5, { damping: 10, stiffness: 100 }),
+        withSpring(1, { damping: 10, stiffness: 100 }),
+      );
 
-  const animatedStyle = useAnimatedStyle(() => {
+      // 2. Number slide animation
+      const direction = balance > prevBalance.current ? -1 : 1;
+
+      // Slide out current
+      translateY.value = withTiming(direction * 20, { duration: 200 }, () => {
+        // Change number while hidden/offset
+        translateY.value = -direction * 20;
+        opacity.value = 0;
+
+        // Use a small delay before showing new number
+        // (Actually setting state in callback needs careful handling in JS)
+      });
+
+      // Update the displayed balance
+      setTimeout(() => {
+        setDisplayBalance(balance);
+        opacity.value = withTiming(1, { duration: 200 });
+        translateY.value = withSpring(0, { damping: 12 });
+      }, 250);
+
+      prevBalance.current = balance;
+    }
+  }, [balance, scale, opacity, translateY]);
+
+  const iconAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scale.value }],
     };
   });
 
+  const textAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [{ translateY: translateY.value }],
+    };
+  });
+
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.iconWrapper, animatedStyle]}>
-        <Zap size={24} color="#FFD700" fill="#FFD700" />
+      <Animated.View style={[styles.iconWrapper, iconAnimatedStyle]}>
+        <Zap size={20} color={AppColors.rewardGold} fill={AppColors.rewardGold} />
       </Animated.View>
-      <Text style={styles.balanceText}>{balance}</Text>
+      <Animated.View style={textAnimatedStyle}>
+        <Text style={styles.balanceText}>{displayBalance}</Text>
+      </Animated.View>
     </View>
   );
 }
@@ -44,20 +83,21 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 215, 0, 0.15)',
+    backgroundColor: `${AppColors.rewardGold}20`, // 12% opacity as per guide
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 4,
     borderRadius: 20,
-    borderWidth: 2,
-    borderColor: '#FFD700',
+    borderWidth: 1,
+    borderColor: AppColors.rewardGold,
+    height: 36, // As per AppSizes.boltCounterHeight
   },
   iconWrapper: {
     marginRight: 6,
   },
   balanceText: {
     fontSize: 18,
-    fontWeight: '800',
-    color: '#B8860B', // Dark golden rod
-    fontFamily: 'Fredoka-One',
+    fontWeight: '700',
+    color: AppColors.rewardGold,
+    fontFamily: 'FredokaOne_400Regular',
   },
 });
