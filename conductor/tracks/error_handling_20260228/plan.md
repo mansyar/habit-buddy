@@ -10,7 +10,7 @@
 
 ## Phase 2: Input Validation & Constraints
 
-- [ ] Task: Implement validation logic for Child Name (2–20 chars) in `Onboarding` screen
+- [x] Task: Implement validation logic for Child Name (2–20 chars) in `Onboarding` screen (df8f3a7)
 - [ ] Task: Implement validation logic for Coupon Title (2–20 chars) and Bolt Cost (0–200) in `CouponManagement`
 - [ ] Task: Update UI to show clear error messages/feedback for invalid inputs
 - [ ] Task: Write Tests: Unit tests for validation helpers and component-level validation state
