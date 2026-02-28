@@ -33,12 +33,12 @@
 - [x] Task: Write Tests: Integration tests for mission timer persistence and button debouncing (104400d)
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Mission Flow' (Protocol in workflow.md) (662a81f)
 
-## Phase 5: Auth Migration Robustness
+## Phase 5: Auth Migration Robustness [checkpoint: bde8e29]
 
 - [x] Task: Implement retry logic (up to 3 times) with exponential backoff for anonymous-to-authenticated data migration in `SyncService` (f30fe2c)
 - [x] Task: Add "Sync Failed" user notification/banner if migration fails after retries (db34361)
 - [x] Task: Write Tests: Simulate migration failures and verify retry attempts and final failure state (16c8255)
-- [~] Task: Conductor - User Manual Verification 'Phase 5: Auth Migration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Auth Migration' (Protocol in workflow.md) (bde8e29)
 
 ## Phase 6: Completion & Documentation
 
