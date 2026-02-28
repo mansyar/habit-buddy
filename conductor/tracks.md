@@ -15,5 +15,5 @@ This file records all tracks created during the development process.
 
 ## Planned
 
-- [ ] **Track: implement Sub-Phase 8B: Error Handling & Edge Cases in @docs/roadmap.md**
-      _Link: [./tracks/error_handling_20260228/](./tracks/error_handling_20260228/)_
+- [~] **Track: implement Sub-Phase 8B: Error Handling & Edge Cases in @docs/roadmap.md**
+  _Link: [./tracks/error_handling_20260228/](./tracks/error_handling_20260228/)_
