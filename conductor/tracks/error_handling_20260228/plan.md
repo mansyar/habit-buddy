@@ -1,12 +1,12 @@
 # Implementation Plan: Error Handling & Edge Cases (Sub-Phase 8B)
 
-## Phase 1: Global Error Boundary & Crash Prevention
+## Phase 1: Global Error Boundary & Crash Prevention [checkpoint: 07ab5bb]
 
 - [x] Task: Install `react-native-error-boundary` (deb2d79)
 - [x] Task: Implement `GlobalErrorBoundary` component with a child-friendly fallback UI (2c63f82)
 - [x] Task: Wrap the root component in `app/_layout.tsx` with the Error Boundary (49f65f7)
-- [~] Task: Write Tests: Verify that unhandled JS errors trigger the fallback UI
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Global Error Boundary' (Protocol in workflow.md)
+- [x] Task: Write Tests: Verify that unhandled JS errors trigger the fallback UI (e2c3f66)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Global Error Boundary' (Protocol in workflow.md) (07ab5bb)
 
 ## Phase 2: Input Validation & Constraints
 
