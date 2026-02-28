@@ -39,14 +39,14 @@ Goal: Validate UI rendering, accessibility, and navigation on key screens.
   - [x] Verify snapshots pass
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Component Testing' (Protocol in workflow.md) 4cb776d
 
-## Phase 3: Integration Testing (TDD)
+## Phase 3: Integration Testing (TDD) [checkpoint: 9cae63e]
 
 Goal: Verify the end-to-end user flow for the core mission feature.
 
 - [x] Task: Integration test for Full Mission Flow 6deafac
   - [x] Write failing integration test (RNTL) covering: Start -> Timer -> Done -> Success -> Home Update
   - [x] Implement/Refine code to pass tests
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Integration Testing' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Integration Testing' (Protocol in workflow.md) 9cae63e
 
 ## Phase 4: Manual QA & Performance Profiling
 
