@@ -15,10 +15,10 @@ Goal: Ensure core logic and state management are fully tested and robust.
   - [x] Write failing tests for CRUD operations and local-vs-remote abstraction
   - [x] Implement/Refine code to pass tests
   - [x] Verify >80% coverage
-- [ ] Task: Unit tests for `BuddyState` (Zustand)
-  - [ ] Write failing tests for state machine transitions (Idle -> Active -> Success/Sleepy)
-  - [ ] Implement/Refine code to pass tests
-  - [ ] Verify >80% coverage
+- [x] Task: Unit tests for `BuddyState` (Zustand) 0bf4692
+  - [x] Write failing tests for state machine transitions (Idle -> Active -> Success/Sleepy)
+  - [x] Implement/Refine code to pass tests
+  - [x] Verify >80% coverage
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Unit Testing' (Protocol in workflow.md)
 
 ## Phase 2: Component Testing (TDD)
