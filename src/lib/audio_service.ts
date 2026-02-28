@@ -23,13 +23,6 @@ class AudioService {
       player.volume = this.isMuted ? 0 : this.volume;
       player.play();
 
-      // Listen for errors
-      player.addListener('playbackError', (error) => {
-        console.error(`AudioService: Error playing SFX [${key}]`, error);
-        player.remove();
-        this.sfxPlayers.delete(key);
-      });
-
       // Listen for playback completion to clean up
       const subscription = player.addListener('playbackStatusUpdate', (status) => {
         if (status.didJustFinish) {
@@ -52,15 +45,6 @@ class AudioService {
       this.musicPlayer = createAudioPlayer(source);
       this.musicPlayer.loop = true;
       this.musicPlayer.volume = this.isMuted ? 0 : this.volume * 0.5;
-
-      // Listen for errors
-      this.musicPlayer.addListener('playbackError', (error: any) => {
-        console.error(`AudioService: Error playing music [${key}]`, error);
-        if (this.musicPlayer) {
-          this.musicPlayer.remove();
-          this.musicPlayer = null;
-        }
-      });
 
       this.musicPlayer.play();
     } catch (error) {

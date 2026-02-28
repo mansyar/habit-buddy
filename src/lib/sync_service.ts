@@ -9,6 +9,7 @@ export interface SyncItem {
   data: string;
   status: 'pending' | 'processing' | 'failed';
   retry_count: number;
+  last_retry: string | null;
 }
 
 class SyncService {
