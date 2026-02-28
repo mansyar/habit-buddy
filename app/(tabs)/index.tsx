@@ -12,6 +12,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppColors } from '@/theme/Colors';
 import { ScaleButton } from '@/components/ScaleButton';
+import { NetworkStatusIcon } from '@/components/NetworkStatusIcon';
 
 export default function HomeScreen() {
   const { profile } = useAuthStore();
@@ -31,8 +32,6 @@ export default function HomeScreen() {
   // Tablet scaling logic
   const isTablet = width >= 600;
   const isLargeTablet = width > 900;
-  const contentWidth = isLargeTablet ? 600 : '100%';
-  const numColumns = isTablet ? 2 : 1;
 
   return (
     <View style={styles.container}>
@@ -48,6 +47,7 @@ export default function HomeScreen() {
           <Text style={styles.greeting}>Hi, {profile?.child_name || 'Buddy'}!</Text>
         </View>
         <View style={styles.headerRight}>
+          <NetworkStatusIcon size={18} style={{ marginRight: 10 }} />
           <BoltCounter balance={profile?.bolt_balance || 0} />
           <TouchableOpacity
             style={styles.iconButton}

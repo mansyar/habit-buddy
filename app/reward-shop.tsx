@@ -14,6 +14,7 @@ import { AppColors } from '@/theme/Colors';
 import { EmptyState } from '@/components/EmptyState';
 import { ScaleButton } from '@/components/ScaleButton';
 import { validateCouponTitle, validateBoltCost } from '@/utils/validation';
+import { NetworkStatusIcon } from '@/components/NetworkStatusIcon';
 import {
   Plus,
   Settings,
@@ -171,19 +172,22 @@ export default function RewardShopScreen() {
           headerTitleStyle: { fontFamily: 'FredokaOne_400Regular' },
           title: isAdmin ? (showHistory ? 'History' : 'Manage') : 'Shop',
           headerRight: () => (
-            <ParentalGate
-              onSuccess={() => setIsAdmin(!isAdmin)}
-              delay={process.env.NODE_ENV === 'test' ? 10 : 3000}
-            >
-              <View style={styles.headerButton}>
-                {isAdmin ? (
-                  <X size={20} color={AppColors.error} />
-                ) : (
-                  <Settings size={20} color={AppColors.textMuted} />
-                )}
-                <Text style={styles.headerButtonText}>{isAdmin ? 'Exit' : 'Parent'}</Text>
-              </View>
-            </ParentalGate>
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
+              <NetworkStatusIcon size={18} style={{ marginRight: 15 }} />
+              <ParentalGate
+                onSuccess={() => setIsAdmin(!isAdmin)}
+                delay={process.env.NODE_ENV === 'test' ? 10 : 3000}
+              >
+                <View style={styles.headerButton}>
+                  {isAdmin ? (
+                    <X size={20} color={AppColors.error} />
+                  ) : (
+                    <Settings size={20} color={AppColors.textMuted} />
+                  )}
+                  <Text style={styles.headerButtonText}>{isAdmin ? 'Exit' : 'Parent'}</Text>
+                </View>
+              </ParentalGate>
+            </View>
           ),
         }}
       />

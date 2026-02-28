@@ -24,6 +24,7 @@ import { DashboardStats } from '@/types/dashboard';
 import { habitLogService } from '@/lib/habit_log_service';
 import { AppColors } from '@/theme/Colors';
 import { ScaleButton } from '@/components/ScaleButton';
+import { NetworkStatusIcon } from '@/components/NetworkStatusIcon';
 
 export default function ParentDashboardScreen() {
   const router = useRouter();
@@ -91,13 +92,18 @@ export default function ParentDashboardScreen() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={() => router.push('/settings')} style={styles.headerButton}>
-              <SettingsIcon size={24} color={AppColors.textPrimary} />
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <NetworkStatusIcon size={18} style={{ marginRight: 15 }} />
+              <TouchableOpacity
+                onPress={() => router.push('/settings')}
+                style={styles.headerButton}
+              >
+                <SettingsIcon size={24} color={AppColors.textPrimary} />
+              </TouchableOpacity>
+            </View>
           ),
         }}
       />
-
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
