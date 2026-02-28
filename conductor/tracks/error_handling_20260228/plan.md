@@ -26,7 +26,7 @@
 
 ## Phase 4: Mission Flow & Asset Edge Cases
 
-- [ ] Task: Implement AppState listener in `useMissionTimer` to pause/resume on background/foreground
+- [x] Task: Implement AppState listener in `useMissionTimer` to pause/resume on background/foreground (7a6a2d6)
 - [ ] Task: Add double-tap prevention (debounce/disable) to the "Done!" button in `MissionActive`
 - [ ] Task: Implement fallback styling/images for `BuddyAnimation` and `FloatingProp` if assets fail to load
 - [ ] Task: Add error handling for audio playback in `AudioService`
