@@ -12,7 +12,7 @@
 
 - [x] Task: Implement validation logic for Child Name (2–20 chars) in `Onboarding` screen (df8f3a7)
 - [x] Task: Implement validation logic for Coupon Title (2–20 chars) and Bolt Cost (0–200) in `CouponManagement` (d732e82)
-- [ ] Task: Update UI to show clear error messages/feedback for invalid inputs
+- [x] Task: Update UI to show clear error messages/feedback for invalid inputs (0461183)
 - [ ] Task: Write Tests: Unit tests for validation helpers and component-level validation state
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Input Validation' (Protocol in workflow.md)
 
