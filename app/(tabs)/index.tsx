@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.cardDark,
     borderWidth: 1,
     borderColor: AppColors.elevated,
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollContent: {
     padding: 20,

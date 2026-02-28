@@ -25,7 +25,11 @@ export function ParentalGate({ onSuccess, children, delay = 3000 }: ParentalGate
   };
 
   return (
-    <Pressable onPressIn={handlePressIn} onPressOut={handlePressOut}>
+    <Pressable
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      style={{ minHeight: 44, minWidth: 44, justifyContent: 'center', alignItems: 'center' }}
+    >
       {children}
     </Pressable>
   );

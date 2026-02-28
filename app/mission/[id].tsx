@@ -316,6 +316,10 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: AppColors.cardDark,
     borderRadius: 20,
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buddyArea: {
     flex: 0.6,

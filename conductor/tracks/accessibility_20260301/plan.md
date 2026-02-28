@@ -16,7 +16,7 @@
 
 ## Phase 3: Screen Reader & Interaction Improvements
 
-- [ ] Task: Apply 44x44dp minimum hit box to all buttons and interactive cards (Mission, Reward)
+- [~] Task: Apply 44x44dp minimum hit box to all buttons and interactive cards (Mission, Reward)
 - [ ] Task: Implement TDD for `accessibilityLabel`, `accessibilityHint`, and `accessibilityRole` on Mission cards
 - [ ] Task: Implement TDD for `accessibilityLabel`, `accessibilityHint`, and `accessibilityRole` on Reward cards
 - [ ] Task: Implement TDD for proactive state announcements (Mission Start/End, Bolt changes)
