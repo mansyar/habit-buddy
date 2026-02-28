@@ -1,6 +1,6 @@
 # Implementation Plan: Testing & QA (Sub-Phase 8D)
 
-## Phase 1: Unit Testing (TDD)
+## Phase 1: Unit Testing (TDD) [checkpoint: b0d8e27]
 
 Goal: Ensure core logic and state management are fully tested and robust.
 
@@ -19,7 +19,7 @@ Goal: Ensure core logic and state management are fully tested and robust.
   - [x] Write failing tests for state machine transitions (Idle -> Active -> Success/Sleepy)
   - [x] Implement/Refine code to pass tests
   - [x] Verify >80% coverage
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Unit Testing' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Unit Testing' (Protocol in workflow.md) b0d8e27
 
 ## Phase 2: Component Testing (TDD)
 
