@@ -2,7 +2,7 @@
 
 ## Phase 1: Global Error Boundary & Crash Prevention
 
-- [ ] Task: Install `react-native-error-boundary`
+- [x] Task: Install `react-native-error-boundary` (deb2d79)
 - [ ] Task: Implement `GlobalErrorBoundary` component with a child-friendly fallback UI
 - [ ] Task: Wrap the root component in `app/_layout.tsx` with the Error Boundary
 - [ ] Task: Write Tests: Verify that unhandled JS errors trigger the fallback UI
