@@ -43,9 +43,9 @@ Goal: Validate UI rendering, accessibility, and navigation on key screens.
 
 Goal: Verify the end-to-end user flow for the core mission feature.
 
-- [ ] Task: Integration test for Full Mission Flow
-  - [ ] Write failing integration test (RNTL) covering: Start -> Timer -> Done -> Success -> Home Update
-  - [ ] Implement/Refine code to pass tests
+- [x] Task: Integration test for Full Mission Flow 6deafac
+  - [x] Write failing integration test (RNTL) covering: Start -> Timer -> Done -> Success -> Home Update
+  - [x] Implement/Refine code to pass tests
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Integration Testing' (Protocol in workflow.md)
 
 ## Phase 4: Manual QA & Performance Profiling
