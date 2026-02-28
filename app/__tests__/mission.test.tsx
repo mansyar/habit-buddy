@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import MissionScreen from '../mission/[id]';
+import { habitLogService } from '../../src/lib/habit_log_service';
 
 // Mock expo-router
 const mockBack = vi.fn();
@@ -15,8 +16,16 @@ vi.mock('expo-router', () => ({
 // Mock AuthStore
 vi.mock('../../src/store/auth_store', () => ({
   useAuthStore: vi.fn(() => ({
-    profile: { selected_buddy: 'dino' },
+    profile: { id: 'p1', selected_buddy: 'dino' },
+    setProfile: vi.fn(),
   })),
+}));
+
+// Mock HabitLogService
+vi.mock('../../src/lib/habit_log_service', () => ({
+  habitLogService: {
+    logMissionResult: vi.fn(() => Promise.resolve({ profile: { id: 'p1' } })),
+  },
 }));
 
 // Mock AudioService
@@ -115,5 +124,25 @@ describe('MissionScreen', () => {
       },
       { timeout: 5000 },
     );
+  });
+
+  test('Done! button prevents double-submission', async () => {
+    const { getByText, getByTestId } = render(<MissionScreen />);
+
+    // Start mission
+    act(() => {
+      fireEvent.click(getByText('Start Mission'));
+    });
+
+    const doneButton = getByTestId('done-button');
+
+    // Simulate rapid double-tap
+    act(() => {
+      fireEvent.click(doneButton);
+      fireEvent.click(doneButton);
+    });
+
+    // Should only call service once
+    expect(habitLogService.logMissionResult).toHaveBeenCalledTimes(1);
   });
 });
