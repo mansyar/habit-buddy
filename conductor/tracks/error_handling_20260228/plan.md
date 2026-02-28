@@ -8,13 +8,13 @@
 - [x] Task: Write Tests: Verify that unhandled JS errors trigger the fallback UI (e2c3f66)
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Global Error Boundary' (Protocol in workflow.md) (07ab5bb)
 
-## Phase 2: Input Validation & Constraints
+## Phase 2: Input Validation & Constraints [checkpoint: ab69703]
 
 - [x] Task: Implement validation logic for Child Name (2–20 chars) in `Onboarding` screen (df8f3a7)
 - [x] Task: Implement validation logic for Coupon Title (2–20 chars) and Bolt Cost (0–200) in `CouponManagement` (d732e82)
 - [x] Task: Update UI to show clear error messages/feedback for invalid inputs (0461183)
 - [x] Task: Write Tests: Unit tests for validation helpers and component-level validation state (468f916)
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Input Validation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Input Validation' (Protocol in workflow.md) (ab69703)
 
 ## Phase 3: Network Connectivity & Data Fallbacks
 
