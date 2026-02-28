@@ -34,9 +34,9 @@ Goal: Validate UI rendering, accessibility, and navigation on key screens.
 - [x] Task: Component tests for `Reward Shop` screen cf5c662
   - [x] Write failing tests for accessibility labels, redemption button state, and history rendering
   - [x] Implement/Refine code to pass tests
-- [ ] Task: Visual consistency with Snapshot Tests
-  - [ ] Create snapshots for `Home`, `Mission`, and `Reward Shop` across different states
-  - [ ] Verify snapshots pass
+- [x] Task: Visual consistency with Snapshot Tests 673f35f
+  - [x] Create snapshots for `Home`, `Mission`, and `Reward Shop` across different states
+  - [x] Verify snapshots pass
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Component Testing' (Protocol in workflow.md)
 
 ## Phase 3: Integration Testing (TDD)
