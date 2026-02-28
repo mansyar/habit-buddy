@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, StyleProp, ViewStyle } from 'react-native';
 import { Cloud, CloudOff } from 'lucide-react-native';
 import { networkService } from '@/lib/network';
 import { AppColors } from '@/theme/Colors';
 
-export const NetworkStatusIcon: React.FC<{ size?: number }> = ({ size = 20 }) => {
+export const NetworkStatusIcon: React.FC<{ size?: number; style?: StyleProp<ViewStyle> }> = ({
+  size = 20,
+  style,
+}) => {
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
@@ -18,8 +21,16 @@ export const NetworkStatusIcon: React.FC<{ size?: number }> = ({ size = 20 }) =>
   }, []);
 
   if (isOnline) {
-    return <Cloud size={size} color={AppColors.dinoGreen} />;
+    return (
+      <View style={style}>
+        <Cloud size={size} color={AppColors.dinoGreen} />
+      </View>
+    );
   }
 
-  return <CloudOff size={size} color={AppColors.error} />;
+  return (
+    <View style={style}>
+      <CloudOff size={size} color={AppColors.error} />
+    </View>
+  );
 };

@@ -12,6 +12,7 @@ vi.mock('../profile_service', () => ({
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({
+  withTimeout: vi.fn((promise) => promise),
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn(() => ({
@@ -69,10 +70,17 @@ describe('CouponService', () => {
       couponData.bolt_cost,
       'Physical', // category
       0, // is_redeemed
-      'synced', // sync_status
+      'pending', // initial sync_status is now pending
       expect.any(String), // last_modified
       expect.any(String), // created_at
     );
+
+    // Should have updated to synced after success
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining("UPDATE coupons SET sync_status = 'synced'"),
+      expect.any(String),
+    );
+
     expect(coupon.title).toBe('Ice Cream');
   });
 
@@ -94,10 +102,17 @@ describe('CouponService', () => {
 
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
-      'synced', // syncStatus
+      'pending', // initial syncStatus is now pending
       expect.any(String), // lastModified
       couponId,
     );
+
+    // Should have updated to synced after success
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining("UPDATE coupons SET sync_status = 'synced'"),
+      couponId,
+    );
+
     expect(supabase.from).toHaveBeenCalledWith('coupons');
   });
 });

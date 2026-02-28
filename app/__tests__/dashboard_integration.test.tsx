@@ -18,6 +18,10 @@ vi.mock('../../src/lib/sqlite', () => ({
 
 vi.mock('../../src/lib/network', () => ({
   checkIsOnline: vi.fn(() => Promise.resolve(false)), // Offline to avoid Supabase calls
+  networkService: {
+    isOnline: vi.fn(() => Promise.resolve(false)),
+    subscribeToConnectionChange: vi.fn(() => vi.fn()),
+  },
 }));
 
 vi.mock('../../src/store/auth_store', () => ({

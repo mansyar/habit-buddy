@@ -31,7 +31,8 @@ describe('Profile Buddy Selection', () => {
       selected_buddy: 'dino',
     };
 
-    // Setup mock return for upsert
+    // Setup mock return for upsert via supabase mock in vitest.setup.ts
+    // We can access it via the imported supabase object
     (supabase.maybeSingle as any).mockResolvedValueOnce({
       data: { id: '123', child_name: 'Buddy', selected_buddy: 'dino' },
       error: null,
@@ -49,10 +50,16 @@ describe('Profile Buddy Selection', () => {
       'dino', // selected_buddy
       0, // bolt_balance
       0, // is_guest
-      'synced', // sync_status
+      'pending', // initial sync_status is now pending
       expect.anything(), // last_modified
       expect.anything(), // created_at
       expect.anything(), // updated_at
+    );
+
+    // Should have updated to synced after success
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining("UPDATE profiles SET sync_status = 'synced'"),
+      expect.anything(),
     );
 
     expect(profile.selected_buddy).toBe('dino');

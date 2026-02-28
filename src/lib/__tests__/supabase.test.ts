@@ -1,5 +1,7 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
 
+vi.unmock('../supabase');
+
 // Mock the entire @supabase/supabase-js module BEFORE any imports
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => ({})),

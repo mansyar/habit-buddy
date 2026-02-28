@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import NetInfo from '@react-native-community/netinfo';
 import { networkService } from '../network';
 
+vi.unmock('../network');
+
 describe('NetworkService', () => {
   beforeEach(() => {
     vi.clearAllMocks();

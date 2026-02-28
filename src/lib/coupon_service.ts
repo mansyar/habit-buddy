@@ -16,7 +16,7 @@ class CouponService {
     const id = Crypto.randomUUID();
     const created_at = new Date().toISOString();
     const lastModified = new Date().toISOString();
-    const syncStatus = isOnline ? 'synced' : 'pending';
+    const syncStatus = 'pending';
 
     const coupon: Coupon = {
       id,
@@ -53,6 +53,8 @@ class CouponService {
         );
 
         if (error) throw error;
+        coupon.sync_status = 'synced';
+        await db.runAsync(`UPDATE coupons SET sync_status = 'synced' WHERE id = ?`, coupon.id);
       } catch (err) {
         console.error('Supabase coupon sync error:', err);
         await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, coupon.id);
@@ -150,7 +152,7 @@ class CouponService {
 
     // 4. Update locally
     const lastModified = new Date().toISOString();
-    const syncStatus = isOnline ? 'synced' : 'pending';
+    const syncStatus = 'pending';
     await db.runAsync(
       `UPDATE coupons SET is_redeemed = 1, sync_status = ?, last_modified = ? WHERE id = ?`,
       syncStatus,
@@ -166,6 +168,9 @@ class CouponService {
         );
 
         if (error) throw error;
+
+        // Update to synced on success
+        await db.runAsync(`UPDATE coupons SET sync_status = 'synced' WHERE id = ?`, id);
       } catch (err) {
         console.error('Supabase coupon redeem sync error:', err);
         await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, id);
@@ -224,7 +229,7 @@ class CouponService {
 
     // Update locally
     const lastModified = new Date().toISOString();
-    const syncStatus = isOnline ? 'synced' : 'pending';
+    const syncStatus = 'pending';
 
     const entries = Object.entries(data);
     const sets = entries.map(([key]) => `${key} = ?`).join(', ');
@@ -244,6 +249,9 @@ class CouponService {
         const { error } = await withTimeout(supabase.from('coupons').update(data).eq('id', id));
 
         if (error) throw error;
+
+        // Update to synced on success
+        await db.runAsync(`UPDATE coupons SET sync_status = 'synced' WHERE id = ?`, id);
       } catch (err) {
         console.error('Supabase coupon update error:', err);
         await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, id);

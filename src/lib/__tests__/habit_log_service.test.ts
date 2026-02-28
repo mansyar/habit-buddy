@@ -5,12 +5,14 @@ import { checkIsOnline } from '../network';
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({
+  withTimeout: vi.fn((promise) => promise),
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn(() => ({
         eq: vi.fn(() => ({
           gte: vi.fn(() => Promise.resolve({ data: [], error: null })),
         })),
+        single: vi.fn(() => Promise.resolve({ data: { id: 'log-123' }, error: null })),
       })),
       insert: vi.fn(() => ({
         select: vi.fn(() => ({
@@ -71,10 +73,17 @@ describe('HabitLogService', () => {
         logData.status,
         logData.duration_seconds,
         logData.bolts_earned,
-        'synced', // sync_status
+        'pending', // initial sync_status is now pending
         expect.any(String), // last_modified
         expect.any(String), // completed_at
       );
+
+      // Should have updated to synced after success
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining("UPDATE habits_log SET sync_status = 'synced'"),
+        expect.any(String),
+      );
+
       expect(supabase.from).toHaveBeenCalledWith('habits_log');
       expect(log.habit_id).toBe('brush_teeth');
     });
@@ -133,10 +142,16 @@ describe('HabitLogService', () => {
       expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE profiles SET bolt_balance = ?'),
         6, // newBalance
-        'synced', // syncStatus
+        'pending', // initial syncStatus is now pending
         expect.any(String), // lastModified
         expect.any(String), // updatedAt
         'p1', // profileId
+      );
+
+      // Should have updated to synced after success
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining("UPDATE profiles SET sync_status = 'synced'"),
+        'p1',
       );
     });
   });

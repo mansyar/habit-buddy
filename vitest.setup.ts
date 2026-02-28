@@ -377,6 +377,15 @@ vi.mock('react-native-error-boundary', () => {
   };
 });
 
+// Mock network service
+vi.mock('@/lib/network', () => ({
+  networkService: {
+    isOnline: vi.fn(() => Promise.resolve(true)),
+    subscribeToConnectionChange: vi.fn(() => vi.fn()),
+  },
+  checkIsOnline: vi.fn(() => Promise.resolve(true)),
+}));
+
 // Mock NetInfo
 vi.mock('@react-native-community/netinfo', () => {
   return {
@@ -418,11 +427,56 @@ const createSupabaseMock = () => {
   return mock;
 };
 
-// Mock Supabase
+// Mock Supabase lib
+vi.mock('@/lib/supabase', () => {
+  const mock: any = {
+    auth: {
+      signInWithOAuth: vi.fn(),
+      signOut: vi.fn(),
+      onAuthStateChange: vi.fn(() => ({
+        data: { subscription: { unsubscribe: vi.fn() } },
+      })),
+      getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),
+    },
+    from: vi.fn(function (this: any) {
+      return this;
+    }),
+    select: vi.fn(function (this: any) {
+      return this;
+    }),
+    insert: vi.fn(function (this: any) {
+      return this;
+    }),
+    update: vi.fn(function (this: any) {
+      return this;
+    }),
+    upsert: vi.fn(function (this: any) {
+      return this;
+    }),
+    delete: vi.fn(function (this: any) {
+      return this;
+    }),
+    eq: vi.fn(function (this: any) {
+      return this;
+    }),
+    or: vi.fn(function (this: any) {
+      return this;
+    }),
+    maybeSingle: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    gte: vi.fn(() => Promise.resolve({ data: [], error: null })),
+  };
+  return {
+    supabase: mock,
+    withTimeout: vi.fn((promise) => promise),
+    SUPABASE_TIMEOUT: 10000,
+  };
+});
+
+// Mock Supabase client
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => createSupabaseMock()),
 }));
-
 // Set dummy env vars for Supabase initialization in tests
 process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
 process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';

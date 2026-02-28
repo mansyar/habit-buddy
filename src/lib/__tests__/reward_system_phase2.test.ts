@@ -4,6 +4,7 @@ import { profileService } from '../profile_service';
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({
+  withTimeout: vi.fn((promise) => promise),
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn(() => ({
@@ -82,9 +83,15 @@ describe('Reward System Phase 2: Bolt Deduction', () => {
     // Should update coupon status
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE coupons SET is_redeemed = 1'),
-      'synced', // syncStatus
+      'pending', // initial syncStatus is now pending
       expect.any(String), // lastModified
       'c1', // id
+    );
+
+    // Should have updated to synced after success
+    expect(mockDb.runAsync).toHaveBeenCalledWith(
+      expect.stringContaining("UPDATE coupons SET sync_status = 'synced'"),
+      'c1',
     );
   });
 

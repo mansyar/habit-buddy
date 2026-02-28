@@ -1,7 +1,42 @@
 import { expect, test, vi, describe, beforeEach } from 'vitest';
 import { profileService } from '../profile_service';
-import { supabase } from '../supabase';
+import { supabase, withTimeout } from '../supabase';
 import { checkIsOnline } from '../network';
+
+// Mock Supabase lib
+vi.mock('../supabase', () => ({
+  supabase: {
+    from: vi.fn(function (this: any) {
+      return this;
+    }),
+    select: vi.fn(function (this: any) {
+      return this;
+    }),
+    insert: vi.fn(function (this: any) {
+      return this;
+    }),
+    update: vi.fn(function (this: any) {
+      return this;
+    }),
+    upsert: vi.fn(function (this: any) {
+      return this;
+    }),
+    delete: vi.fn(function (this: any) {
+      return this;
+    }),
+    eq: vi.fn(function (this: any) {
+      return this;
+    }),
+    or: vi.fn(function (this: any) {
+      return this;
+    }),
+    maybeSingle: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    gte: vi.fn(() => Promise.resolve({ data: [], error: null })),
+  },
+  withTimeout: vi.fn((promise) => promise),
+  SUPABASE_TIMEOUT: 10000,
+}));
 
 // Mock Network
 vi.mock('../network', () => ({
@@ -105,11 +140,18 @@ describe('ProfileService', () => {
       expect(mockDb.runAsync).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE profiles SET bolt_balance = ?'),
         7, // newBalance
-        'synced', // syncStatus
+        'pending', // initial syncStatus is now pending
         expect.any(String), // lastModified
         expect.any(String), // updatedAt
         profileId,
       );
+
+      // Should have updated to synced after success
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining("UPDATE profiles SET sync_status = 'synced'"),
+        profileId,
+      );
+
       expect(supabase.from).toHaveBeenCalledWith('profiles');
       expect(supabase.update).toHaveBeenCalledWith(expect.objectContaining({ bolt_balance: 7 }));
     });

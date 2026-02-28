@@ -19,7 +19,7 @@ class HabitLogService {
     const id = Crypto.randomUUID();
     const completed_at = new Date().toISOString();
     const lastModified = new Date().toISOString();
-    const syncStatus = isOnline ? 'synced' : 'pending';
+    const syncStatus = 'pending';
 
     const log: HabitLog = {
       id,
@@ -55,6 +55,8 @@ class HabitLogService {
         );
 
         if (error) throw error;
+        log.sync_status = 'synced';
+        await db.runAsync(`UPDATE habits_log SET sync_status = 'synced' WHERE id = ?`, log.id);
       } catch (err) {
         console.error('Supabase habit_log sync error:', err);
         // Mark as pending in SQLite

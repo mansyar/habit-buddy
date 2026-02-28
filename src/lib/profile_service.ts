@@ -21,7 +21,7 @@ class ProfileService {
       selected_buddy: data.selected_buddy || 'dino',
       bolt_balance: data.bolt_balance || 0,
       is_guest: !userId,
-      sync_status: isOnline && userId ? 'synced' : 'pending',
+      sync_status: 'pending',
       last_modified: new Date().toISOString(),
       created_at: data.created_at || new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -70,6 +70,7 @@ class ProfileService {
         if (error) throw error;
 
         if (remoteProfile) {
+          await db.runAsync(`UPDATE profiles SET sync_status = 'synced' WHERE id = ?`, profile.id);
           return {
             ...remoteProfile,
             is_guest: false,
@@ -275,7 +276,7 @@ class ProfileService {
     const newBalance = currentProfile.bolt_balance + additionalBolts;
     const updatedAt = new Date().toISOString();
     const lastModified = new Date().toISOString();
-    const syncStatus = isOnline && !currentProfile.is_guest ? 'synced' : 'pending';
+    const syncStatus = 'pending';
 
     // Update locally
     await db.runAsync(
@@ -306,6 +307,10 @@ class ProfileService {
         );
 
         if (error) throw error;
+
+        // Update to synced on success
+        await db.runAsync(`UPDATE profiles SET sync_status = 'synced' WHERE id = ?`, profileId);
+        updatedProfile.sync_status = 'synced';
       } catch (err) {
         console.error('Supabase balance update error:', err);
         // Mark as pending
