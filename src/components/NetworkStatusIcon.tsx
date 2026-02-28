@@ -22,14 +22,14 @@ export const NetworkStatusIcon: React.FC<{ size?: number; style?: StyleProp<View
 
   if (isOnline) {
     return (
-      <View style={style}>
+      <View style={style} accessibilityLabel="Online" accessibilityRole="image">
         <Cloud size={size} color={AppColors.dinoGreen} />
       </View>
     );
   }
 
   return (
-    <View style={style}>
+    <View style={style} accessibilityLabel="Offline" accessibilityRole="image">
       <CloudOff size={size} color={AppColors.error} />
     </View>
   );

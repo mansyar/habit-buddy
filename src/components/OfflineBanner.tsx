@@ -57,6 +57,8 @@ export const OfflineBanner = () => {
   return (
     <Animated.View
       style={[styles.container, animatedStyle, hasSyncError && !isOffline && styles.errorBg]}
+      accessibilityRole="alert"
+      accessibilityLabel={isOffline ? 'Offline Mode' : 'Syncing failed. Tap to retry.'}
     >
       <View style={styles.content}>
         {isOffline ? (
@@ -68,7 +70,12 @@ export const OfflineBanner = () => {
           <>
             <AlertCircle size={16} color="#fff" style={styles.icon} />
             <Text style={styles.text}>Syncing failed</Text>
-            <TouchableOpacity onPress={handleRetry} style={styles.retryButton}>
+            <TouchableOpacity
+              onPress={handleRetry}
+              style={styles.retryButton}
+              accessibilityLabel="Retry syncing"
+              accessibilityRole="button"
+            >
               <RefreshCcw size={14} color="#fff" style={styles.iconSmall} />
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
