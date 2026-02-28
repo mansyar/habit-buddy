@@ -132,6 +132,7 @@ vi.mock('react-native', () => {
 // Mock expo-router
 vi.mock('expo-router', () => ({
   useRouter: vi.fn(() => routerMock),
+  useLocalSearchParams: vi.fn(() => ({})),
   useSegments: vi.fn(() => []),
   Link: ({ children }: any) => children,
   Stack: Object.assign(({ children }: any) => children, {
@@ -281,15 +282,22 @@ vi.mock('react-native-safe-area-context', () => ({
 }));
 
 // Mock react-native-svg
-vi.mock('react-native-svg', () => ({
-  Svg: ({ children }: any) => children,
-  Circle: ({ children }: any) => children,
-  G: ({ children }: any) => children,
-  Path: ({ children }: any) => children,
-  Rect: ({ children }: any) => children,
-  Ellipse: ({ children }: any) => children,
-  default: ({ children }: any) => children,
-}));
+vi.mock('react-native-svg', () => {
+  const MockSVG = ({ children }: any) => children;
+  return {
+    Svg: MockSVG,
+    Circle: MockSVG,
+    G: MockSVG,
+    Path: MockSVG,
+    Rect: MockSVG,
+    Ellipse: MockSVG,
+    Defs: MockSVG,
+    Pattern: MockSVG,
+    LinearGradient: MockSVG,
+    Stop: MockSVG,
+    default: MockSVG,
+  };
+});
 
 // Mock react-native-reanimated
 vi.mock('react-native-reanimated', () => {

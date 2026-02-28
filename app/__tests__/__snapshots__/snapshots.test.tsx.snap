@@ -1,0 +1,452 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="flex: 1 1 0%; background-color: rgb(26, 26, 46);"
+  >
+    <div>
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <span>
+          Hi, Buddy!
+        </span>
+      </div>
+      <div
+        style="flex-direction: row; align-items: center;"
+      >
+        <div
+          accessibilitylabel="Online"
+          accessibilityrole="image"
+          style="margin-right: 10px;"
+        >
+          <div
+            color="#4ADE80"
+            data-testid="icon-Cloud"
+            size="18"
+          >
+            Cloud
+          </div>
+        </div>
+        <div
+          accessibilitylabel="Gold Bolt Balance: 50"
+          accessibilityrole="text"
+          style="flex-direction: row; align-items: center; background-color: rgba(251, 191, 36, 0.1); border-radius: 20px; border-width: 1px; border-color: rgb(251, 191, 36); min-height: 36px;"
+        >
+          <div>
+            <div
+              color="#FBBF24"
+              data-testid="icon-Zap"
+              fill="#FBBF24"
+              size="20"
+            >
+              Zap
+            </div>
+          </div>
+          <div
+            style="opacity: 1;"
+          >
+            <span>
+              50
+            </span>
+          </div>
+        </div>
+        <button
+          accessibilitylabel="Settings. Long press for parent dashboard."
+          accessibilityrole="button"
+          data-testid="settings-button"
+          delaylongpress="3000"
+          style="margin-left: 12px; padding: 10px; border-radius: 15px; background-color: rgb(42, 42, 74); border-width: 1px; border-color: rgb(74, 74, 106); min-height: 48px; min-width: 48px; justify-content: center; align-items: center;"
+        >
+          <div
+            color="#94A3B8"
+            data-testid="icon-Settings"
+            size="22"
+          >
+            Settings
+          </div>
+        </button>
+        <button
+          accessibilitylabel="Reward Shop"
+          accessibilityrole="button"
+          style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
+        >
+          <div
+            color="#EF4444"
+            data-testid="icon-Gift"
+            size="22"
+          >
+            Gift
+          </div>
+        </button>
+      </div>
+    </div>
+    <div>
+      <span>
+        Daily Missions
+      </span>
+      <div
+        accessibilitylabel="33% of daily missions completed"
+        accessibilityrole="progressbar"
+        style="margin-bottom: 20px;"
+      >
+        <div
+          data-testid="caution-tape-container"
+          style="height: 12px; width: 100%; justify-content: center;"
+        >
+          <div
+            style="height: 12px; background-color: rgb(58, 58, 92); border-radius: 6px; overflow: hidden;"
+          >
+            <div
+              data-testid="caution-tape-fill"
+            >
+              <div />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          style="width: 100%; margin-bottom: 12px;"
+        >
+          <button
+            accessibilitylabel="Tooth Brushing, 2 minutes, completed"
+            accessibilityrole="button"
+            data-testid="habit-card-tooth-brushing"
+            style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
+          >
+            <div />
+            <div>
+              <div
+                color="#4ADE80"
+                data-testid="icon-Sparkles"
+                size="32"
+              >
+                Sparkles
+              </div>
+            </div>
+            <div
+              style="flex: 1 1 0%;"
+            >
+              <span>
+                Tooth Brushing
+              </span>
+              <span>
+                ⏱ 2:00
+              </span>
+            </div>
+            <div
+              style="width: 24px; height: 24px; justify-content: center; align-items: center;"
+            >
+              <div
+                color="#4ADE80"
+                data-testid="icon-CheckCircle2"
+                size="24"
+              >
+                CheckCircle2
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          style="width: 100%; margin-bottom: 12px;"
+        >
+          <button
+            accessibilityhint="Tap to start this mission"
+            accessibilitylabel="Meal Time, 15 minutes, incomplete"
+            accessibilityrole="button"
+            data-testid="habit-card-meal-time"
+            style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
+          >
+            <div />
+            <div>
+              <div
+                color="#FB923C"
+                data-testid="icon-Utensils"
+                size="32"
+              >
+                Utensils
+              </div>
+            </div>
+            <div
+              style="flex: 1 1 0%;"
+            >
+              <span>
+                Meal Time
+              </span>
+              <span>
+                ⏱ 15:00
+              </span>
+            </div>
+            <div
+              style="width: 24px; height: 24px; justify-content: center; align-items: center;"
+            />
+          </button>
+        </div>
+        <div
+          style="width: 100%; margin-bottom: 12px;"
+        >
+          <button
+            accessibilityhint="Tap to start this mission"
+            accessibilitylabel="Toy Cleanup, 5 minutes, incomplete"
+            accessibilityrole="button"
+            data-testid="habit-card-toy-cleanup"
+            style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
+          >
+            <div />
+            <div>
+              <div
+                color="#60A5FA"
+                data-testid="icon-Box"
+                size="32"
+              >
+                Box
+              </div>
+            </div>
+            <div
+              style="flex: 1 1 0%;"
+            >
+              <span>
+                Toy Cleanup
+              </span>
+              <span>
+                ⏱ 5:00
+              </span>
+            </div>
+            <div
+              style="width: 24px; height: 24px; justify-content: center; align-items: center;"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        style="height: 40px;"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="flex: 1 1 0%; background-color: rgb(26, 26, 46);"
+  >
+    <div
+      style="position: absolute; top: 50px; right: 20px; z-index: 10;"
+    >
+      <button
+        accessibilitylabel="Mute sounds"
+        accessibilityrole="button"
+        data-testid="mute-toggle"
+        style="padding: 10px; background-color: rgb(42, 42, 74); border-radius: 20px; min-height: 48px; min-width: 48px; justify-content: center; align-items: center;"
+      >
+        <div
+          color="#94A3B8"
+          data-testid="icon-Volume2"
+          size="24"
+        >
+          Volume2
+        </div>
+      </button>
+    </div>
+    <div
+      data-testid="buddy-area"
+      style="flex: 0.6 1 0%; align-items: center; justify-content: center; background-color: rgb(26, 26, 46);"
+    >
+      <div
+        accessibilitylabel="dino is idle"
+        accessibilityrole="image"
+      >
+        <div
+          data-testid="buddy-animation"
+        />
+      </div>
+      <div
+        style="opacity: 0; position: absolute; top: 20px; right: 40px;"
+      >
+        <div
+          color="#FBBF24"
+          data-testid="icon-Sparkles"
+          size="60"
+        >
+          Sparkles
+        </div>
+      </div>
+      <button
+        accessibilitylabel="Mission: Mission. Tap to hear instruction."
+        accessibilityrole="button"
+      >
+        <span>
+          Mission
+        </span>
+      </button>
+    </div>
+    <div
+      data-testid="controls-area"
+      style="flex: 0.4 1 0%; align-items: center; justify-content: center; background-color: rgb(42, 42, 74); border-top-left-radius: 30px; border-top-right-radius: 30px; margin-top: -30px; padding: 20px;"
+    >
+      <div
+        style="margin-bottom: 20px;"
+      >
+        <div
+          accessibilitylabel="Time remaining: 5:00"
+          accessibilityrole="timer"
+        >
+          <div
+            style="position: absolute;"
+          >
+            <span
+              style="font-size: 42px; font-weight: bold; font-family: SpaceMono-Regular;"
+            >
+              5:00
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        style="align-items: center; width: 100%;"
+      >
+        <div
+          style="flex-direction: row; margin-bottom: 20px;"
+        >
+          <button
+            accessibilitylabel="Decrease time by 30 seconds"
+            accessibilityrole="button"
+            data-testid="adjust-minus-30"
+            style="padding: 10px; background-color: rgb(74, 74, 106); border-radius: 8px;"
+          >
+            <span>
+              -30s
+            </span>
+          </button>
+          <button
+            accessibilitylabel="Increase time by 30 seconds"
+            accessibilityrole="button"
+            data-testid="adjust-plus-30"
+            style="padding: 10px; background-color: rgb(74, 74, 106); border-radius: 8px;"
+          >
+            <span>
+              +30s
+            </span>
+          </button>
+        </div>
+        <button
+          accessibilitylabel="Start Mission"
+          accessibilityrole="button"
+          data-testid="start-mission-button"
+          style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
+        >
+          <span>
+            Start Mission
+          </span>
+        </button>
+      </div>
+      <button
+        accessibilitylabel="Cancel Mission and go back"
+        accessibilityrole="button"
+        style="padding: 15px;"
+      >
+        <span>
+          Cancel
+        </span>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Snapshot Tests > RewardShopScreen snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      data-testid="header-right"
+    >
+      <div>
+        <div
+          accessibilitylabel="Online"
+          accessibilityrole="image"
+          style="margin-right: 15px;"
+        >
+          <div
+            color="#4ADE80"
+            data-testid="icon-Cloud"
+            size="18"
+          >
+            Cloud
+          </div>
+        </div>
+        <button
+          accessibilitylabel="Long press for parents"
+          accessibilityrole="button"
+          style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column; min-height: 48px; min-width: 48px; justify-content: center; align-items: center;"
+        >
+          <div
+            accessibilitylabel="Parent Mode"
+            accessibilityrole="button"
+          >
+            <div
+              color="#94A3B8"
+              data-testid="icon-Settings"
+              size="20"
+            >
+              Settings
+            </div>
+            <span>
+              Parent
+            </span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div>
+      <span>
+        Reward Shop
+      </span>
+      <div>
+        <div
+          color="#FBBF24"
+          data-testid="icon-Star"
+          fill="#FBBF24"
+          size="20"
+        >
+          Star
+        </div>
+        <span>
+          50 Gold Bolts
+        </span>
+      </div>
+      <span>
+        Trade your Gold Bolts for awesome prizes here!
+      </span>
+      <div
+        data-testid="empty-state"
+        style="flex: 1 1 0%; align-items: center; justify-content: center; padding: 40px; margin-top: 40px;"
+      >
+        <div
+          style="width: 100px; height: 100px; border-radius: 50px; background-color: rgb(42, 42, 74); align-items: center; justify-content: center; margin-bottom: 20px; border-width: 2px; border-color: rgb(74, 74, 106);"
+        >
+          <div
+            color="#94A3B8"
+            data-testid="icon-Gift"
+            size="48"
+          >
+            Gift
+          </div>
+        </div>
+        <span
+          style="font-size: 24px; color: rgb(248, 250, 252); font-family: FredokaOne_400Regular; text-align: center; margin-bottom: 12px;"
+        >
+          Shop is Empty
+        </span>
+        <span
+          style="font-size: 16px; color: rgb(203, 213, 225); font-family: Nunito_600SemiBold; text-align: center; line-height: 24;"
+        >
+          Ask your parent to add some rewards for you!
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
