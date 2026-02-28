@@ -29,7 +29,7 @@
 - [x] Task: Final accessibility regression testing and contrast verification dbba863
 - [x] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
 
-## Phase 5: Documentation & Roadmap
+## Phase 5: Documentation & Roadmap [checkpoint: caafc47]
 
-- [ ] Task: Update `docs/roadmap.md` with progress for Sub-Phase 8C
-- [ ] Task: Conductor - User Manual Verification 'Phase 5' (Protocol in workflow.md)
+- [x] Task: Update `docs/roadmap.md` with progress for Sub-Phase 8C 23f046e
+- [x] Task: Conductor - User Manual Verification 'Phase 5' (Protocol in workflow.md)
