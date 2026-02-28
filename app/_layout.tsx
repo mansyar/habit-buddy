@@ -17,6 +17,7 @@ import { syncService } from '@/lib/sync_service';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { networkService } from '@/lib/network';
 import { AnimatedSplash } from '@/components/AnimatedSplash';
+import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -65,11 +66,14 @@ export default function RootLayout() {
     return null;
   }
 
+  let content;
   if (showAnimatedSplash) {
-    return <AnimatedSplash onFinish={() => setShowAnimatedSplash(false)} />;
+    content = <AnimatedSplash onFinish={() => setShowAnimatedSplash(false)} />;
+  } else {
+    content = <RootLayoutNav />;
   }
 
-  return <RootLayoutNav />;
+  return <GlobalErrorBoundary>{content}</GlobalErrorBoundary>;
 }
 
 export function RootLayoutNav() {
