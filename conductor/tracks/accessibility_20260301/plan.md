@@ -1,11 +1,11 @@
 # Implementation Plan: Accessibility Enhancements (Sub-Phase 8C)
 
-## Phase 1: Foundation & Infrastructure
+## Phase 1: Foundation & Infrastructure [checkpoint: 3b92298]
 
-- [ ] Task: Audit existing components for accessibility gaps (hit boxes, missing labels, contrast)
-- [ ] Task: Setup `expo-haptics` and create a centralized `HapticFeedback` utility
-- [ ] Task: Create `AccessibilityHelper` for standardized `announceForAccessibility` calls
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Audit existing components for accessibility gaps (hit boxes, missing labels, contrast) 8bd7b1b
+- [x] Task: Setup `expo-haptics` and create a centralized `HapticFeedback` utility e32630c
+- [x] Task: Create `AccessibilityHelper` for standardized `announceForAccessibility` calls 7da6385
+- [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Visual Accessibility & Scaling
 
