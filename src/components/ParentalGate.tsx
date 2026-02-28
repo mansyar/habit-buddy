@@ -28,7 +28,7 @@ export function ParentalGate({ onSuccess, children, delay = 3000 }: ParentalGate
     <Pressable
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      style={{ minHeight: 44, minWidth: 44, justifyContent: 'center', alignItems: 'center' }}
+      style={{ minHeight: 48, minWidth: 48, justifyContent: 'center', alignItems: 'center' }}
       accessibilityLabel="Long press for parents"
       accessibilityRole="button"
     >

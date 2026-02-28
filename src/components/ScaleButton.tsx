@@ -39,7 +39,7 @@ export const ScaleButton: React.FC<ScaleButtonProps> = ({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       style={[
-        { minWidth: 44, minHeight: 44, justifyContent: 'center', alignItems: 'center' },
+        { minWidth: 48, minHeight: 48, justifyContent: 'center', alignItems: 'center' },
         style,
         animatedStyle,
       ]}
