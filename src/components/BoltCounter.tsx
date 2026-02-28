@@ -83,13 +83,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: `${AppColors.rewardGold}20`, // 12% opacity as per guide
+    backgroundColor: `${AppColors.rewardGold}1A`, // 10% opacity as per guide update
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: AppColors.rewardGold,
-    height: 36, // As per AppSizes.boltCounterHeight
+    minHeight: 36, // As per AppSizes.boltCounterHeight
   },
   iconWrapper: {
     marginRight: 6,

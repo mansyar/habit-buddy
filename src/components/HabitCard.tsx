@@ -47,13 +47,14 @@ export function HabitCard({ habit, isCompleted }: HabitCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    height: 96, // AppSizes.habitCardHeight
+    minHeight: 96, // AppSizes.habitCardHeight
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: AppColors.cardDark,
     borderRadius: 20, // AppRadius.xl
     overflow: 'hidden',
     paddingRight: 16,
+    paddingVertical: 12, // Increased padding for scaling
   },
   completedCard: {
     opacity: 0.6,
