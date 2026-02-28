@@ -30,7 +30,7 @@
 - [x] Task: Add double-tap prevention (debounce/disable) to the "Done!" button in `MissionActive` (13bdd20)
 - [x] Task: Implement fallback styling/images for `BuddyAnimation` and `FloatingProp` if assets fail to load (8696468)
 - [x] Task: Add error handling for audio playback in `AudioService` (81636e6)
-- [ ] Task: Write Tests: Integration tests for mission timer persistence and button debouncing
+- [x] Task: Write Tests: Integration tests for mission timer persistence and button debouncing (104400d)
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Mission Flow' (Protocol in workflow.md)
 
 ## Phase 5: Auth Migration Robustness
