@@ -21,7 +21,7 @@ Goal: Ensure core logic and state management are fully tested and robust.
   - [x] Verify >80% coverage
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Unit Testing' (Protocol in workflow.md) b0d8e27
 
-## Phase 2: Component Testing (TDD)
+## Phase 2: Component Testing (TDD) [checkpoint: 4cb776d]
 
 Goal: Validate UI rendering, accessibility, and navigation on key screens.
 
@@ -37,7 +37,7 @@ Goal: Validate UI rendering, accessibility, and navigation on key screens.
 - [x] Task: Visual consistency with Snapshot Tests 673f35f
   - [x] Create snapshots for `Home`, `Mission`, and `Reward Shop` across different states
   - [x] Verify snapshots pass
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Component Testing' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Component Testing' (Protocol in workflow.md) 4cb776d
 
 ## Phase 3: Integration Testing (TDD)
 
