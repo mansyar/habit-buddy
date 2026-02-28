@@ -3,6 +3,7 @@ import { couponService } from '../coupon_service';
 
 // Mock Supabase client
 vi.mock('../supabase', () => ({
+  withTimeout: vi.fn((promise) => promise),
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn(() => ({
