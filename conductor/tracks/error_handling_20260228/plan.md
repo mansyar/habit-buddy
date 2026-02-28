@@ -19,7 +19,7 @@
 ## Phase 3: Network Connectivity & Data Fallbacks
 
 - [x] Task: Create a `NetworkStatusIcon` component for the header (086bf05)
-- [ ] Task: Integrate `NetworkStatusIcon` into the global header/app bar
+- [x] Task: Integrate `NetworkStatusIcon` into the global header/app bar (f46c5a5)
 - [ ] Task: Enhance `ProfileService`, `HabitLogService`, and `CouponService` to handle Supabase request timeouts/failures gracefully
 - [ ] Task: Write Tests: Mock network failures and verify services fall back to local SQLite correctly
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Network Connectivity' (Protocol in workflow.md)
