@@ -82,7 +82,8 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           retry_count INTEGER DEFAULT 0,
           last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-          updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+          updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+          last_retry TEXT
         );
 
         CREATE TABLE IF NOT EXISTS habits_log (
@@ -96,6 +97,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           retry_count INTEGER DEFAULT 0,
           last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           completed_at TEXT DEFAULT CURRENT_TIMESTAMP,
+          last_retry TEXT,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
         );
 
@@ -110,6 +112,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           retry_count INTEGER DEFAULT 0,
           last_modified TEXT DEFAULT CURRENT_TIMESTAMP,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+          last_retry TEXT,
           FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
         );
 
@@ -120,6 +123,7 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           data TEXT NOT NULL,
           status TEXT DEFAULT 'pending',
           retry_count INTEGER DEFAULT 0,
+          last_retry TEXT,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP
         );
       `);
@@ -147,6 +151,11 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
           }
           if (!hasRetryCount) {
             await db.execAsync(`ALTER TABLE ${table} ADD COLUMN retry_count INTEGER DEFAULT 0`);
+          }
+
+          const hasLastRetry = tableInfo.some((col) => col.name === 'last_retry');
+          if (!hasLastRetry) {
+            await db.execAsync(`ALTER TABLE ${table} ADD COLUMN last_retry TEXT`);
           }
 
           // Legacy columns for profiles
@@ -183,6 +192,11 @@ export const initializeSQLite = async (): Promise<SQLite.SQLiteDatabase> => {
         const hasRetryCount = syncQueueInfo.some((col) => col.name === 'retry_count');
         if (!hasRetryCount) {
           await db.execAsync('ALTER TABLE sync_queue ADD COLUMN retry_count INTEGER DEFAULT 0');
+        }
+
+        const hasLastRetry = syncQueueInfo.some((col) => col.name === 'last_retry');
+        if (!hasLastRetry) {
+          await db.execAsync('ALTER TABLE sync_queue ADD COLUMN last_retry TEXT');
         }
       } catch (e) {
         console.warn('Migration check failed for sync_queue:', e);

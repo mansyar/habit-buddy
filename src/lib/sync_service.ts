@@ -14,6 +14,23 @@ export interface SyncItem {
 class SyncService {
   private isSyncing = false;
   private MAX_RETRIES = 3;
+  private BASE_RETRY_DELAY = 30000; // 30 seconds
+
+  /**
+   * Exponential backoff calculation.
+   * Returns true if enough time has passed since last_retry.
+   */
+  private shouldRetry(retryCount: number, lastRetryStr: string | null): boolean {
+    if (!lastRetryStr || retryCount === 0) return true;
+
+    const lastRetry = new Date(lastRetryStr).getTime();
+    const now = Date.now();
+
+    // delay = base * 2^(retryCount - 1)
+    const delay = this.BASE_RETRY_DELAY * Math.pow(2, retryCount - 1);
+
+    return now - lastRetry >= delay;
+  }
 
   /**
    * Main entry point for synchronization.
@@ -50,7 +67,9 @@ class SyncService {
     const tablesToSync = ['profiles', 'habits_log', 'coupons'];
 
     for (const table of tablesToSync) {
-      // Only pick records that haven't exceeded MAX_RETRIES
+      // Pick records that haven't exceeded MAX_RETRIES.
+      // We still filter by retry_count here for efficiency,
+      // then shouldRetry handles the time-based backoff.
       const pendingRecords = (await db.getAllAsync(
         `SELECT * FROM ${table} WHERE sync_status = 'pending' AND retry_count < ?`,
         this.MAX_RETRIES,
@@ -61,8 +80,13 @@ class SyncService {
       console.log(`SyncService: Found ${pendingRecords.length} pending records in ${table}`);
 
       for (const record of pendingRecords) {
+        // Apply backoff check
+        if (!this.shouldRetry(record.retry_count, record.last_retry)) {
+          continue;
+        }
+
         // Prepare record for Supabase (remove internal sync columns)
-        const { sync_status, last_modified, retry_count, ...supabaseData } = record;
+        const { sync_status, last_modified, retry_count, last_retry, ...supabaseData } = record;
 
         // Handle boolean fields for SQLite -> Supabase mapping if needed
         if (table === 'profiles') {
@@ -78,13 +102,14 @@ class SyncService {
           if (!error) {
             // Success! Mark as synced locally and reset retry count
             await db.runAsync(
-              `UPDATE ${table} SET sync_status = 'synced', retry_count = 0 WHERE id = ?`,
+              `UPDATE ${table} SET sync_status = 'synced', retry_count = 0, last_retry = NULL WHERE id = ?`,
               record.id,
             );
           } else {
-            // Failure! Increment retry count
+            // Failure! Increment retry count and set last_retry
             await db.runAsync(
-              `UPDATE ${table} SET retry_count = retry_count + 1 WHERE id = ?`,
+              `UPDATE ${table} SET retry_count = retry_count + 1, last_retry = ? WHERE id = ?`,
+              new Date().toISOString(),
               record.id,
             );
             console.error(
@@ -95,7 +120,8 @@ class SyncService {
         } catch (e: any) {
           console.error(`SyncService: Error syncing ${table} record ${record.id}:`, e.message);
           await db.runAsync(
-            `UPDATE ${table} SET retry_count = retry_count + 1 WHERE id = ?`,
+            `UPDATE ${table} SET retry_count = retry_count + 1, last_retry = ? WHERE id = ?`,
+            new Date().toISOString(),
             record.id,
           );
         }
@@ -116,6 +142,11 @@ class SyncService {
     if (queue.length === 0) return;
 
     for (const item of queue) {
+      // Apply backoff check
+      if (!this.shouldRetry(item.retry_count, item.last_retry)) {
+        continue;
+      }
+
       let data;
       try {
         data = JSON.parse(item.data);
@@ -145,16 +176,18 @@ class SyncService {
         if (success) {
           await db.runAsync(`DELETE FROM sync_queue WHERE id = ?`, item.id);
         } else {
-          // Increment retry count
+          // Increment retry count and set last_retry
           await db.runAsync(
-            `UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?`,
+            `UPDATE sync_queue SET retry_count = retry_count + 1, last_retry = ? WHERE id = ?`,
+            new Date().toISOString(),
             item.id,
           );
         }
       } catch (e: any) {
         console.error(`SyncService: Error processing queue item ${item.id}:`, e.message);
         await db.runAsync(
-          `UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?`,
+          `UPDATE sync_queue SET retry_count = retry_count + 1, last_retry = ? WHERE id = ?`,
+          new Date().toISOString(),
           item.id,
         );
       }
