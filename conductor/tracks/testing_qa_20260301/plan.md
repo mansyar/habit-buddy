@@ -11,10 +11,10 @@ Goal: Ensure core logic and state management are fully tested and robust.
 - [x] Task: Unit tests for `AudioService` f4237d1
   - [x] Write failing tests for layered audio playback (BGM + VO) and mute logic
   - [x] Implement/Refine code to pass tests
-  - [x] Verify >80% coverage- [ ] Task: Unit tests for `HabitLogService`
-  - [ ] Write failing tests for CRUD operations and local-vs-remote abstraction
-  - [ ] Implement/Refine code to pass tests
-  - [ ] Verify >80% coverage
+  - [x] Verify >80% coverage- [x] Task: Unit tests for `HabitLogService` 1d90cf7
+  - [x] Write failing tests for CRUD operations and local-vs-remote abstraction
+  - [x] Implement/Refine code to pass tests
+  - [x] Verify >80% coverage
 - [ ] Task: Unit tests for `BuddyState` (Zustand)
   - [ ] Write failing tests for state machine transitions (Idle -> Active -> Success/Sleepy)
   - [ ] Implement/Refine code to pass tests
