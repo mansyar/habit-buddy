@@ -29,7 +29,7 @@
 - [x] Task: Implement AppState listener in `useMissionTimer` to pause/resume on background/foreground (7a6a2d6)
 - [x] Task: Add double-tap prevention (debounce/disable) to the "Done!" button in `MissionActive` (13bdd20)
 - [x] Task: Implement fallback styling/images for `BuddyAnimation` and `FloatingProp` if assets fail to load (8696468)
-- [ ] Task: Add error handling for audio playback in `AudioService`
+- [x] Task: Add error handling for audio playback in `AudioService` (81636e6)
 - [ ] Task: Write Tests: Integration tests for mission timer persistence and button debouncing
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Mission Flow' (Protocol in workflow.md)
 
