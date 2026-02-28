@@ -35,6 +35,7 @@ const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
 export default function MissionScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { profile, setProfile } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isSubmittingRef = React.useRef(false);
 
