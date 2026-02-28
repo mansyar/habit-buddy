@@ -24,14 +24,14 @@
 - [x] Task: Write Tests: Mock network failures and verify services fall back to local SQLite correctly (19ddba9)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Network Connectivity' (Protocol in workflow.md) (60e8121)
 
-## Phase 4: Mission Flow & Asset Edge Cases
+## Phase 4: Mission Flow & Asset Edge Cases [checkpoint: 662a81f]
 
 - [x] Task: Implement AppState listener in `useMissionTimer` to pause/resume on background/foreground (7a6a2d6)
 - [x] Task: Add double-tap prevention (debounce/disable) to the "Done!" button in `MissionActive` (13bdd20)
 - [x] Task: Implement fallback styling/images for `BuddyAnimation` and `FloatingProp` if assets fail to load (8696468)
 - [x] Task: Add error handling for audio playback in `AudioService` (81636e6)
 - [x] Task: Write Tests: Integration tests for mission timer persistence and button debouncing (104400d)
-- [~] Task: Conductor - User Manual Verification 'Phase 4: Mission Flow' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Mission Flow' (Protocol in workflow.md) (662a81f)
 
 ## Phase 5: Auth Migration Robustness
 
