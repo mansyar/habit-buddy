@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useAuthStore } from '../../src/store/auth_store';
 import { profileService } from '../../src/lib/profile_service';
 import { Colors } from '../../src/theme/Colors';
+import { validateChildName } from '../../src/utils/validation';
 
 const AVATARS = [
   { id: 'dog', name: '🐶' },
@@ -30,13 +31,13 @@ export default function OnboardingScreen() {
   const handleNameChange = (text: string) => {
     setName(text);
     if (text.trim().length > 20) {
-      setError('Name must be between 2 and 20 characters');
+      setError(validateChildName(text));
     } else {
       setError(null);
     }
   };
 
-  const isNameValid = name.trim().length >= 2 && name.trim().length <= 20;
+  const isNameValid = validateChildName(name) === null;
 
   const handleFinishOnboarding = async () => {
     if (!isNameValid) return;
