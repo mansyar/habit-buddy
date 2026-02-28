@@ -14,10 +14,9 @@ This file records all tracks created during the development process.
       _Link: [./archive/git_hooks_20260227/](./archive/git_hooks_20260227/)_
 - [x] **Track: make sure pnpm lint has 0 error and 0 warning. no shortcut. proper solution only**
       _Link: [./archive/lint_cleanup_20260227/](./archive/lint_cleanup_20260227/)_
+- [x] **Track: implement Sub-Phase 8C: Accessibility**
+      _Link: [./archive/accessibility_20260301/](./archive/accessibility_20260301/)_
 
 ## Planned
 
----
-
-- [x] **Track: implement Sub-Phase 8C: Accessibility**
-      _Link: [./tracks/accessibility_20260301/](./tracks/accessibility_20260301/)_
+(No tracks planned)
