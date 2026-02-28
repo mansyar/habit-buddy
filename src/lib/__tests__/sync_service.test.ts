@@ -22,6 +22,11 @@ vi.mock('../supabase', () => ({
 // Mock Network
 vi.mock('../network', () => ({
   checkIsOnline: vi.fn(() => Promise.resolve(true)),
+  networkService: {
+    setSyncError: vi.fn(),
+    getHasSyncError: vi.fn(() => false),
+    subscribeToSyncError: vi.fn(() => () => {}),
+  },
 }));
 
 // Mock SQLite

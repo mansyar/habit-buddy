@@ -10,12 +10,21 @@ vi.mock('../supabase', () => {
     upsert: vi.fn(() => mock),
     eq: vi.fn(() => mock),
   };
-  return { supabase: mock };
+  return {
+    supabase: mock,
+    withTimeout: vi.fn((p) => p),
+    SUPABASE_TIMEOUT: 10000,
+  };
 });
 
 // Mock Network
 vi.mock('../network', () => ({
   checkIsOnline: vi.fn(() => Promise.resolve(true)),
+  networkService: {
+    setSyncError: vi.fn(),
+    getHasSyncError: vi.fn(() => false),
+    subscribeToSyncError: vi.fn(() => () => {}),
+  },
 }));
 
 // Mock SQLite
@@ -50,7 +59,10 @@ describe('Sync Retry Logic', () => {
     await syncService.processQueue();
 
     expect(mockDb.runAsync).toHaveBeenCalledWith(
-      expect.stringContaining('UPDATE profiles SET retry_count = retry_count + 1 WHERE id = ?'),
+      expect.stringContaining(
+        'UPDATE profiles SET retry_count = retry_count + 1, last_retry = ? WHERE id = ?',
+      ),
+      expect.any(String),
       'p1',
     );
   });

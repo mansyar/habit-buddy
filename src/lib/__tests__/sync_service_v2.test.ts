@@ -63,7 +63,7 @@ describe('SyncService v2 (Sync Markers)', () => {
     // Should mark as synced and reset retry_count
     expect(mockDb.runAsync).toHaveBeenCalledWith(
       expect.stringContaining(
-        "UPDATE profiles SET sync_status = 'synced', retry_count = 0 WHERE id = ?",
+        "UPDATE profiles SET sync_status = 'synced', retry_count = 0, last_retry = NULL WHERE id = ?",
       ),
       'p1',
     );
