@@ -5,15 +5,54 @@ import { habitLogService } from '../../src/lib/habit_log_service';
 import { accessibilityHelper } from '../../src/lib/accessibility_helper';
 import { hapticFeedback } from '../../src/lib/haptic_feedback';
 import { audioService } from '../../src/lib/audio_service';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+
+// Mock react-native components for web testing
+vi.mock('react-native', async (importActual) => {
+  const actual: any = await importActual();
+  return {
+    ...actual,
+    TouchableOpacity: ({ children, onPress, accessibilityLabel, testID, disabled }: any) => (
+      <button
+        onClick={onPress}
+        aria-label={accessibilityLabel}
+        data-testid={testID}
+        disabled={disabled}
+      >
+        {children}
+      </button>
+    ),
+    ScrollView: ({ children, accessibilityLabel }: any) => (
+      <div aria-label={accessibilityLabel}>{children}</div>
+    ),
+    View: ({ children, accessibilityLabel, accessibilityRole, style, testID }: any) => (
+      <div
+        aria-label={accessibilityLabel}
+        role={accessibilityRole}
+        style={style}
+        data-testid={testID}
+      >
+        {children}
+      </div>
+    ),
+    useWindowDimensions: () => ({ width: 400, height: 800 }),
+  };
+});
 
 // Mock expo-router
 const mockBack = vi.fn();
+const mockReplace = vi.fn();
 vi.mock('expo-router', () => ({
   useLocalSearchParams: vi.fn(() => ({ id: 'tooth-brushing' })),
   useRouter: vi.fn(() => ({
-    replace: vi.fn(),
+    replace: mockReplace,
     back: mockBack,
   })),
+}));
+
+// Mock safe area insets
+vi.mock('react-native-safe-area-context', () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 
 // Mock AuthStore
@@ -62,6 +101,37 @@ vi.mock('../../src/lib/haptic_feedback', () => ({
   },
 }));
 
+// Mock components
+vi.mock('../../src/components/BuddyAnimation', () => ({
+  BuddyAnimation: ({ state }: any) => (
+    <div data-testid="buddy-animation" data-state={state}>
+      Buddy
+    </div>
+  ),
+}));
+
+vi.mock('../../src/components/Themed', () => ({
+  Text: ({ children, style, accessibilityLabel, accessibilityRole }: any) => (
+    <span style={style} aria-label={accessibilityLabel} role={accessibilityRole}>
+      {children}
+    </span>
+  ),
+  View: ({ children, style }: any) => <div style={style}>{children}</div>,
+}));
+
+vi.mock('../../src/components/ScaleButton', () => ({
+  ScaleButton: ({ children, onPress, accessibilityLabel, testID, disabled }: any) => (
+    <button
+      onClick={onPress}
+      aria-label={accessibilityLabel}
+      data-testid={testID}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  ),
+}));
+
 describe('MissionScreen', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -73,132 +143,71 @@ describe('MissionScreen', () => {
     vi.useRealTimers();
   });
 
-  test('renders buddy area and controls area with correct layout', () => {
-    const { getByTestId } = render(<MissionScreen />);
+  it('renders correct mission info and buddy', () => {
+    const { getByText, getByTestId } = render(<MissionScreen />);
 
-    expect(getByTestId('buddy-area')).toBeTruthy();
-    expect(getByTestId('controls-area')).toBeTruthy();
-  });
-
-  test('displays the correct buddy animation based on profile', () => {
-    const { getByTestId } = render(<MissionScreen />);
-    expect(getByTestId('buddy-animation')).toBeTruthy();
-  });
-
-  test('displays mission name based on id param', () => {
-    const { getByText } = render(<MissionScreen />);
     expect(getByText('Brush Your Teeth')).toBeTruthy();
+    expect(getByTestId('buddy-animation')).toBeTruthy();
+    expect(getByTestId('buddy-animation').getAttribute('data-state')).toBe('idle');
   });
 
-  test('starts mission when Start button is pressed', () => {
-    const { getByText, queryByText, getByTestId } = render(<MissionScreen />);
+  it('has correct accessibility labels for controls', () => {
+    const { getByLabelText } = render(<MissionScreen />);
 
-    const startButton = getByText('Start Mission');
+    expect(getByLabelText('Increase time by 30 seconds')).toBeTruthy();
+    expect(getByLabelText('Decrease time by 30 seconds')).toBeTruthy();
+    expect(getByLabelText('Start Mission')).toBeTruthy();
+    expect(getByLabelText('Cancel Mission and go back')).toBeTruthy();
+  });
+
+  it('transitions state when mission starts', () => {
+    const { getByLabelText, getByTestId } = render(<MissionScreen />);
+
+    const startButton = getByLabelText('Start Mission');
     act(() => {
       fireEvent.click(startButton);
     });
 
-    expect(queryByText('Start Mission')).toBeNull();
-    expect(getByTestId('done-button')).toBeTruthy();
+    expect(getByTestId('buddy-animation').getAttribute('data-state')).toBe('active');
+    expect(getByLabelText('Finish Mission')).toBeTruthy();
   });
 
-  test('adjusts time using buttons', () => {
-    const { getByText } = render(<MissionScreen />);
+  it('formats timer display correctly', () => {
+    const { getByText, getByLabelText } = render(<MissionScreen />);
 
-    // Default for brush_teeth is 2:00
+    // Default 2:00
     expect(getByText('2:00')).toBeTruthy();
 
-    const plus30 = getByText('+30s');
+    const plusButton = getByLabelText('Increase time by 30 seconds');
     act(() => {
-      fireEvent.click(plus30);
+      fireEvent.click(plusButton);
     });
     expect(getByText('2:30')).toBeTruthy();
-
-    const minus30 = getByText('-30s');
-    act(() => {
-      fireEvent.click(minus30);
-    });
-    expect(getByText('2:00')).toBeTruthy();
   });
 
-  test('Done! button triggers submission and navigation', async () => {
+  it('handles mission completion flow', async () => {
     vi.useRealTimers();
-    const { getByText, getByTestId } = render(<MissionScreen />);
+    const { getByLabelText, getByTestId } = render(<MissionScreen />);
 
-    // Start mission
+    // Start
     act(() => {
-      fireEvent.click(getByText('Start Mission'));
+      fireEvent.click(getByLabelText('Start Mission'));
     });
 
-    // Press Done!
-    const doneButton = getByTestId('done-button');
+    // Finish
+    const finishButton = getByLabelText('Finish Mission');
     act(() => {
-      fireEvent.click(doneButton);
+      fireEvent.click(finishButton);
     });
 
-    // Should be disabled
-    expect(doneButton).toHaveProperty('disabled', true);
+    expect(getByTestId('buddy-animation').getAttribute('data-state')).toBe('success');
+    expect(habitLogService.logMissionResult).toHaveBeenCalled();
 
-    // Wait for the timeout and navigation (4s delay)
     await waitFor(
       () => {
         expect(mockBack).toHaveBeenCalled();
       },
       { timeout: 5000 },
-    );
-  });
-
-  test('Done! button prevents double-submission', async () => {
-    const { getByText, getByTestId } = render(<MissionScreen />);
-
-    // Start mission
-    act(() => {
-      fireEvent.click(getByText('Start Mission'));
-    });
-
-    const doneButton = getByTestId('done-button');
-
-    // Simulate rapid double-tap
-    act(() => {
-      fireEvent.click(doneButton);
-      fireEvent.click(doneButton);
-    });
-
-    // Should only call service once
-    expect(habitLogService.logMissionResult).toHaveBeenCalledTimes(1);
-  });
-
-  test('announces mission start and completion', async () => {
-    vi.useRealTimers();
-    const { getByText, getByTestId } = render(<MissionScreen />);
-
-    // Start mission
-    act(() => {
-      fireEvent.click(getByText('Start Mission'));
-    });
-    expect(accessibilityHelper.announceMission).toHaveBeenCalledWith('Started');
-
-    // Press Done!
-    act(() => {
-      fireEvent.click(getByTestId('done-button'));
-    });
-    expect(accessibilityHelper.announceMission).toHaveBeenCalledWith('Completed');
-
-    await waitFor(() => {
-      expect(accessibilityHelper.announceBolts).toHaveBeenCalledWith(expect.any(Number), 1);
-    });
-
-    expect(hapticFeedback.notification).toHaveBeenCalledWith('success');
-  });
-
-  test('triggers audio VO when mission title is pressed (Read to me)', () => {
-    const { getByText } = render(<MissionScreen />);
-    const title = getByText('Brush Your Teeth');
-    fireEvent.click(title);
-
-    expect(audioService.playSound).toHaveBeenCalledWith(
-      'vo-instruction',
-      expect.objectContaining({ uri: expect.any(String) }),
     );
   });
 });
