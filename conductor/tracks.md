@@ -4,6 +4,8 @@ This file records all tracks created during the development process.
 
 ## Completed
 
+- [x] **Track: Sub-Phase 8D: Testing — Unit, component, and integration tests; manual QA and performance profiling in @docs/roadmap.md**
+      _Link: [./tracks/testing_qa_20260301/](./tracks/testing_qa_20260301/)_
 - [x] **Track: implement Sub-Phase 8B: Error Handling & Edge Cases in @docs/roadmap.md**
       _Link: [./archive/error_handling_20260228/](./archive/error_handling_20260228/)_
 - [x] **Track: Phase 7: Offline & Sync (Connectivity UI, Sync Queue, Background Sync, Real-time updates)**
@@ -18,6 +20,3 @@ This file records all tracks created during the development process.
       _Link: [./archive/accessibility_20260301/](./archive/accessibility_20260301/)_
 
 ## Planned
-
-- [ ] **Track: Sub-Phase 8D: Testing — Unit, component, and integration tests; manual QA and performance profiling in @docs/roadmap.md**
-      _Link: [./tracks/testing_qa_20260301/](./tracks/testing_qa_20260301/)_
