@@ -277,19 +277,25 @@ export default function RewardShopScreen() {
                 </Text>
 
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, !!error && error.includes('Title') && styles.inputError]}
                   placeholder="Reward title (e.g., Ice Cream)"
                   placeholderTextColor={AppColors.textMuted}
                   value={title}
-                  onChangeText={setTitle}
+                  onChangeText={(text) => {
+                    setTitle(text);
+                    setError('');
+                  }}
                 />
 
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, !!error && error.includes('Bolt') && styles.inputError]}
                   placeholder="Bolt cost"
                   placeholderTextColor={AppColors.textMuted}
                   value={boltCost}
-                  onChangeText={setBoltCost}
+                  onChangeText={(text) => {
+                    setBoltCost(text);
+                    setError('');
+                  }}
                   keyboardType="number-pad"
                 />
 
@@ -646,6 +652,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: AppColors.textPrimary,
     fontFamily: 'Nunito_400Regular',
+  },
+  inputError: {
+    borderColor: AppColors.error,
+    borderWidth: 1,
   },
   label: {
     fontSize: 16,
