@@ -70,7 +70,11 @@ export function BoltCounter({ balance }: BoltCounterProps) {
   });
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessibilityLabel={`Gold Bolt Balance: ${displayBalance}`}
+      accessibilityRole="text"
+    >
       <Animated.View style={[styles.iconWrapper, iconAnimatedStyle]}>
         <Zap size={20} color={AppColors.rewardGold} fill={AppColors.rewardGold} />
       </Animated.View>

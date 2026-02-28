@@ -87,7 +87,12 @@ export default function ParentDashboardScreen() {
           headerTintColor: AppColors.textPrimary,
           headerTitleStyle: { fontFamily: 'FredokaOne_400Regular', color: AppColors.textPrimary },
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={styles.headerButton}
+              accessibilityLabel="Go back"
+              accessibilityRole="button"
+            >
               <ChevronLeft size={24} color={AppColors.textPrimary} />
             </TouchableOpacity>
           ),
@@ -97,6 +102,8 @@ export default function ParentDashboardScreen() {
               <TouchableOpacity
                 onPress={() => router.push('/settings')}
                 style={styles.headerButton}
+                accessibilityLabel="Settings"
+                accessibilityRole="button"
               >
                 <SettingsIcon size={24} color={AppColors.textPrimary} />
               </TouchableOpacity>
@@ -118,19 +125,31 @@ export default function ParentDashboardScreen() {
             <Text style={styles.sectionTitle}>Bolt Statistics</Text>
           </View>
           <View style={[styles.statsGrid, isTablet && styles.statsGridTablet]}>
-            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
+            <View
+              style={[styles.statCard, isTablet && styles.statCardTablet]}
+              accessibilityLabel={`Total Earned: ${stats?.bolt_stats.total_earned || 0} Gold Bolts`}
+            >
               <Text style={styles.statValue}>{stats?.bolt_stats.total_earned || 0}</Text>
               <Text style={styles.statLabel}>Total Earned</Text>
             </View>
-            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
+            <View
+              style={[styles.statCard, isTablet && styles.statCardTablet]}
+              accessibilityLabel={`Total Spent: ${stats?.bolt_stats.total_spent || 0} Gold Bolts`}
+            >
               <Text style={styles.statValue}>{stats?.bolt_stats.total_spent || 0}</Text>
               <Text style={styles.statLabel}>Total Spent</Text>
             </View>
-            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
+            <View
+              style={[styles.statCard, isTablet && styles.statCardTablet]}
+              accessibilityLabel={`Current Balance: ${stats?.bolt_stats.current_balance || 0} Gold Bolts`}
+            >
               <Text style={styles.statValue}>{stats?.bolt_stats.current_balance || 0}</Text>
               <Text style={styles.statLabel}>Current Balance</Text>
             </View>
-            <View style={[styles.statCard, isTablet && styles.statCardTablet]}>
+            <View
+              style={[styles.statCard, isTablet && styles.statCardTablet]}
+              accessibilityLabel={`Daily Average: ${stats?.daily_average_habits.toFixed(1) || '0.0'} habits`}
+            >
               <Text style={styles.statValue}>
                 {stats?.daily_average_habits.toFixed(1) || '0.0'}
               </Text>
@@ -165,7 +184,11 @@ export default function ParentDashboardScreen() {
           </View>
           <View style={styles.streakContainer}>
             {stats?.weekly_streak.map((day) => (
-              <View key={day.date} style={styles.streakDay}>
+              <View
+                key={day.date}
+                style={styles.streakDay}
+                accessibilityLabel={`${day.date}: ${day.completed_count} of ${day.total_count} habits completed`}
+              >
                 <View
                   style={[
                     styles.streakCircle,
@@ -184,7 +207,12 @@ export default function ParentDashboardScreen() {
 
         {/* Administrative Actions */}
         <View style={styles.actionsContainer}>
-          <ScaleButton style={styles.resetButton} onPress={handleResetToday}>
+          <ScaleButton
+            style={styles.resetButton}
+            onPress={handleResetToday}
+            accessibilityLabel="Reset Today's Progress"
+            accessibilityRole="button"
+          >
             <RefreshCw size={18} color="#FFF" style={{ marginRight: 8 }} />
             <Text style={styles.resetButtonText}>Reset Today's Progress</Text>
           </ScaleButton>
@@ -192,6 +220,8 @@ export default function ParentDashboardScreen() {
           <ScaleButton
             style={styles.manageRewardsButton}
             onPress={() => router.push('/reward-shop')}
+            accessibilityLabel="Manage Rewards"
+            accessibilityRole="button"
           >
             <Text style={styles.manageRewardsText}>Manage Rewards</Text>
           </ScaleButton>

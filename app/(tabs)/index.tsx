@@ -55,10 +55,17 @@ export default function HomeScreen() {
             onLongPress={() => router.push('/parent-dashboard')}
             delayLongPress={3000}
             testID="settings-button"
+            accessibilityLabel="Settings. Long press for parent dashboard."
+            accessibilityRole="button"
           >
             <Settings size={22} color={AppColors.textMuted} />
           </TouchableOpacity>
-          <ScaleButton style={styles.iconButton} onPress={() => router.push('/reward-shop')}>
+          <ScaleButton
+            style={styles.iconButton}
+            onPress={() => router.push('/reward-shop')}
+            accessibilityLabel="Reward Shop"
+            accessibilityRole="button"
+          >
             <Gift size={22} color={AppColors.error} />
           </ScaleButton>
         </View>
@@ -74,7 +81,11 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Daily Missions</Text>
 
         {/* Progress Indicator */}
-        <View style={styles.progressContainer}>
+        <View
+          style={styles.progressContainer}
+          accessibilityLabel={`${progress}% of daily missions completed`}
+          accessibilityRole="progressbar"
+        >
           <CautionTapeProgress progress={progress} />
         </View>
 

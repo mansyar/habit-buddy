@@ -39,7 +39,11 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
   };
 
   return (
-    <View style={[styles.container, { width: size, height: size }]}>
+    <View
+      style={[styles.container, { width: size, height: size }]}
+      accessibilityLabel={`Time remaining: ${formatTime(timeLeft)}`}
+      accessibilityRole="timer"
+    >
       <Svg width={size} height={size}>
         {/* Background Circle */}
         <Circle

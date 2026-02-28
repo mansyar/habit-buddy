@@ -235,7 +235,13 @@ export default function MissionScreen() {
       )}
 
       <View style={styles.header}>
-        <TouchableOpacity style={styles.iconButton} onPress={toggleMute} testID="mute-toggle">
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={toggleMute}
+          testID="mute-toggle"
+          accessibilityLabel={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+          accessibilityRole="button"
+        >
           {isMuted ? (
             <VolumeX size={24} color={AppColors.textMuted} />
           ) : (
@@ -245,7 +251,9 @@ export default function MissionScreen() {
       </View>
 
       <View testID="buddy-area" style={styles.buddyArea}>
-        <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
+        <View accessibilityLabel={`${buddyType} is ${buddyState}`} accessibilityRole="image">
+          <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
+        </View>
         <FloatingProp habitId={id as string} isActive={buddyState === 'active'} />
         <TouchableOpacity
           onPress={() => audioService.playSound('vo-instruction', { uri: AUDIO_ASSETS.vo.start })}
@@ -269,6 +277,8 @@ export default function MissionScreen() {
                 onPress={() => handleAdjustTime(-30)}
                 style={styles.adjustButton}
                 disabled={timeLeft <= 30}
+                accessibilityLabel="Decrease time by 30 seconds"
+                accessibilityRole="button"
               >
                 <Text style={styles.adjustButtonText}>-30s</Text>
               </TouchableOpacity>
@@ -276,6 +286,8 @@ export default function MissionScreen() {
                 testID="adjust-plus-30"
                 onPress={() => handleAdjustTime(30)}
                 style={styles.adjustButton}
+                accessibilityLabel="Increase time by 30 seconds"
+                accessibilityRole="button"
               >
                 <Text style={styles.adjustButtonText}>+30s</Text>
               </TouchableOpacity>
@@ -284,6 +296,8 @@ export default function MissionScreen() {
               testID="start-mission-button"
               style={styles.startButton}
               onPress={onStartPress}
+              accessibilityLabel="Start Mission"
+              accessibilityRole="button"
             >
               <Text style={styles.startButtonText}>Start Mission</Text>
             </ScaleButton>
@@ -295,6 +309,8 @@ export default function MissionScreen() {
             onPress={onDonePress}
             disabled={isSubmitting}
             scaleTo={0.9}
+            accessibilityLabel="Finish Mission"
+            accessibilityRole="button"
           >
             <Text style={styles.doneButtonText}>Done!</Text>
           </ScaleButton>
@@ -307,6 +323,8 @@ export default function MissionScreen() {
             resetBuddy();
           }}
           disabled={isSubmitting}
+          accessibilityLabel="Cancel Mission and go back"
+          accessibilityRole="button"
         >
           <Text style={styles.backButtonText}>Cancel</Text>
         </TouchableOpacity>
