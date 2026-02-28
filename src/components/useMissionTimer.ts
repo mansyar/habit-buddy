@@ -30,10 +30,20 @@ export const useMissionTimer = (defaultDurationMinutes: number, onComplete?: () 
     setTimeLeft((prev) => Math.max(0, prev + seconds));
   }, []);
 
+  const isActiveRef = useRef(isActive);
   useEffect(() => {
+    isActiveRef.current = isActive;
+  }, [isActive]);
+
+  useEffect(() => {
+    const wasActiveBeforeBackground = { current: false };
+
     const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
       if (nextAppState !== 'active') {
+        wasActiveBeforeBackground.current = isActiveRef.current;
         setIsActive(false);
+      } else if (nextAppState === 'active' && wasActiveBeforeBackground.current) {
+        setIsActive(true);
       }
     });
 

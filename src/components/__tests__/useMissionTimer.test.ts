@@ -102,4 +102,56 @@ describe('useMissionTimer', () => {
 
     expect(result.current.isActive).toBe(false);
   });
+
+  it('resumes timer when app returns to foreground if it was active', () => {
+    const { result } = renderHook(() => useMissionTimer(1));
+
+    act(() => {
+      result.current.start();
+    });
+    expect(result.current.isActive).toBe(true);
+
+    // Simulate background
+    const addEventListenerMock = vi.mocked(AppState.addEventListener);
+    const callback = addEventListenerMock.mock.calls.find((call) => call[0] === 'change')?.[1];
+
+    if (callback) {
+      act(() => {
+        callback('background');
+      });
+    }
+    expect(result.current.isActive).toBe(false);
+
+    // Simulate foreground
+    if (callback) {
+      act(() => {
+        callback('active');
+      });
+    }
+    expect(result.current.isActive).toBe(true);
+  });
+
+  it('does not resume timer if it was NOT active before background', () => {
+    const { result } = renderHook(() => useMissionTimer(1));
+    expect(result.current.isActive).toBe(false);
+
+    // Simulate background
+    const addEventListenerMock = vi.mocked(AppState.addEventListener);
+    const callback = addEventListenerMock.mock.calls.find((call) => call[0] === 'change')?.[1];
+
+    if (callback) {
+      act(() => {
+        callback('background');
+      });
+    }
+    expect(result.current.isActive).toBe(false);
+
+    // Simulate foreground
+    if (callback) {
+      act(() => {
+        callback('active');
+      });
+    }
+    expect(result.current.isActive).toBe(false);
+  });
 });
