@@ -11,6 +11,8 @@ import Animated, {
 import { Toothbrush } from './props/Toothbrush';
 import { Plate } from './props/Plate';
 import { ToyBox } from './props/ToyBox';
+import { Sparkles } from 'lucide-react-native';
+import { AppColors } from '@/theme/Colors';
 
 interface FloatingPropProps {
   habitId: string;
@@ -69,7 +71,7 @@ export const FloatingProp: React.FC<FloatingPropProps> = ({ habitId, isActive, s
       case 'toy-cleanup':
         return <ToyBox size={size} />;
       default:
-        return null;
+        return <Sparkles size={size} color={AppColors.rewardGold} />;
     }
   };
 

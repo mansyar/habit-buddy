@@ -87,7 +87,13 @@ export const BuddyAnimation: React.FC<BuddyAnimationProps> = ({ buddy, state, si
 
   return (
     <Animated.View testID="buddy-animation" style={animatedStyle}>
-      {buddy === 'dino' ? <Dino size={size} /> : <Bear size={size} />}
+      {buddy === 'dino' ? (
+        <Dino size={size} />
+      ) : buddy === 'bear' ? (
+        <Bear size={size} />
+      ) : (
+        <Dino size={size} /> // Fallback to Dino
+      )}
     </Animated.View>
   );
 };
