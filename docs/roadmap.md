@@ -18,7 +18,7 @@ Phase 4   ✅✅✅✅✅✅✅✅✅✅  Mission Flow (core feature)
 Phase 5   ✅✅✅✅✅✅✅✅✅✅  Reward System
 Phase 6   ✅✅✅✅✅✅✅✅✅✅  Parent Dashboard
 Phase 7   ✅✅✅✅✅✅✅✅✅✅  Offline & Sync
-Phase 8   ░░░░░░░░░░░░░░░░░░██  Polish, Testing & Release Prep
+Phase 8   ✅✅✅✅✅✅░░░░  Polish, Testing & Release Prep
 ```
 
 > **Phases 4 is the longest** because it contains the mission flow, buddy state machine, Reanimated programmatic animations, and audio system — the heart of the app.
@@ -409,12 +409,13 @@ assets/
 
 ### Sub-Phase 8C: Accessibility (1 day)
 
-| #    | Task             | Details                                                                                     |
-| :--- | :--------------- | :------------------------------------------------------------------------------------------ |
-| 8C.1 | Tap target audit | All buttons ≥ 48×48dp                                                                       |
-| 8C.2 | Semantics labels | Add `Semantics` widgets to parent-facing screens for screen readers                         |
-| 8C.3 | Reduce Motion    | Check `AccessibilityInfo.isReduceMotionEnabled()` — disable bouncy Reanimated loops if true |
-| 8C.4 | Color contrast   | Verify WCAG AA contrast on all parent-facing text                                           |
+| #    | Task              | Status | Details                                                             |
+| :--- | :---------------- | :----- | :------------------------------------------------------------------ |
+| 8C.1 | Tap target audit  | ✅     | All buttons ≥ 44×44dp (iOS/Android standard)                        |
+| 8C.2 | Screen Reader     | ✅     | Accessibility labels, hints, and roles for all interactive elements |
+| 8C.3 | Proactive Alerts  | ✅     | `announceForAccessibility` for mission and bolt updates             |
+| 8C.4 | Color contrast    | ✅     | Verify WCAG AA contrast (4.5:1) on all primary UI elements          |
+| 8C.5 | Multimodal Feedbk | ✅     | Haptic triggers for success; "Read to me" audio for mission text    |
 
 ### Sub-Phase 8D: Testing (1–2 days)
 
