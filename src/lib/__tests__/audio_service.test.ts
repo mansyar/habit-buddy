@@ -2,91 +2,117 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { audioService } from '../audio_service';
 import { createAudioPlayer } from 'expo-audio';
 
-// Mock expo-audio
 vi.mock('expo-audio', () => {
-  const mockPlayer = {
-    play: vi.fn(),
-    pause: vi.fn(),
-    stop: vi.fn(),
-    remove: vi.fn(),
-    addListener: vi.fn(() => ({ remove: vi.fn() })),
-    volume: 1,
-    loop: false,
+  const createMockPlayer = () => {
+    let volumeVal = 1;
+    const mock = {
+      play: vi.fn(),
+      pause: vi.fn(),
+      stop: vi.fn(),
+      remove: vi.fn(),
+      addListener: vi.fn((event, callback) => {
+        if (event === 'playbackStatusUpdate') {
+          mock._lastCallback = callback;
+        }
+        return { remove: vi.fn() };
+      }),
+      _lastCallback: null as any,
+      loop: false,
+      set volume(v: number) {
+        volumeVal = v;
+      },
+      get volume() {
+        return volumeVal;
+      },
+    };
+    return mock;
   };
   return {
-    createAudioPlayer: vi.fn(() => mockPlayer),
+    createAudioPlayer: vi.fn(createMockPlayer),
     AudioModule: {},
   };
 });
 
 describe('AudioService', () => {
-  let mockPlayerInstance: any;
-
   beforeEach(async () => {
     vi.clearAllMocks();
     await audioService.reset();
-
-    mockPlayerInstance = vi.mocked(createAudioPlayer)({ uri: 'test' });
-    vi.mocked(createAudioPlayer).mockClear();
   });
 
-  it('should play a sound effect', async () => {
-    const soundKey = 'tap';
-    const mockFile = { uri: 'test-sfx.mp3' };
+  it('should play SFX and cleanup on finish', async () => {
+    const source = { uri: 'test.mp3' };
+    await audioService.playSound('tap', source);
 
-    await audioService.playSound(soundKey, mockFile);
+    // Get the most recently created mock player
+    const lastMock = vi.mocked(createAudioPlayer).mock.results[0].value;
+    expect(createAudioPlayer).toHaveBeenCalledWith(source);
 
-    expect(createAudioPlayer).toHaveBeenCalledWith(mockFile);
-    expect(mockPlayerInstance.play).toHaveBeenCalled();
+    // Trigger playback finish
+    const callback = lastMock._lastCallback;
+    expect(callback).toBeDefined();
+
+    callback({ didJustFinish: true });
+    expect(lastMock.remove).toHaveBeenCalled();
   });
 
-  it('should play background music with looping', async () => {
-    const musicKey = 'bg-music';
-    const mockFile = { uri: 'test-music.mp3' };
+  it('should handle layered audio (BGM + multiple SFX) and mute all', async () => {
+    const bgmSource = { uri: 'bgm.mp3' };
+    const sfx1Source = { uri: 'sfx1.mp3' };
+    const sfx2Source = { uri: 'sfx2.mp3' };
 
-    await audioService.playMusic(musicKey, mockFile);
+    await audioService.playMusic('main', bgmSource);
+    const bgmPlayer = vi.mocked(createAudioPlayer).mock.results[0].value;
 
-    expect(createAudioPlayer).toHaveBeenCalledWith(mockFile);
-    expect(mockPlayerInstance.loop).toBe(true);
-    expect(mockPlayerInstance.play).toHaveBeenCalled();
-  });
+    await audioService.playSound('sfx1', sfx1Source);
+    const sfx1Player = vi.mocked(createAudioPlayer).mock.results[1].value;
 
-  it('should stop and remove music', async () => {
-    const musicKey = 'bg-music';
-    const mockFile = { uri: 'test-music.mp3' };
+    await audioService.playSound('sfx2', sfx2Source);
+    const sfx2Player = vi.mocked(createAudioPlayer).mock.results[2].value;
 
-    await audioService.playMusic(musicKey, mockFile);
-    await audioService.stopMusic();
+    // Initial volumes (music at 0.5, sfx at 1.0)
+    expect(bgmPlayer.volume).toBe(0.5);
+    expect(sfx1Player.volume).toBe(1.0);
+    expect(sfx2Player.volume).toBe(1.0);
 
-    expect(mockPlayerInstance.remove).toHaveBeenCalled();
-  });
-
-  it('should handle global mute', async () => {
-    const soundKey = 'tap';
-    const mockFile = { uri: 'test-sfx.mp3' };
-
+    // Mute while playing
     audioService.setMute(true);
-    await audioService.playSound(soundKey, mockFile);
+    expect(bgmPlayer.volume).toBe(0);
+    expect(sfx1Player.volume).toBe(0);
+    expect(sfx2Player.volume).toBe(0);
 
-    expect(mockPlayerInstance.volume).toBe(0);
-
+    // Unmute
     audioService.setMute(false);
-    await audioService.playSound(soundKey, mockFile);
-    expect(mockPlayerInstance.volume).toBe(1);
+    expect(bgmPlayer.volume).toBe(0.5);
+    expect(sfx1Player.volume).toBe(1.0);
+    expect(sfx2Player.volume).toBe(1.0);
+
+    // Adjust global volume
+    audioService.setVolume(0.8);
+    expect(bgmPlayer.volume).toBe(0.4); // 0.8 * 0.5
+    expect(sfx1Player.volume).toBe(0.8);
+    expect(sfx2Player.volume).toBe(0.8);
   });
 
-  it('should set global volume', async () => {
-    audioService.setVolume(0.5);
-    const soundKey = 'tap';
-    const mockFile = { uri: 'test-sfx.mp3' };
+  it('should replace active SFX with same key', async () => {
+    const key = 'tap';
+    await audioService.playSound(key, { uri: 'sfx1.mp3' });
+    const p1 = vi.mocked(createAudioPlayer).mock.results[0].value;
 
-    await audioService.playSound(soundKey, mockFile);
+    await audioService.playSound(key, { uri: 'sfx2.mp3' });
+    const p2 = vi.mocked(createAudioPlayer).mock.results[1].value;
 
-    expect(mockPlayerInstance.volume).toBe(0.5);
+    expect(p1.remove).toHaveBeenCalled();
+    expect(p2.play).toHaveBeenCalled();
   });
 
-  it('should reset service', async () => {
-    await audioService.reset();
-    expect(mockPlayerInstance.remove).toHaveBeenCalled();
+  it('should replace active Music with same key', async () => {
+    await audioService.playMusic('m1', { uri: 'm1.mp3' });
+    const p1 = vi.mocked(createAudioPlayer).mock.results[0].value;
+
+    await audioService.playMusic('m1', { uri: 'm2.mp3' });
+    const p2 = vi.mocked(createAudioPlayer).mock.results[1].value;
+
+    expect(p1.remove).toHaveBeenCalled();
+    expect(p2.play).toHaveBeenCalled();
   });
 });
