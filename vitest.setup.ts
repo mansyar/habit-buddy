@@ -125,6 +125,7 @@ vi.mock('react-native', () => {
       addEventListener: vi.fn(() => ({ remove: vi.fn() })),
       currentState: 'active',
     },
+    SafeAreaView: ({ children, style }: any) => React.createElement('div', { style }, children),
   };
 });
 
@@ -327,6 +328,50 @@ vi.mock('react-native-reanimated', () => {
     ...Reanimated,
     default: Reanimated,
     Animated: Reanimated,
+  };
+});
+
+// Mock @expo/vector-icons
+vi.mock('@expo/vector-icons', () => {
+  return {
+    MaterialCommunityIcons: (props: any) =>
+      React.createElement('div', { ...props, 'data-testid': 'icon-material-community' }),
+    Ionicons: (props: any) =>
+      React.createElement('div', { ...props, 'data-testid': 'icon-ionicons' }),
+    FontAwesome: (props: any) =>
+      React.createElement('div', { ...props, 'data-testid': 'icon-fontawesome' }),
+  };
+});
+
+// Mock react-native-error-boundary
+vi.mock('react-native-error-boundary', () => {
+  class ErrorBoundary extends React.Component<any, any> {
+    constructor(props: any) {
+      super(props);
+      this.state = { hasError: false, error: null };
+    }
+    static getDerivedStateFromError(error: any) {
+      return { hasError: true, error };
+    }
+    componentDidCatch(error: any, errorInfo: any) {
+      this.props.onError?.(error, errorInfo.componentStack);
+    }
+    resetError = () => {
+      this.setState({ hasError: false, error: null });
+    };
+    render() {
+      if (this.state.hasError) {
+        return React.createElement(this.props.FallbackComponent, {
+          error: this.state.error,
+          resetError: this.resetError,
+        });
+      }
+      return this.props.children;
+    }
+  }
+  return {
+    __esModule: true,
+    default: ErrorBoundary,
   };
 });
 

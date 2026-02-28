@@ -18,7 +18,7 @@ export default defineConfig({
     deps: {
       optimizer: {
         web: {
-          include: ['@react-native-community/netinfo'],
+          include: ['@react-native-community/netinfo', 'react-native-error-boundary'],
         },
       },
     },
@@ -27,7 +27,7 @@ export default defineConfig({
     },
     server: {
       deps: {
-        inline: ['@react-native-community/netinfo'],
+        inline: ['@react-native-community/netinfo', 'react-native-error-boundary'],
         external: ['@react-native-community/netinfo'],
       },
     },
