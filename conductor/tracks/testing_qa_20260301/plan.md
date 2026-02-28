@@ -52,13 +52,13 @@ Goal: Verify the end-to-end user flow for the core mission feature.
 
 Goal: Final validation of performance, accessibility, and real-device behavior.
 
-- [ ] Task: Performance Profiling
-  - [ ] Measure cold start time using Flipper/React DevTools (Target: < 3s)
-  - [ ] Measure animation FPS during mission (Target: >= 60 FPS)
-- [ ] Task: Manual Accessibility & Device Audit
-  - [ ] Verify tap target sizes (>= 48x48dp) on real Android device
-  - [ ] Validate TalkBack experience on parent-facing screens (Dashboard, Settings)
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Manual QA & Performance' (Protocol in workflow.md)
+- [x] Task: Performance Profiling
+  - [x] Measure cold start time using Flipper/React DevTools (Target: < 3s)
+  - [x] Measure animation FPS during mission (Target: >= 60 FPS)
+- [x] Task: Manual Accessibility & Device Audit
+  - [x] Verify tap target sizes (>= 48x48dp) on real Android device
+  - [x] Validate TalkBack experience on parent-facing screens (Dashboard, Settings)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Manual QA & Performance' (Protocol in workflow.md)
 
 ## Phase 5: Finalization & Documentation
 
