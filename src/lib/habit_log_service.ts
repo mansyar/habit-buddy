@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase, withTimeout } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
 import { HabitLog, HabitStatus } from '../types/habit_log';
@@ -49,10 +49,14 @@ class HabitLogService {
     if (isOnline) {
       // Create a clean object for Supabase without sync tracking columns
       const { sync_status, last_modified, ...supabaseLog } = log;
-      const { error } = await supabase.from('habits_log').insert([supabaseLog]).select().single();
+      try {
+        const { error } = await withTimeout(
+          supabase.from('habits_log').insert([supabaseLog]).select().single(),
+        );
 
-      if (error) {
-        console.error('Supabase habit_log sync error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase habit_log sync error:', err);
         // Mark as pending in SQLite
         await db.runAsync(`UPDATE habits_log SET sync_status = 'pending' WHERE id = ?`, log.id);
         // Queue for sync later
@@ -143,14 +147,18 @@ class HabitLogService {
     );
 
     if (isOnline) {
-      const { error } = await supabase
-        .from('habits_log')
-        .delete()
-        .eq('profile_id', profile_id)
-        .gte('completed_at', today + 'T00:00:00.000Z');
+      try {
+        const { error } = await withTimeout(
+          supabase
+            .from('habits_log')
+            .delete()
+            .eq('profile_id', profile_id)
+            .gte('completed_at', today + 'T00:00:00.000Z'),
+        );
 
-      if (error) {
-        console.error('Supabase habit_log delete error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase habit_log delete error:', err);
       }
     }
   }

@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase, withTimeout } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { checkIsOnline } from './network';
 import { Profile } from '../types/profile';
@@ -47,46 +47,50 @@ class ProfileService {
 
     // If online and authenticated, save to Supabase
     if (isOnline && userId) {
-      const { data: remoteProfile, error } = await supabase
-        .from('profiles')
-        .upsert([
-          {
-            id: profile.id,
-            user_id: profile.user_id,
-            child_name: profile.child_name,
-            avatar_id: profile.avatar_id,
-            selected_buddy: profile.selected_buddy,
-            bolt_balance: profile.bolt_balance,
-            created_at: profile.created_at,
-            updated_at: profile.updated_at,
-          },
-        ])
-        .select()
-        .maybeSingle();
+      try {
+        const { data: remoteProfile, error } = await withTimeout(
+          supabase
+            .from('profiles')
+            .upsert([
+              {
+                id: profile.id,
+                user_id: profile.user_id,
+                child_name: profile.child_name,
+                avatar_id: profile.avatar_id,
+                selected_buddy: profile.selected_buddy,
+                bolt_balance: profile.bolt_balance,
+                created_at: profile.created_at,
+                updated_at: profile.updated_at,
+              },
+            ])
+            .select()
+            .maybeSingle(),
+        );
 
-      if (error) {
-        console.error('Supabase profile sync error:', error.message);
-        // Already marked as pending in SQLite above if we set it correctly,
-        // but let's ensure it's pending if Supabase fails.
+        if (error) throw error;
+
+        if (remoteProfile) {
+          return {
+            ...remoteProfile,
+            is_guest: false,
+            sync_status: 'synced',
+          };
+        }
+      } catch (err) {
+        console.error('Supabase profile sync error:', err);
+        // Ensure marked as pending in SQLite and queued
         await db.runAsync(
           `UPDATE profiles SET sync_status = 'pending', last_modified = ? WHERE id = ?`,
           new Date().toISOString(),
           profile.id,
         );
 
-        // Also queue in sync_queue for robust sync logic
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'profiles',
           'UPSERT',
           JSON.stringify(profile),
         );
-      } else if (remoteProfile) {
-        return {
-          ...remoteProfile,
-          is_guest: false,
-          sync_status: 'synced',
-        };
       }
     } else if (!profile.is_guest) {
       // Offline and not a guest, queue in sync_queue
@@ -122,37 +126,39 @@ class ProfileService {
 
     // If not found locally and online, check Supabase
     if (isOnline) {
-      // Use .or() to search by either id or user_id
-      const { data: remoteProfile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .or(`id.eq.${id},user_id.eq.${id}`)
-        .maybeSingle(); // Use maybeSingle to avoid 406 error if not found
-
-      if (!error && remoteProfile) {
-        // Cache to local SQLite - set is_guest to 0 as it came from Supabase
-        await db.runAsync(
-          `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, sync_status, last_modified, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          remoteProfile.id,
-          remoteProfile.user_id,
-          remoteProfile.child_name,
-          remoteProfile.avatar_id,
-          remoteProfile.selected_buddy,
-          remoteProfile.bolt_balance,
-          0,
-          'synced',
-          new Date().toISOString(),
-          remoteProfile.created_at,
-          remoteProfile.updated_at,
+      try {
+        // Use .or() to search by either id or user_id
+        const { data: remoteProfile, error } = await withTimeout(
+          supabase.from('profiles').select('*').or(`id.eq.${id},user_id.eq.${id}`).maybeSingle(), // Use maybeSingle to avoid 406 error if not found
         );
-        return {
-          ...remoteProfile,
-          is_guest: false,
-          sync_status: 'synced',
-        };
-      } else if (error) {
-        console.error('Supabase getProfile error:', error.message);
+
+        if (!error && remoteProfile) {
+          // Cache to local SQLite - set is_guest to 0 as it came from Supabase
+          await db.runAsync(
+            `INSERT OR REPLACE INTO profiles (id, user_id, child_name, avatar_id, selected_buddy, bolt_balance, is_guest, sync_status, last_modified, created_at, updated_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            remoteProfile.id,
+            remoteProfile.user_id,
+            remoteProfile.child_name,
+            remoteProfile.avatar_id,
+            remoteProfile.selected_buddy,
+            remoteProfile.bolt_balance,
+            0,
+            'synced',
+            new Date().toISOString(),
+            remoteProfile.created_at,
+            remoteProfile.updated_at,
+          );
+          return {
+            ...remoteProfile,
+            is_guest: false,
+            sync_status: 'synced',
+          };
+        } else if (error) {
+          console.error('Supabase getProfile error:', error.message);
+        }
+      } catch (err) {
+        console.error('Supabase getProfile failed:', err);
       }
     }
 
@@ -206,31 +212,37 @@ class ProfileService {
 
     // Sync to Supabase
     if (isOnline) {
-      const { data: remoteProfile, error } = await supabase
-        .from('profiles')
-        .upsert([
-          {
-            id: updatedProfile.id,
-            user_id: updatedProfile.user_id,
-            child_name: updatedProfile.child_name,
-            avatar_id: updatedProfile.avatar_id,
-            selected_buddy: updatedProfile.selected_buddy,
-            bolt_balance: updatedProfile.bolt_balance,
-            created_at: updatedProfile.created_at,
-            updated_at: updatedProfile.updated_at,
-          },
-        ])
-        .select()
-        .maybeSingle();
+      try {
+        const { data: remoteProfile, error } = await withTimeout(
+          supabase
+            .from('profiles')
+            .upsert([
+              {
+                id: updatedProfile.id,
+                user_id: updatedProfile.user_id,
+                child_name: updatedProfile.child_name,
+                avatar_id: updatedProfile.avatar_id,
+                selected_buddy: updatedProfile.selected_buddy,
+                bolt_balance: updatedProfile.bolt_balance,
+                created_at: updatedProfile.created_at,
+                updated_at: updatedProfile.updated_at,
+              },
+            ])
+            .select()
+            .maybeSingle(),
+        );
 
-      if (!error && remoteProfile) {
-        return {
-          ...remoteProfile,
-          is_guest: false,
-          sync_status: 'synced',
-        };
-      } else if (error) {
-        console.error('Supabase migration error:', error.message);
+        if (!error && remoteProfile) {
+          return {
+            ...remoteProfile,
+            is_guest: false,
+            sync_status: 'synced',
+          };
+        } else if (error) {
+          throw error;
+        }
+      } catch (err) {
+        console.error('Supabase migration error:', err);
         // Ensure it's marked as pending
         await db.runAsync(`UPDATE profiles SET sync_status = 'pending' WHERE id = ?`, guestId);
         await db.runAsync(
@@ -285,13 +297,17 @@ class ProfileService {
 
     // Sync to Supabase if not a guest
     if (isOnline && !currentProfile.is_guest) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ bolt_balance: newBalance, updated_at: updatedAt })
-        .eq('id', profileId);
+      try {
+        const { error } = await withTimeout(
+          supabase
+            .from('profiles')
+            .update({ bolt_balance: newBalance, updated_at: updatedAt })
+            .eq('id', profileId),
+        );
 
-      if (error) {
-        console.error('Supabase balance update error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase balance update error:', err);
         // Mark as pending
         await db.runAsync(`UPDATE profiles SET sync_status = 'pending' WHERE id = ?`, profileId);
         // Queue for sync later

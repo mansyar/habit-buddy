@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase, withTimeout } from './supabase';
 import { initializeSQLite } from './sqlite';
 import { profileService } from './profile_service';
 import { checkIsOnline } from './network';
@@ -47,10 +47,14 @@ class CouponService {
     // Sync to Supabase if online
     if (isOnline) {
       const { sync_status, last_modified, ...supabaseCoupon } = coupon;
-      const { error } = await supabase.from('coupons').insert([supabaseCoupon]).select().single();
+      try {
+        const { error } = await withTimeout(
+          supabase.from('coupons').insert([supabaseCoupon]).select().single(),
+        );
 
-      if (error) {
-        console.error('Supabase coupon sync error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase coupon sync error:', err);
         await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, coupon.id);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
@@ -88,29 +92,32 @@ class CouponService {
     if (formattedCoupons.length > 0) return formattedCoupons;
 
     if (isOnline) {
-      const { data: remoteCoupons, error } = await supabase
-        .from('coupons')
-        .select('*')
-        .eq('profile_id', profile_id);
+      try {
+        const { data: remoteCoupons, error } = await withTimeout(
+          supabase.from('coupons').select('*').eq('profile_id', profile_id),
+        );
 
-      if (!error && remoteCoupons) {
-        // Cache to local SQLite
-        for (const c of remoteCoupons) {
-          await db.runAsync(
-            `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, last_modified, created_at)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            c.id,
-            c.profile_id,
-            c.title,
-            c.bolt_cost,
-            c.category || 'Physical',
-            c.is_redeemed ? 1 : 0,
-            'synced',
-            new Date().toISOString(),
-            c.created_at,
-          );
+        if (!error && remoteCoupons) {
+          // Cache to local SQLite
+          for (const c of remoteCoupons) {
+            await db.runAsync(
+              `INSERT OR REPLACE INTO coupons (id, profile_id, title, bolt_cost, category, is_redeemed, sync_status, last_modified, created_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              c.id,
+              c.profile_id,
+              c.title,
+              c.bolt_cost,
+              c.category || 'Physical',
+              c.is_redeemed ? 1 : 0,
+              'synced',
+              new Date().toISOString(),
+              c.created_at,
+            );
+          }
+          return remoteCoupons;
         }
-        return remoteCoupons;
+      } catch (err) {
+        console.error('Supabase getCoupons failed:', err);
       }
     }
 
@@ -153,10 +160,14 @@ class CouponService {
 
     // Sync to Supabase
     if (isOnline) {
-      const { error } = await supabase.from('coupons').update({ is_redeemed: true }).eq('id', id);
+      try {
+        const { error } = await withTimeout(
+          supabase.from('coupons').update({ is_redeemed: true }).eq('id', id),
+        );
 
-      if (error) {
-        console.error('Supabase coupon redeem sync error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase coupon redeem sync error:', err);
         await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, id);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
@@ -184,10 +195,12 @@ class CouponService {
 
     // Sync to Supabase
     if (isOnline) {
-      const { error } = await supabase.from('coupons').delete().eq('id', id);
+      try {
+        const { error } = await withTimeout(supabase.from('coupons').delete().eq('id', id));
 
-      if (error) {
-        console.error('Supabase coupon delete error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase coupon delete error:', err);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
           'coupons',
@@ -227,10 +240,12 @@ class CouponService {
 
     // Sync to Supabase
     if (isOnline) {
-      const { error } = await supabase.from('coupons').update(data).eq('id', id);
+      try {
+        const { error } = await withTimeout(supabase.from('coupons').update(data).eq('id', id));
 
-      if (error) {
-        console.error('Supabase coupon update error:', error.message);
+        if (error) throw error;
+      } catch (err) {
+        console.error('Supabase coupon update error:', err);
         await db.runAsync(`UPDATE coupons SET sync_status = 'pending' WHERE id = ?`, id);
         await db.runAsync(
           `INSERT INTO sync_queue (table_name, operation, data) VALUES (?, ?, ?)`,
