@@ -32,4 +32,20 @@ describe('HabitCard', () => {
 
     expect(routerMock.push).toHaveBeenCalledWith(`/mission/${mockHabit.id}`);
   });
+
+  it('has correct accessibility properties when incomplete', () => {
+    const { getByTestId } = render(<HabitCard habit={mockHabit} isCompleted={false} />);
+    const card = getByTestId(`habit-card-${mockHabit.id}`);
+
+    expect(card.getAttribute('accessibilitylabel')).toBe('Tooth Brushing, 2 minutes, incomplete');
+    expect(card.getAttribute('accessibilityrole')).toBe('button');
+  });
+
+  it('has correct accessibility properties when complete', () => {
+    const { getByTestId } = render(<HabitCard habit={mockHabit} isCompleted={true} />);
+    const card = getByTestId(`habit-card-${mockHabit.id}`);
+
+    expect(card.getAttribute('accessibilitylabel')).toBe('Tooth Brushing, 2 minutes, completed');
+    expect(card.getAttribute('accessibilityrole')).toBe('button');
+  });
 });

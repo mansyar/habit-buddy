@@ -26,6 +26,11 @@ export function HabitCard({ habit, isCompleted }: HabitCardProps) {
       testID={`habit-card-${habit.id}`}
       style={[styles.card, isCompleted && styles.completedCard]}
       onPress={handlePress}
+      accessibilityLabel={`${habit.name}, ${habit.defaultDuration} minutes, ${
+        isCompleted ? 'completed' : 'incomplete'
+      }`}
+      accessibilityRole="button"
+      accessibilityHint={!isCompleted ? 'Tap to start this mission' : undefined}
     >
       <View style={[styles.leftAccent, { backgroundColor: habitColor }]} />
 
