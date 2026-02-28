@@ -24,6 +24,23 @@ export class NetworkService {
       callback(!!state.isConnected);
     });
   }
+
+  private hasSyncErrorState = false;
+  private syncErrorListeners: Set<(hasError: boolean) => void> = new Set();
+
+  setSyncError(hasError: boolean) {
+    this.hasSyncErrorState = hasError;
+    this.syncErrorListeners.forEach((listener) => listener(hasError));
+  }
+
+  getHasSyncError() {
+    return this.hasSyncErrorState;
+  }
+
+  subscribeToSyncError(callback: (hasError: boolean) => void): () => void {
+    this.syncErrorListeners.add(callback);
+    return () => this.syncErrorListeners.delete(callback);
+  }
 }
 
 export const networkService = new NetworkService();

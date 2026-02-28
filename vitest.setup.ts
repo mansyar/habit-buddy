@@ -209,9 +209,10 @@ vi.mock('lucide-react-native', () => {
     ClipboardList: mockIcon('ClipboardList'),
     Cloud: mockIcon('Cloud'),
     CloudOff: mockIcon('CloudOff'),
+    AlertCircle: mockIcon('AlertCircle'),
+    RefreshCcw: mockIcon('RefreshCcw'),
   };
 });
-
 // Mock expo-font
 vi.mock('expo-font', () => ({
   loadAsync: vi.fn(),

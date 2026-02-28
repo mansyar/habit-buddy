@@ -1,6 +1,6 @@
-import { supabase } from './supabase';
+import { supabase, withTimeout } from './supabase';
 import { initializeSQLite } from './sqlite';
-import { checkIsOnline } from './network';
+import { checkIsOnline, networkService } from './network';
 
 export interface SyncItem {
   id: number;
@@ -44,6 +44,7 @@ class SyncService {
 
     this.isSyncing = true;
     console.log('SyncService: Starting synchronization...');
+    networkService.setSyncError(false);
 
     try {
       // 1. Sync pending records in core tables (using sync markers)
@@ -51,12 +52,46 @@ class SyncService {
 
       // 2. Process legacy sync_queue for complex operations
       await this.processSyncQueue();
+
+      // 3. Check if we have persistent failures
+      await this.checkSyncFailures();
     } catch (e: any) {
       console.error('SyncService: Synchronization failed:', e.message);
     } finally {
       this.isSyncing = false;
       console.log('SyncService: Synchronization complete.');
     }
+  }
+
+  /**
+   * Checks if any records have hit MAX_RETRIES.
+   */
+  private async checkSyncFailures(): Promise<void> {
+    const db = await initializeSQLite();
+    const tables = ['profiles', 'habits_log', 'coupons'];
+
+    let hasFailures = false;
+
+    for (const table of tables) {
+      const failed = await db.getFirstAsync(
+        `SELECT id FROM ${table} WHERE sync_status = 'pending' AND retry_count >= ?`,
+        this.MAX_RETRIES,
+      );
+      if (failed) {
+        hasFailures = true;
+        break;
+      }
+    }
+
+    if (!hasFailures) {
+      const queueFailed = await db.getFirstAsync(
+        `SELECT id FROM sync_queue WHERE status = 'pending' AND retry_count >= ?`,
+        this.MAX_RETRIES,
+      );
+      if (queueFailed) hasFailures = true;
+    }
+
+    networkService.setSyncError(hasFailures);
   }
 
   /**
