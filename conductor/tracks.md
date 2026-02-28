@@ -19,4 +19,5 @@ This file records all tracks created during the development process.
 
 ## Planned
 
-(No tracks planned)
+- [ ] **Track: Sub-Phase 8D: Testing — Unit, component, and integration tests; manual QA and performance profiling in @docs/roadmap.md**
+      _Link: [./tracks/testing_qa_20260301/](./tracks/testing_qa_20260301/)_
