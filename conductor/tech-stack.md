@@ -29,6 +29,7 @@
 ## 5. UI & Animation
 
 - **React Native Reanimated**: Code-driven, programmatic animations used for the buddy state machine and micro-interactions. No pre-rendered video formats.
+- **Expo Haptics**: Physical tactile feedback for celebration and confirmation events.
 - **Expo Google Fonts**: Integration for brand typography (Fredoka One, Nunito).
 - **Lucide React Native**: Modern, friendly, stroke-based icon library used for consistent iconography throughout the application.
 

@@ -8,10 +8,10 @@
 ## 2. Design Principles
 
 - **Joy First**: Bold colors, large animated buddy, celebratory feedback, playful sounds. Every screen should feel like opening a toy box.
-- **Big & Bold**: Minimum 48dp tap targets. Large text. No small elements a toddler could accidentally trigger.
+- **Big & Bold**: Minimum 48dp tap targets (Android standard). Large text. No small elements a toddler could accidentally trigger.
 - **Consistent Feedback**: Every action gets a visual and audio response.
 - **Parental Confidence**: Parent-facing UI (settings, dashboard) uses a calmer, more mature aesthetic while remaining in the same color family.
-- **Accessibility by Default**: High contrast, screen reader labels on parent screens, and respect for the device's "Reduce Motion" setting.
+- **Accessibility by Default**: WCAG 2.1 AA compliance, high contrast, screen reader labels, haptic feedback, and "Read to me" audio for non-readers. Respects the device's "Reduce Motion" setting.
 
 ## 3. UI/UX Rules
 
