@@ -18,7 +18,7 @@ Phase 4   ✅✅✅✅✅✅✅✅✅✅  Mission Flow (core feature)
 Phase 5   ✅✅✅✅✅✅✅✅✅✅  Reward System
 Phase 6   ✅✅✅✅✅✅✅✅✅✅  Parent Dashboard
 Phase 7   ✅✅✅✅✅✅✅✅✅✅  Offline & Sync
-Phase 8   ✅✅✅✅✅✅░░░░  Polish, Testing & Release Prep
+Phase 8   ✅✅✅✅✅✅✅✅░░  Polish, Testing & Release Prep
 ```
 
 > **Phases 4 is the longest** because it contains the mission flow, buddy state machine, Reanimated programmatic animations, and audio system — the heart of the app.
@@ -419,13 +419,13 @@ assets/
 
 ### Sub-Phase 8D: Testing (1–2 days)
 
-| #    | Task                  | Details                                                        |
-| :--- | :-------------------- | :------------------------------------------------------------- |
-| 8D.1 | Unit tests            | Models, repositories, state machine, services                  |
-| 8D.2 | Component tests       | Key screens: Home, Mission, Reward Shop                        |
-| 8D.3 | Integration tests     | Full mission flow (start → done → bolt awarded → home updated) |
-| 8D.4 | Manual QA             | Test on real Android device                                    |
-| 8D.5 | Performance profiling | Check FPS during Reanimated animations, cold start time        |
+| #    | Task                  | Status | Details                                                        |
+| :--- | :-------------------- | :----- | :------------------------------------------------------------- |
+| 8D.1 | Unit tests            | ✅     | Models, repositories, state machine, services                  |
+| 8D.2 | Component tests       | ✅     | Key screens: Home, Mission, Reward Shop                        |
+| 8D.3 | Integration tests     | ✅     | Full mission flow (start → done → bolt awarded → home updated) |
+| 8D.4 | Manual QA             | ✅     | Test on real Android device                                    |
+| 8D.5 | Performance profiling | ✅     | Check FPS during Reanimated animations, cold start time        |
 
 ### Sub-Phase 8E: Release Prep (1 day)
 
@@ -439,15 +439,15 @@ assets/
 
 ### Acceptance Criteria
 
-- [ ] App cold start < 3 seconds
-- [ ] Reanimated routines ≥ 60 FPS on mid-range device
-- [ ] All PRD §9 error states handled
-- [ ] All tap targets ≥ 48×48dp
-- [ ] Screen reader works on parent-facing screens
-- [ ] Privacy policy accessible in-app
+- [x] App cold start < 3 seconds
+- [x] Reanimated routines ≥ 60 FPS on mid-range device
+- [x] All PRD §9 error states handled
+- [x] All tap targets ≥ 48×48dp
+- [x] Screen reader works on parent-facing screens
+- [x] Privacy policy accessible in-app
 - [ ] Release build succeeds for Android
-- [ ] All tests pass
-- [ ] Manual QA complete on real devices
+- [x] All tests pass
+- [x] Manual QA complete on real devices
 
 ---
 

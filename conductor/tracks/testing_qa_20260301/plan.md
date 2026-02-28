@@ -64,7 +64,7 @@ Goal: Final validation of performance, accessibility, and real-device behavior.
 
 Goal: Finalize the track and update project-wide documentation.
 
-- [ ] Task: Update `docs/roadmap.md` with progress
-  - [ ] Mark Sub-Phase 8D as complete in `docs/roadmap.md`
-  - [ ] Update any related task statuses in the roadmap
+- [x] Task: Update `docs/roadmap.md` with progress
+  - [x] Mark Sub-Phase 8D as complete in `docs/roadmap.md`
+  - [x] Update any related task statuses in the roadmap
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Finalization' (Protocol in workflow.md)
