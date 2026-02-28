@@ -35,7 +35,7 @@
 
 ## Phase 5: Auth Migration Robustness
 
-- [ ] Task: Implement retry logic (up to 3 times) with exponential backoff for anonymous-to-authenticated data migration in `SyncService`
+- [x] Task: Implement retry logic (up to 3 times) with exponential backoff for anonymous-to-authenticated data migration in `SyncService` (f30fe2c)
 - [ ] Task: Add "Sync Failed" user notification/banner if migration fails after retries
 - [ ] Task: Write Tests: Simulate migration failures and verify retry attempts and final failure state
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Auth Migration' (Protocol in workflow.md)
