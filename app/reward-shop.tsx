@@ -178,7 +178,11 @@ export default function RewardShopScreen() {
                 onSuccess={() => setIsAdmin(!isAdmin)}
                 delay={process.env.NODE_ENV === 'test' ? 10 : 3000}
               >
-                <View style={styles.headerButton}>
+                <View
+                  style={styles.headerButton}
+                  accessibilityLabel={isAdmin ? 'Exit Parent Mode' : 'Parent Mode'}
+                  accessibilityRole="button"
+                >
                   {isAdmin ? (
                     <X size={20} color={AppColors.error} />
                   ) : (
@@ -205,6 +209,8 @@ export default function RewardShopScreen() {
                   { backgroundColor: AppColors.rewardGold, marginRight: 10 },
                 ]}
                 onPress={() => setShowHistory(!showHistory)}
+                accessibilityLabel={showHistory ? 'View Active Rewards' : 'View Redeemed History'}
+                accessibilityRole="button"
               >
                 {showHistory ? (
                   <Activity size={20} color={AppColors.cardDark} />
@@ -219,6 +225,8 @@ export default function RewardShopScreen() {
                 <Pressable
                   style={[styles.addButton, { backgroundColor: AppColors.dinoGreen }]}
                   onPress={() => setShowAddModal(true)}
+                  accessibilityLabel="Add New Reward"
+                  accessibilityRole="button"
                 >
                   <Plus size={20} color="#FFF" />
                   <Text style={styles.addButtonText}>Add New</Text>
@@ -261,12 +269,16 @@ export default function RewardShopScreen() {
                         <Pressable
                           style={styles.iconButton}
                           onPress={() => setEditingCoupon(coupon)}
+                          accessibilityLabel={`Edit ${coupon.title}`}
+                          accessibilityRole="button"
                         >
                           <Edit2 size={18} color={AppColors.sleepyBlue} />
                         </Pressable>
                         <Pressable
                           style={styles.iconButton}
                           onPress={() => confirmDelete(coupon.id)}
+                          accessibilityLabel={`Delete ${coupon.title}`}
+                          accessibilityRole="button"
                         >
                           <Trash2 size={18} color={AppColors.error} />
                         </Pressable>
@@ -369,7 +381,12 @@ export default function RewardShopScreen() {
               showsVerticalScrollIndicator={false}
             >
               {filteredCoupons.map((coupon) => (
-                <View key={coupon.id} style={styles.shopCard}>
+                <View
+                  key={coupon.id}
+                  style={styles.shopCard}
+                  testID={`reward-card-${coupon.id}`}
+                  accessibilityLabel={`Reward: ${coupon.title}, Cost: ${coupon.bolt_cost} Bolts, Category: ${coupon.category}`}
+                >
                   <View style={styles.cardIcon}>
                     {coupon.category === 'Physical' && <Gift size={32} color={AppColors.error} />}
                     {coupon.category === 'Privilege' && (

@@ -70,4 +70,13 @@ describe('RewardShopScreen - Child Interface', () => {
     const expensiveRedeemBtn = redeemButtons[1].closest('button');
     expect(expensiveRedeemBtn).toHaveProperty('disabled', true);
   });
+
+  it('has correct accessibility properties for reward cards', async () => {
+    const { findByTestId } = render(<RewardShopScreen />);
+    const card = await findByTestId('reward-card-c1');
+
+    expect(card.getAttribute('accessibilitylabel')).toBe(
+      'Reward: Test Reward, Cost: 10 Bolts, Category: Physical',
+    );
+  });
 });
