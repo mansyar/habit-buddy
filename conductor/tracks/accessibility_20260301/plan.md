@@ -7,12 +7,12 @@
 - [x] Task: Create `AccessibilityHelper` for standardized `announceForAccessibility` calls 7da6385
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: Visual Accessibility & Scaling
+## Phase 2: Visual Accessibility & Scaling [checkpoint: b7f45dd]
 
-- [ ] Task: Update `StyledText` and core components to support Dynamic Type scaling and layout flexibility
-- [ ] Task: Audit and fix color contrast for all primary UI elements (Target 4.5:1)
-- [ ] Task: Add secondary visual cues (icons/shapes) to state indicators (Offline, Success, Error)
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Update `StyledText` and core components to support Dynamic Type scaling and layout flexibility 2f407d0
+- [x] Task: Audit and fix color contrast for all primary UI elements (Target 4.5:1) 2c2c3f0
+- [x] Task: Add secondary visual cues (icons/shapes) to state indicators (Offline, Success, Error) 87eb710
+- [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Screen Reader & Interaction Improvements
 
