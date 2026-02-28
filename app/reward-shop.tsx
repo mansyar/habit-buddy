@@ -383,11 +383,16 @@ export default function RewardShopScreen() {
               showsVerticalScrollIndicator={false}
             >
               {filteredCoupons.map((coupon) => (
-                <View
+                <Pressable
                   key={coupon.id}
                   style={styles.shopCard}
                   testID={`reward-card-${coupon.id}`}
                   accessibilityLabel={`Reward: ${coupon.title}, Cost: ${coupon.bolt_cost} Bolts, Category: ${coupon.category}`}
+                  accessibilityRole="button"
+                  accessibilityHint="Tap to hear description"
+                  onPress={() =>
+                    audioService.playSound('vo-instruction', { uri: AUDIO_ASSETS.vo.start })
+                  }
                 >
                   <View style={styles.cardIcon}>
                     {coupon.category === 'Physical' && <Gift size={32} color={AppColors.error} />}
@@ -412,7 +417,7 @@ export default function RewardShopScreen() {
                       <Text style={styles.redeemBtnText}>Redeem</Text>
                     </ScaleButton>
                   </View>
-                </View>
+                </Pressable>
               ))}
             </ScrollView>
           )}

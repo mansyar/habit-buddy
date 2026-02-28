@@ -1,7 +1,27 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import RewardShopScreen from '../reward-shop';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { audioService } from '../../src/lib/audio_service';
+
+vi.mock('../../src/lib/audio_service', () => ({
+  audioService: {
+    init: vi.fn(),
+    playSound: vi.fn(),
+    playMusic: vi.fn(),
+    stopMusic: vi.fn(),
+    setVolume: vi.fn(),
+    setMute: vi.fn(),
+  },
+}));
+
+vi.mock('../../src/lib/haptic_feedback', () => ({
+  hapticFeedback: {
+    impact: vi.fn(),
+    notification: vi.fn(),
+    selection: vi.fn(),
+  },
+}));
 
 vi.mock('../../src/lib/coupon_service', () => {
   const mockCoupon = {
@@ -77,6 +97,18 @@ describe('RewardShopScreen - Child Interface', () => {
 
     expect(card.getAttribute('accessibilitylabel')).toBe(
       'Reward: Test Reward, Cost: 10 Bolts, Category: Physical',
+    );
+  });
+
+  it('triggers audio VO when reward card is pressed (Read to me)', async () => {
+    const { findByTestId } = render(<RewardShopScreen />);
+    const card = await findByTestId('reward-card-c1');
+
+    fireEvent.click(card);
+
+    expect(audioService.playSound).toHaveBeenCalledWith(
+      'vo-instruction',
+      expect.objectContaining({ uri: expect.any(String) }),
     );
   });
 });

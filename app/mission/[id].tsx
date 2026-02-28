@@ -247,7 +247,13 @@ export default function MissionScreen() {
       <View testID="buddy-area" style={styles.buddyArea}>
         <BuddyAnimation buddy={buddyType} state={buddyState} size={250} />
         <FloatingProp habitId={id as string} isActive={buddyState === 'active'} />
-        <Text style={styles.habitTitle}>{config.name}</Text>
+        <TouchableOpacity
+          onPress={() => audioService.playSound('vo-instruction', { uri: AUDIO_ASSETS.vo.start })}
+          accessibilityLabel={`Mission: ${config.name}. Tap to hear instruction.`}
+          accessibilityRole="button"
+        >
+          <Text style={styles.habitTitle}>{config.name}</Text>
+        </TouchableOpacity>
       </View>
 
       <View testID="controls-area" style={styles.controlsArea}>

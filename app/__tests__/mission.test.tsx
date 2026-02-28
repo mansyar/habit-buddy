@@ -4,6 +4,7 @@ import MissionScreen from '../mission/[id]';
 import { habitLogService } from '../../src/lib/habit_log_service';
 import { accessibilityHelper } from '../../src/lib/accessibility_helper';
 import { hapticFeedback } from '../../src/lib/haptic_feedback';
+import { audioService } from '../../src/lib/audio_service';
 
 // Mock expo-router
 const mockBack = vi.fn();
@@ -188,5 +189,16 @@ describe('MissionScreen', () => {
     });
 
     expect(hapticFeedback.notification).toHaveBeenCalledWith('success');
+  });
+
+  test('triggers audio VO when mission title is pressed (Read to me)', () => {
+    const { getByText } = render(<MissionScreen />);
+    const title = getByText('Brush Your Teeth');
+    fireEvent.click(title);
+
+    expect(audioService.playSound).toHaveBeenCalledWith(
+      'vo-instruction',
+      expect.objectContaining({ uri: expect.any(String) }),
+    );
   });
 });
