@@ -42,6 +42,6 @@
 
 ## Phase 6: Completion & Documentation
 
-- [ ] Task: Update `docs/roadmap.md` to mark Sub-Phase 8B as complete
+- [x] Task: Update `docs/roadmap.md` to mark Sub-Phase 8B as complete (7f689d6)
 - [ ] Task: Update `conductor/tracks.md` to mark this track as complete
 - [ ] Task: Conductor - User Manual Verification 'Phase 6: Completion' (Protocol in workflow.md)
