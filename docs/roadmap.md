@@ -400,12 +400,12 @@ assets/
 
 ### Sub-Phase 8B: Error Handling & Edge Cases (1–2 days)
 
-| #    | Task                   | Details                                                      |
-| :--- | :--------------------- | :----------------------------------------------------------- |
-| 8B.1 | Audit all error states | Walk through PRD §9 checklist — verify each is handled       |
-| 8B.2 | Global error boundary  | Catch unhandled exceptions, log them, show friendly fallback |
-| 8B.3 | Network error handling | Supabase request failures → graceful fallback to local data  |
-| 8B.4 | Input validation       | Child name length, coupon title length, bolt cost range      |
+| #    | Task                   | Status | Details                                                      |
+| :--- | :--------------------- | :----- | :----------------------------------------------------------- |
+| 8B.1 | Audit all error states | ✅     | Walk through PRD §9 checklist — verify each is handled       |
+| 8B.2 | Global error boundary  | ✅     | Catch unhandled exceptions, log them, show friendly fallback |
+| 8B.3 | Network error handling | ✅     | Supabase request failures → graceful fallback to local data  |
+| 8B.4 | Input validation       | ✅     | Child name length, coupon title length, bolt cost range      |
 
 ### Sub-Phase 8C: Accessibility (1 day)
 
