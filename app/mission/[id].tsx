@@ -25,6 +25,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { habitLogService } from '@/lib/habit_log_service';
 import { ScaleButton } from '@/components/ScaleButton';
+import { accessibilityHelper } from '@/lib/accessibility_helper';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
   'tooth-brushing': { name: 'Brush Your Teeth', duration: 2 },
@@ -116,6 +117,9 @@ export default function MissionScreen() {
 
           if (updatedProfile) {
             setProfile(updatedProfile);
+            if (boltsEarned > 0) {
+              accessibilityHelper.announceBolts(updatedProfile.bolt_balance, boltsEarned);
+            }
           }
         } catch (error) {
           console.error('Error logging mission result:', error);
@@ -147,12 +151,14 @@ export default function MissionScreen() {
   const onStartPress = () => {
     audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
     audioService.playSound('vo-start', { uri: AUDIO_ASSETS.vo.start });
+    accessibilityHelper.announceMission('Started');
     start();
     setBuddyActive();
   };
 
   const onDonePress = () => {
     audioService.playSound('tap', { uri: AUDIO_ASSETS.sfx.tap });
+    accessibilityHelper.announceMission('Completed');
     stop();
     handleFinish('success');
   };

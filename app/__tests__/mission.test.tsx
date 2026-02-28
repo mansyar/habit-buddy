@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import MissionScreen from '../mission/[id]';
 import { habitLogService } from '../../src/lib/habit_log_service';
+import { accessibilityHelper } from '../../src/lib/accessibility_helper';
 
 // Mock expo-router
 const mockBack = vi.fn();
@@ -24,7 +25,7 @@ vi.mock('../../src/store/auth_store', () => ({
 // Mock HabitLogService
 vi.mock('../../src/lib/habit_log_service', () => ({
   habitLogService: {
-    logMissionResult: vi.fn(() => Promise.resolve({ profile: { id: 'p1' } })),
+    logMissionResult: vi.fn(() => Promise.resolve({ profile: { id: 'p1', bolt_balance: 51 } })),
   },
 }));
 
@@ -37,6 +38,16 @@ vi.mock('../../src/lib/audio_service', () => ({
     stopMusic: vi.fn(),
     setVolume: vi.fn(),
     setMute: vi.fn(),
+  },
+}));
+
+// Mock AccessibilityHelper
+vi.mock('../../src/lib/accessibility_helper', () => ({
+  accessibilityHelper: {
+    announce: vi.fn(),
+    announceBuddy: vi.fn(),
+    announceMission: vi.fn(),
+    announceBolts: vi.fn(),
   },
 }));
 
@@ -144,5 +155,26 @@ describe('MissionScreen', () => {
 
     // Should only call service once
     expect(habitLogService.logMissionResult).toHaveBeenCalledTimes(1);
+  });
+
+  test('announces mission start and completion', async () => {
+    vi.useRealTimers();
+    const { getByText, getByTestId } = render(<MissionScreen />);
+
+    // Start mission
+    act(() => {
+      fireEvent.click(getByText('Start Mission'));
+    });
+    expect(accessibilityHelper.announceMission).toHaveBeenCalledWith('Started');
+
+    // Press Done!
+    act(() => {
+      fireEvent.click(getByTestId('done-button'));
+    });
+    expect(accessibilityHelper.announceMission).toHaveBeenCalledWith('Completed');
+
+    await waitFor(() => {
+      expect(accessibilityHelper.announceBolts).toHaveBeenCalledWith(expect.any(Number), 1);
+    });
   });
 });

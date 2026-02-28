@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { AppColors } from '../theme/Colors';
+import { accessibilityHelper } from '../lib/accessibility_helper';
 
 interface BoltCounterProps {
   balance: number;
@@ -46,6 +47,7 @@ export function BoltCounter({ balance }: BoltCounterProps) {
       // Update the displayed balance
       setTimeout(() => {
         setDisplayBalance(balance);
+        accessibilityHelper.announceBolts(balance);
         opacity.value = withTiming(1, { duration: 200 });
         translateY.value = withSpring(0, { damping: 12 });
       }, 250);
