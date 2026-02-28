@@ -35,8 +35,8 @@ const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
 export default function MissionScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { profile, setProfile } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = React.useRef(false);
 
   const {
     state: buddyState,
@@ -81,7 +81,8 @@ export default function MissionScreen() {
 
   const handleFinish = React.useCallback(
     async (statusOverride?: 'success' | 'sleepy') => {
-      if (isSubmitting) return;
+      if (isSubmittingRef.current) return;
+      isSubmittingRef.current = true;
       setIsSubmitting(true);
 
       const finalStatus = statusOverride || 'success';
