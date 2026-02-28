@@ -14,13 +14,13 @@
 - [x] Task: Add secondary visual cues (icons/shapes) to state indicators (Offline, Success, Error) 87eb710
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 3: Screen Reader & Interaction Improvements
+## Phase 3: Screen Reader & Interaction Improvements [checkpoint: 3b59852]
 
-- [~] Task: Apply 44x44dp minimum hit box to all buttons and interactive cards (Mission, Reward)
-- [ ] Task: Implement TDD for `accessibilityLabel`, `accessibilityHint`, and `accessibilityRole` on Mission cards
-- [ ] Task: Implement TDD for `accessibilityLabel`, `accessibilityHint`, and `accessibilityRole` on Reward cards
-- [ ] Task: Implement TDD for proactive state announcements (Mission Start/End, Bolt changes)
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Apply 44x44dp minimum hit box to all buttons and interactive cards (Mission, Reward) 28486d6
+- [x] Task: Implement TDD for `accessibilityLabel`, `accessibilityHint`, and `accessibilityRole` on Mission cards 83026d5
+- [x] Task: Implement TDD for `accessibilityLabel`, `accessibilityHint`, and `accessibilityRole` on Reward cards 3e6198d
+- [x] Task: Implement TDD for proactive state announcements (Mission Start/End, Bolt changes) 35b1b7d
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
 ## Phase 4: Multi-modal Feedback (Audio & Haptics)
 
