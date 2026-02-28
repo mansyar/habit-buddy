@@ -25,9 +25,9 @@ Goal: Ensure core logic and state management are fully tested and robust.
 
 Goal: Validate UI rendering, accessibility, and navigation on key screens.
 
-- [ ] Task: Component tests for `Home` screen
-  - [ ] Write failing tests for accessibility labels, state-driven rendering, and navigation triggers
-  - [ ] Implement/Refine code to pass tests
+- [x] Task: Component tests for `Home` screen c3971b0
+  - [x] Write failing tests for accessibility labels, state-driven rendering, and navigation triggers
+  - [x] Implement/Refine code to pass tests
 - [ ] Task: Component tests for `Mission` screen
   - [ ] Write failing tests for accessibility labels, state-driven rendering, and timer display
   - [ ] Implement/Refine code to pass tests
