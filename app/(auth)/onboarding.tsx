@@ -23,11 +23,23 @@ export default function OnboardingScreen() {
   const [name, setName] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('dog');
   const [selectedBuddy, setSelectedBuddy] = useState('dino');
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { user, setProfile } = useAuthStore();
 
+  const handleNameChange = (text: string) => {
+    setName(text);
+    if (text.trim().length > 20) {
+      setError('Name must be between 2 and 20 characters');
+    } else {
+      setError(null);
+    }
+  };
+
+  const isNameValid = name.trim().length >= 2 && name.trim().length <= 20;
+
   const handleFinishOnboarding = async () => {
-    if (!name.trim()) return;
+    if (!isNameValid) return;
 
     try {
       const profileData = {
@@ -54,12 +66,14 @@ export default function OnboardingScreen() {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Child's Name</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, !!error && styles.inputError]}
           placeholder="Enter child's name"
           value={name}
-          onChangeText={setName}
+          onChangeText={handleNameChange}
           testID="child-name-input"
+          maxLength={30} // Allow typing more to show validation error
         />
+        {!!error && <Text style={styles.errorText}>{error}</Text>}
       </View>
 
       <Text style={styles.label}>Select an Avatar</Text>
@@ -71,7 +85,7 @@ export default function OnboardingScreen() {
             style={[styles.avatarButton, selectedAvatar === avatar.id && styles.selectedAvatar]}
             onPress={() => setSelectedAvatar(avatar.id)}
           >
-            <Text style={styles.avatarEmoji}>{avatar.name}</Text>
+            <Text style={avatarEmojiStyle}>{avatar.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -92,15 +106,19 @@ export default function OnboardingScreen() {
       </View>
 
       <TouchableOpacity
-        style={[styles.goButton, !name.trim() && styles.disabledButton]}
+        style={[styles.goButton, !isNameValid && styles.disabledButton]}
         onPress={handleFinishOnboarding}
-        disabled={!name.trim()}
+        disabled={!isNameValid}
       >
         <Text style={styles.goButtonText}>Let's Go!</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 }
+
+const avatarEmojiStyle = {
+  fontSize: 30,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -139,6 +157,14 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 18,
     backgroundColor: '#FFF',
+  },
+  inputError: {
+    borderColor: '#EF4444',
+  },
+  errorText: {
+    color: '#EF4444',
+    fontSize: 14,
+    marginTop: 5,
   },
   avatarGrid: {
     flexDirection: 'row',

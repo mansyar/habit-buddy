@@ -62,4 +62,22 @@ describe('OnboardingScreen', () => {
       expect(routerMock.replace).toHaveBeenCalledWith('/(tabs)');
     });
   });
+
+  test('disables "Let\'s Go!" button for name shorter than 2 characters', async () => {
+    const { getByPlaceholderText, getByText } = render(<OnboardingScreen />);
+    const nameInput = getByPlaceholderText("Enter child's name");
+    const goButton = getByText("Let's Go!").closest('button');
+
+    fireEvent.change(nameInput, { target: { value: 'A' } });
+    expect(goButton).toHaveProperty('disabled', true);
+  });
+
+  test('shows error message for name longer than 20 characters', async () => {
+    const { getByPlaceholderText, getByText, findByText } = render(<OnboardingScreen />);
+    const nameInput = getByPlaceholderText("Enter child's name");
+
+    fireEvent.change(nameInput, { target: { value: 'AVeryVeryVeryLongNameThatIsTooMuch' } });
+
+    expect(await findByText(/Name must be between 2 and 20 characters/i)).toBeTruthy();
+  });
 });
