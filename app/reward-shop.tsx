@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { ParentalGate } from '@/components/ParentalGate';
 import { couponService } from '@/lib/coupon_service';
 import { audioService } from '@/lib/audio_service';
+import { hapticFeedback } from '@/lib/haptic_feedback';
 import { AUDIO_ASSETS } from '@/constants/audio';
 import { BuddyAnimation } from '@/components/BuddyAnimation';
 import { Coupon } from '@/types/coupon';
@@ -150,6 +151,7 @@ export default function RewardShopScreen() {
       setSuccessReward(coupon);
       setShowSuccess(true);
       loadCoupons();
+      hapticFeedback.notification('success');
 
       // Play success sound
       audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });

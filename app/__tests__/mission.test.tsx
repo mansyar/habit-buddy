@@ -3,6 +3,7 @@ import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import MissionScreen from '../mission/[id]';
 import { habitLogService } from '../../src/lib/habit_log_service';
 import { accessibilityHelper } from '../../src/lib/accessibility_helper';
+import { hapticFeedback } from '../../src/lib/haptic_feedback';
 
 // Mock expo-router
 const mockBack = vi.fn();
@@ -48,6 +49,15 @@ vi.mock('../../src/lib/accessibility_helper', () => ({
     announceBuddy: vi.fn(),
     announceMission: vi.fn(),
     announceBolts: vi.fn(),
+  },
+}));
+
+// Mock HapticFeedback
+vi.mock('../../src/lib/haptic_feedback', () => ({
+  hapticFeedback: {
+    impact: vi.fn(),
+    notification: vi.fn(),
+    selection: vi.fn(),
   },
 }));
 
@@ -176,5 +186,7 @@ describe('MissionScreen', () => {
     await waitFor(() => {
       expect(accessibilityHelper.announceBolts).toHaveBeenCalledWith(expect.any(Number), 1);
     });
+
+    expect(hapticFeedback.notification).toHaveBeenCalledWith('success');
   });
 });

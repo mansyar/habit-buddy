@@ -3,6 +3,16 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import RewardShopScreen from '../reward-shop';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { couponService } from '../../src/lib/coupon_service';
+import { hapticFeedback } from '../../src/lib/haptic_feedback';
+
+// Mock HapticFeedback
+vi.mock('../../src/lib/haptic_feedback', () => ({
+  hapticFeedback: {
+    impact: vi.fn(),
+    notification: vi.fn(),
+    selection: vi.fn(),
+  },
+}));
 
 vi.mock('../../src/lib/coupon_service', () => {
   const mockCoupon = {
@@ -57,5 +67,7 @@ describe('RewardShopScreen - Redemption', () => {
     await waitFor(() => {
       expect(couponService.redeemCoupon).toHaveBeenCalledWith('c1');
     });
+
+    expect(hapticFeedback.notification).toHaveBeenCalledWith('success');
   });
 });

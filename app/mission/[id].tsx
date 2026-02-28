@@ -26,6 +26,7 @@ import Animated, {
 import { habitLogService } from '@/lib/habit_log_service';
 import { ScaleButton } from '@/components/ScaleButton';
 import { accessibilityHelper } from '@/lib/accessibility_helper';
+import { hapticFeedback } from '@/lib/haptic_feedback';
 
 const HABIT_CONFIG: Record<string, { name: string; duration: number }> = {
   'tooth-brushing': { name: 'Brush Your Teeth', duration: 2 },
@@ -93,6 +94,7 @@ export default function MissionScreen() {
         setBuddySuccess();
         audioService.playSound('success', { uri: AUDIO_ASSETS.sfx.success });
         audioService.playSound('vo-success', { uri: AUDIO_ASSETS.vo.success });
+        hapticFeedback.notification('success');
 
         // Trigger "Completion Pop"
         boltScale.value = withDelay(300, withSpring(1, { damping: 10, stiffness: 100 }));
