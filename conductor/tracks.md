@@ -16,3 +16,8 @@ This file records all tracks created during the development process.
       _Link: [./archive/lint_cleanup_20260227/](./archive/lint_cleanup_20260227/)_
 
 ## Planned
+
+---
+
+- [ ] **Track: implement Sub-Phase 8C: Accessibility**
+      _Link: [./tracks/accessibility_20260301/](./tracks/accessibility_20260301/)_
