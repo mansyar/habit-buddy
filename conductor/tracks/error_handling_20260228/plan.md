@@ -37,7 +37,7 @@
 
 - [x] Task: Implement retry logic (up to 3 times) with exponential backoff for anonymous-to-authenticated data migration in `SyncService` (f30fe2c)
 - [x] Task: Add "Sync Failed" user notification/banner if migration fails after retries (db34361)
-- [ ] Task: Write Tests: Simulate migration failures and verify retry attempts and final failure state
+- [x] Task: Write Tests: Simulate migration failures and verify retry attempts and final failure state (16c8255)
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Auth Migration' (Protocol in workflow.md)
 
 ## Phase 6: Completion & Documentation
