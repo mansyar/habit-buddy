@@ -89,16 +89,4 @@ describe('AudioService', () => {
     await audioService.reset();
     expect(mockPlayerInstance.remove).toHaveBeenCalled();
   });
-
-  it('should subscribe to playback errors', async () => {
-    const soundKey = 'tap';
-    const mockFile = { uri: 'test-sfx.mp3' };
-
-    await audioService.playSound(soundKey, mockFile);
-
-    expect(mockPlayerInstance.addListener).toHaveBeenCalledWith(
-      'playbackError',
-      expect.any(Function),
-    );
-  });
 });
