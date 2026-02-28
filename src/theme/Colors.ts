@@ -22,7 +22,7 @@ export const AppColors = {
   // Text
   textPrimary: '#F8FAFC',
   textSecondary: '#CBD5E1',
-  textMuted: '#64748B',
+  textMuted: '#94A3B8', // Improved contrast (was #64748B)
 };
 
 export const getHabitColor = (habitId: string) => {
