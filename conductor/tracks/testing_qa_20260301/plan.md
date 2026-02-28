@@ -28,9 +28,9 @@ Goal: Validate UI rendering, accessibility, and navigation on key screens.
 - [x] Task: Component tests for `Home` screen c3971b0
   - [x] Write failing tests for accessibility labels, state-driven rendering, and navigation triggers
   - [x] Implement/Refine code to pass tests
-- [ ] Task: Component tests for `Mission` screen
-  - [ ] Write failing tests for accessibility labels, state-driven rendering, and timer display
-  - [ ] Implement/Refine code to pass tests
+- [x] Task: Component tests for `Mission` screen e04246d
+  - [x] Write failing tests for accessibility labels, state-driven rendering, and timer display
+  - [x] Implement/Refine code to pass tests
 - [ ] Task: Component tests for `Reward Shop` screen
   - [ ] Write failing tests for accessibility labels, redemption button state, and history rendering
   - [ ] Implement/Refine code to pass tests
