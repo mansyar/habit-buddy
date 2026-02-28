@@ -64,7 +64,7 @@ describe('RewardShopScreen - Reward Management', () => {
     fireEvent.change(costInput, { target: { value: '0' } });
     fireEvent.click(submitButton);
 
-    expect(await findByText('Bolt cost must be at least 1')).toBeTruthy();
+    expect(await findByText('Bolt cost must be between 1 and 200')).toBeTruthy();
     expect(couponService.createCoupon).not.toHaveBeenCalled();
 
     // Test valid submission
@@ -74,6 +74,40 @@ describe('RewardShopScreen - Reward Management', () => {
     await waitFor(() => {
       expect(couponService.createCoupon).toHaveBeenCalled();
     });
+  });
+
+  it('validates coupon title length and maximum bolt cost', async () => {
+    const { getByText, getByPlaceholderText, findByText } = render(<RewardShopScreen />);
+
+    // Trigger Parental Gate
+    const gateButton = getByText('Parent');
+    fireEvent.mouseDown(gateButton);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    fireEvent.mouseUp(gateButton);
+
+    const addRewardButton = await findByText('Add New');
+    fireEvent.click(addRewardButton);
+
+    const titleInput = getByPlaceholderText('Reward title (e.g., Ice Cream)');
+    const costInput = getByPlaceholderText('Bolt cost');
+    const submitButton = getByText('Save Reward');
+
+    // Test title too short
+    fireEvent.change(titleInput, { target: { value: 'A' } });
+    fireEvent.change(costInput, { target: { value: '10' } });
+    fireEvent.click(submitButton);
+    expect(await findByText('Title must be between 2 and 20 characters')).toBeTruthy();
+
+    // Test title too long
+    fireEvent.change(titleInput, { target: { value: 'This is a very long title for a coupon' } });
+    fireEvent.click(submitButton);
+    expect(await findByText('Title must be between 2 and 20 characters')).toBeTruthy();
+
+    // Test bolt cost too high
+    fireEvent.change(titleInput, { target: { value: 'Valid Title' } });
+    fireEvent.change(costInput, { target: { value: '250' } });
+    fireEvent.click(submitButton);
+    expect(await findByText('Bolt cost must be between 1 and 200')).toBeTruthy();
   });
 
   it('deletes a coupon and removes it from the list', async () => {

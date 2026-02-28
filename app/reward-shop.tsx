@@ -73,12 +73,12 @@ export default function RewardShopScreen() {
     if (!profile) return;
 
     const cost = parseInt(boltCost, 10);
-    if (!title.trim()) {
-      setError('Title is required');
+    if (title.trim().length < 2 || title.trim().length > 20) {
+      setError('Title must be between 2 and 20 characters');
       return;
     }
-    if (isNaN(cost) || cost < 1) {
-      setError('Bolt cost must be at least 1');
+    if (isNaN(cost) || cost < 1 || cost > 200) {
+      setError('Bolt cost must be between 1 and 200');
       return;
     }
 
