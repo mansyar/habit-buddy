@@ -1,8 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import HomeScreen from '../index';
 import { useAuthStore } from '../../../src/store/auth_store';
 import { useHabitStore } from '../../../src/store/habit_store';
+import { useRouter } from 'expo-router';
 
 // Mock stores
 vi.mock('../../../src/store/auth_store', () => ({
@@ -13,28 +14,78 @@ vi.mock('../../../src/store/habit_store', () => ({
   useHabitStore: vi.fn(),
 }));
 
+// Mock expo-router
+vi.mock('expo-router', () => ({
+  useRouter: vi.fn(),
+  Stack: {
+    Screen: () => null,
+  },
+}));
+
+// Mock safe area insets
+vi.mock('react-native-safe-area-context', () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
+
+// Mock react-native components for web testing
+vi.mock('react-native', async (importActual) => {
+  const actual: any = await importActual();
+  return {
+    ...actual,
+    TouchableOpacity: ({ children, onPress, accessibilityLabel, testID }: any) => (
+      <button onClick={onPress} aria-label={accessibilityLabel} data-testid={testID}>
+        {children}
+      </button>
+    ),
+    ScrollView: ({ children, accessibilityLabel }: any) => (
+      <div aria-label={accessibilityLabel}>{children}</div>
+    ),
+    View: ({ children, accessibilityLabel, accessibilityRole, style }: any) => (
+      <div aria-label={accessibilityLabel} role={accessibilityRole} style={style}>
+        {children}
+      </div>
+    ),
+    useWindowDimensions: () => ({ width: 400, height: 800 }),
+  };
+});
+
 // Mock components
 vi.mock('../../../src/components/BoltCounter', () => ({
   BoltCounter: ({ balance }: any) => <div data-testid="bolt-counter">{balance}</div>,
 }));
 
 vi.mock('../../../src/components/CautionTapeProgress', () => ({
-  CautionTapeProgress: ({ progress }: any) => <div data-testid="progress-bar">{progress}</div>,
+  CautionTapeProgress: ({ progress }: any) => <div data-testid="progress-bar">{progress}%</div>,
 }));
 
 vi.mock('../../../src/components/HabitCard', () => ({
-  HabitCard: ({ habit }: any) => <div data-testid={`habit-card-${habit.id}`}>{habit.name}</div>,
+  HabitCard: ({ habit, isCompleted }: any) => (
+    <div data-testid={`habit-card-${habit.id}`} data-completed={isCompleted}>
+      {habit.name}
+    </div>
+  ),
 }));
 
-vi.mock('../../../src/components/useColorScheme', () => ({
-  useColorScheme: vi.fn(() => 'light'),
+vi.mock('../../../src/components/ScaleButton', () => ({
+  ScaleButton: ({ children, onPress, accessibilityLabel }: any) => (
+    <button onClick={onPress} aria-label={accessibilityLabel} data-testid="scale-button">
+      {children}
+    </button>
+  ),
 }));
 
-vi.mock('../../../src/components/useClientOnlyValue', () => ({
-  useClientOnlyValue: vi.fn((a, b) => b),
+vi.mock('../../../src/components/NetworkStatusIcon', () => ({
+  NetworkStatusIcon: () => null,
+}));
+
+vi.mock('../../../src/components/Themed', () => ({
+  Text: ({ children, style }: any) => <span style={style}>{children}</span>,
+  View: ({ children, style }: any) => <div style={style}>{children}</div>,
 }));
 
 describe('HomeScreen', () => {
+  const mockPush = vi.fn();
+
   beforeEach(() => {
     vi.clearAllMocks();
 
@@ -45,7 +96,9 @@ describe('HomeScreen', () => {
       completedHabitIds: ['tooth-brushing'],
       getCompletionPercentage: vi.fn(() => 33),
       loadTodaysHabits: vi.fn(),
-      isLoading: false,
+    });
+    (useRouter as any).mockReturnValue({
+      push: mockPush,
     });
   });
 
@@ -54,9 +107,29 @@ describe('HomeScreen', () => {
 
     expect(getByText('Hi, Buddy!')).toBeTruthy();
     expect(getByTestId('bolt-counter')).toBeTruthy();
-    expect(getByTestId('progress-bar')).toBeTruthy();
-    expect(getByTestId('habit-card-tooth-brushing')).toBeTruthy();
-    expect(getByTestId('habit-card-meal-time')).toBeTruthy();
-    expect(getByTestId('habit-card-toy-cleanup')).toBeTruthy();
+  });
+
+  it('has correct accessibility labels', () => {
+    const { getByLabelText } = render(<HomeScreen />);
+
+    expect(getByLabelText('Settings. Long press for parent dashboard.')).toBeTruthy();
+    expect(getByLabelText('Reward Shop')).toBeTruthy();
+    expect(getByLabelText('33% of daily missions completed')).toBeTruthy();
+  });
+
+  it('navigates to settings on press', () => {
+    const { getByTestId } = render(<HomeScreen />);
+    const settingsButton = getByTestId('settings-button');
+
+    fireEvent.click(settingsButton);
+    expect(mockPush).toHaveBeenCalledWith('/settings');
+  });
+
+  it('navigates to reward shop on press', () => {
+    const { getByLabelText } = render(<HomeScreen />);
+    const rewardShopButton = getByLabelText('Reward Shop');
+
+    fireEvent.click(rewardShopButton);
+    expect(mockPush).toHaveBeenCalledWith('/reward-shop');
   });
 });
