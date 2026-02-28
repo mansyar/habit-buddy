@@ -4,6 +4,8 @@ This file records all tracks created during the development process.
 
 ## Completed
 
+- [x] **Track: implement Sub-Phase 8B: Error Handling & Edge Cases in @docs/roadmap.md**
+      _Link: [./archive/error_handling_20260228/](./archive/error_handling_20260228/)_
 - [x] **Track: Phase 7: Offline & Sync (Connectivity UI, Sync Queue, Background Sync, Real-time updates)**
       _Link: [./archive/offline_sync_20260227/](./archive/offline_sync_20260227/)_
 - [x] **Track: Reward System (Phase 5): Parents create coupons, children redeem them with Gold Bolts.**
@@ -14,6 +16,3 @@ This file records all tracks created during the development process.
       _Link: [./archive/lint_cleanup_20260227/](./archive/lint_cleanup_20260227/)_
 
 ## Planned
-
-- [x] **Track: implement Sub-Phase 8B: Error Handling & Edge Cases in @docs/roadmap.md**
-      _Link: [./tracks/error_handling_20260228/](./tracks/error_handling_20260228/)_
