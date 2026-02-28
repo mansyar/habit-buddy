@@ -22,12 +22,12 @@
 - [x] Task: Implement TDD for proactive state announcements (Mission Start/End, Bolt changes) 35b1b7d
 - [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
-## Phase 4: Multi-modal Feedback (Audio & Haptics)
+## Phase 4: Multi-modal Feedback (Audio & Haptics) [checkpoint: d0df80e]
 
 - [x] Task: Integrate haptic triggers for all success events (Mission completion, Bolt redemption) 1304411
 - [x] Task: Implement "Read to me" audio triggers for primary mission and reward text 22dd895
-- [~] Task: Final accessibility regression testing and contrast verification
-- [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+- [x] Task: Final accessibility regression testing and contrast verification dbba863
+- [x] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
 
 ## Phase 5: Documentation & Roadmap
 
