@@ -37,6 +37,14 @@ vi.mock('../../src/store/auth_store', () => {
   };
 });
 
+vi.mock('../../src/lib/haptic_feedback', () => ({
+  hapticFeedback: {
+    impact: vi.fn(),
+    notification: vi.fn(),
+    selection: vi.fn(),
+  },
+}));
+
 describe('RewardShopScreen - Reward Management', () => {
   beforeEach(() => {
     vi.clearAllMocks();

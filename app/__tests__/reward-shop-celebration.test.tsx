@@ -43,6 +43,14 @@ vi.mock('../../src/lib/audio_service', () => ({
   },
 }));
 
+vi.mock('../../src/lib/haptic_feedback', () => ({
+  hapticFeedback: {
+    impact: vi.fn(),
+    notification: vi.fn(),
+    selection: vi.fn(),
+  },
+}));
+
 describe('RewardShopScreen - Celebration', () => {
   beforeEach(() => {
     vi.clearAllMocks();
