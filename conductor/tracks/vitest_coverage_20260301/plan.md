@@ -69,7 +69,11 @@
 
 ## Phase 5: Final Validation & Checkpoint
 
-- [ ] Task: Final Coverage Audit
-  - [ ] Run `pnpm test --coverage`
-  - [ ] Confirm Global > 85%, app/ > 80%, src/lib/ > 90%
+- [x] Task: Final Coverage Audit 8c65a77
+  - [x] Run `pnpm test --coverage`
+  - [x] Confirm Global > 85%, app/ > 80%, src/lib/ > 90%
 - [ ] Task: Conductor - User Manual Verification 'Phase 5' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions a76137c
