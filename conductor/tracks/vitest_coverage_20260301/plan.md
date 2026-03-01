@@ -51,8 +51,8 @@
   - [x] Write tests for basic screen elements
 - [x] Task: Increase Coverage for `src/components/BoltCounter.tsx` (54% -> 80%) 1ab6e5d
   - [x] Write tests for animation triggers on balance change
-- [ ] Task: Increase Coverage for `src/components/ScaleButton.tsx` (66% -> 80%)
-  - [ ] Write tests for scale transform logic
+- [x] Task: Increase Coverage for `src/components/ScaleButton.tsx` (66% -> 80%) 31eba69
+  - [x] Write tests for scale transform logic
 - [ ] Task: Increase Coverage for Home Screen (`app/(tabs)/index.tsx`)
   - [ ] Write tests for habit card interactions
   - [ ] Write tests for haptic feedback triggers
