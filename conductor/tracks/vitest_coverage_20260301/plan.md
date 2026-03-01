@@ -59,9 +59,9 @@
 - [x] Task: Increase Coverage for Parent Dashboard (`app/parent-dashboard.tsx`) 114b098
   - [x] Write tests for streak calculation display
   - [x] Write tests for data reset confirmation
-- [ ] Task: Increase Coverage for Reward Shop (`app/reward-shop.tsx`)
-  - [ ] Write tests for parental gate interaction
-  - [ ] Write tests for bolt balance updates after redemption
+- [x] Task: Increase Coverage for Reward Shop (`app/reward-shop.tsx`) 454a5bd
+  - [x] Write tests for parental gate interaction
+  - [x] Write tests for bolt balance updates after redemption
 - [ ] Task: Increase Coverage for Mission Screen (`app/mission/[id].tsx`)
   - [ ] Write tests for timer completion flow
   - [ ] Write tests for "Read to me" audio cues
