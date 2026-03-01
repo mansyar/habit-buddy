@@ -4,6 +4,8 @@ This file records all tracks created during the development process.
 
 ## Completed
 
+- [x] **Track: achieve 85 percent to 90 percent vitest coverage**
+      _Link: [./archive/vitest_coverage_20260301/](./archive/vitest_coverage_20260301/)_
 - [x] **Track: Sub-Phase 8D: Testing — Unit, component, and integration tests; manual QA and performance profiling in @docs/roadmap.md**
       _Link: [./archive/testing_qa_20260301/](./archive/testing_qa_20260301/)_
 - [x] **Track: implement Sub-Phase 8B: Error Handling & Edge Cases in @docs/roadmap.md**
@@ -20,6 +22,3 @@ This file records all tracks created during the development process.
       _Link: [./archive/accessibility_20260301/](./archive/accessibility_20260301/)_
 
 ## Planned
-
-- [x] **Track: achieve 85 percent to 90 percent vitest coverage**
-      _Link: [./tracks/vitest_coverage_20260301/](./tracks/vitest_coverage_20260301/)_
