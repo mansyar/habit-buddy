@@ -12,9 +12,9 @@
 
 ## Phase 2: Data Services Coverage (src/lib/)
 
-- [ ] Task: Increase Coverage for `src/lib/accessibility_helper.ts` (40% -> 90%)
-  - [ ] Write tests for focus trapping logic
-  - [ ] Write tests for screen reader announcement queue
+- [x] Task: Increase Coverage for `src/lib/accessibility_helper.ts` (40% -> 90%) a1530eb
+  - [x] Write tests for focus trapping logic
+  - [x] Write tests for screen reader announcement queue
 - [ ] Task: Increase Coverage for `src/lib/coupon_service.ts` (47% -> 90%)
   - [ ] Write tests for validation errors
   - [ ] Write tests for redemption history filtering
