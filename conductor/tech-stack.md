@@ -18,6 +18,7 @@
 ## 3. Testing & Quality
 
 - **Vitest & React Testing Library**: Unit and component testing framework for React Native.
+  - **Coverage Targets**: High-confidence testing with >= 85% global coverage, >= 80% for UI screens (app/), and >= 90% for business logic (src/lib/).
 - **Husky & lint-staged**: Git hooks for automated linting, formatting, type checking, and unit testing (pre-push).
 
 ## 4. Stability & Error Handling
