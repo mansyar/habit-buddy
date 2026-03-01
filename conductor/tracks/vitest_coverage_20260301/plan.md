@@ -47,8 +47,8 @@
 
 ## Phase 4: UI Screens & Components Coverage (app/ & src/components/)
 
-- [ ] Task: Increase Coverage for `app/(tabs)/two.tsx` (77% -> 80%)
-  - [ ] Write tests for basic screen elements
+- [x] Task: Increase Coverage for `app/(tabs)/two.tsx` (77% -> 80%) 3ea261f
+  - [x] Write tests for basic screen elements
 - [ ] Task: Increase Coverage for `src/components/BoltCounter.tsx` (54% -> 80%)
   - [ ] Write tests for animation triggers on balance change
 - [ ] Task: Increase Coverage for `src/components/ScaleButton.tsx` (66% -> 80%)
