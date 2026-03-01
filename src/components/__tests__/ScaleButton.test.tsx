@@ -25,4 +25,28 @@ describe('ScaleButton', () => {
     fireEvent.click(getByText('Click Me'));
     expect(onPress).toHaveBeenCalled();
   });
+
+  it('calls onPressIn when pressed down', () => {
+    const onPressIn = vi.fn();
+    const { getByText } = render(
+      <ScaleButton onPressIn={onPressIn}>
+        <Text>Click Me</Text>
+      </ScaleButton>,
+    );
+
+    fireEvent.mouseDown(getByText('Click Me'));
+    expect(onPressIn).toHaveBeenCalled();
+  });
+
+  it('calls onPressOut when released', () => {
+    const onPressOut = vi.fn();
+    const { getByText } = render(
+      <ScaleButton onPressOut={onPressOut}>
+        <Text>Click Me</Text>
+      </ScaleButton>,
+    );
+
+    fireEvent.mouseUp(getByText('Click Me'));
+    expect(onPressOut).toHaveBeenCalled();
+  });
 });
