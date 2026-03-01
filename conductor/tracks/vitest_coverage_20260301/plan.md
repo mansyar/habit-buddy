@@ -33,7 +33,7 @@
   - [x] Write tests for conflict resolution (if any)
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 595c6a6
 
-## Phase 3: State Management Coverage (src/store/)
+## Phase 3: State Management Coverage (src/store/) [checkpoint: afa584d]
 
 - [x] Task: Increase Coverage for `src/store/auth_store.ts` 28302de
   - [x] Write tests for session persistence
@@ -41,9 +41,9 @@
 - [x] Task: Increase Coverage for `src/store/habit_store.ts` 81e150a
   - [x] Write tests for optimistic updates
   - [x] Write tests for habit state transitions
-- [ ] Task: Increase Coverage for `src/store/buddy_store.ts`
-  - [ ] Write tests for animation state changes
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Increase Coverage for `src/store/buddy_store.ts`
+  - [x] Write tests for animation state changes (Already 100%)
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) afa584d
 
 ## Phase 4: UI Screens & Components Coverage (app/ & src/components/)
 
