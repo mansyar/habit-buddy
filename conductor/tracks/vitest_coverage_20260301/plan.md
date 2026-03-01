@@ -56,9 +56,9 @@
 - [x] Task: Increase Coverage for Home Screen (`app/(tabs)/index.tsx`) 637486a
   - [x] Write tests for habit card interactions
   - [x] Write tests for haptic feedback triggers
-- [ ] Task: Increase Coverage for Parent Dashboard (`app/parent-dashboard.tsx`)
-  - [ ] Write tests for streak calculation display
-  - [ ] Write tests for data reset confirmation
+- [x] Task: Increase Coverage for Parent Dashboard (`app/parent-dashboard.tsx`) 114b098
+  - [x] Write tests for streak calculation display
+  - [x] Write tests for data reset confirmation
 - [ ] Task: Increase Coverage for Reward Shop (`app/reward-shop.tsx`)
   - [ ] Write tests for parental gate interaction
   - [ ] Write tests for bolt balance updates after redemption
