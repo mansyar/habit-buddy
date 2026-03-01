@@ -91,4 +91,41 @@ describe('NetworkService', () => {
       expect(unsubscribeMock).toHaveBeenCalled();
     });
   });
+
+  describe('syncErrorState', () => {
+    it('should set and get sync error state', () => {
+      expect(networkService.getHasSyncError()).toBe(false);
+      networkService.setSyncError(true);
+      expect(networkService.getHasSyncError()).toBe(true);
+      networkService.setSyncError(false);
+      expect(networkService.getHasSyncError()).toBe(false);
+    });
+
+    it('should notify subscribers when sync error status changes', () => {
+      const callback = vi.fn();
+      const unsubscribe = networkService.subscribeToSyncError(callback);
+
+      networkService.setSyncError(true);
+      expect(callback).toHaveBeenCalledWith(true);
+
+      networkService.setSyncError(false);
+      expect(callback).toHaveBeenCalledWith(false);
+
+      unsubscribe();
+      networkService.setSyncError(true);
+      expect(callback).toHaveBeenCalledTimes(2); // Should not be called after unsubscribe
+    });
+  });
+
+  describe('checkIsOnline legacy export', () => {
+    it('should call networkService.isOnline', async () => {
+      const isOnlineSpy = vi.spyOn(networkService, 'isOnline').mockResolvedValue(true);
+
+      const { checkIsOnline } = await import('../network');
+      const online = await checkIsOnline();
+
+      expect(online).toBe(true);
+      expect(isOnlineSpy).toHaveBeenCalled();
+    });
+  });
 });
