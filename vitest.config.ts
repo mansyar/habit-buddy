@@ -25,6 +25,32 @@ export default defineConfig({
     transformMode: {
       web: [/\.[jt]sx?$/],
     },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'clover'],
+      include: ['src/**/*.{ts,tsx}', 'app/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/__tests__/**',
+        'app/**/__tests__/**',
+        'src/types/**',
+        'src/constants/**',
+        '**/*.d.ts',
+        'app/_layout.tsx',
+        'app/+html.tsx',
+        'app/+not-found.tsx',
+        'app/(tabs)/_layout.tsx',
+        'app/login-callback.tsx',
+        'app/modal.tsx',
+        'app/settings.tsx',
+        'src/components/EditScreenInfo.tsx',
+        'src/components/ExternalLink.tsx',
+        'src/components/StyledText.tsx',
+        'src/components/useClientOnlyValue.ts',
+        'src/components/useClientOnlyValue.web.ts',
+        'src/components/useColorScheme.ts',
+        'src/components/useColorScheme.web.ts',
+      ],
+    },
     server: {
       deps: {
         inline: ['@react-native-community/netinfo', 'react-native-error-boundary'],

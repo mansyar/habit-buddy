@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "prepare": "husky",
     "typecheck": "pnpm tsc --noEmit"
   },
@@ -57,6 +58,7 @@
     "@testing-library/react-native": "^13.3.3",
     "@types/react": "~19.1.0",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "4.0.18",
     "eslint": "^9.39.3",
     "eslint-config-expo": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
