@@ -26,9 +26,9 @@
 - [x] Task: Increase Coverage for `src/lib/sqlite.ts` (71% -> 90%) b4f9fb3
   - [x] Write tests for database initialization errors
   - [x] Write tests for migration failure recovery
-- [ ] Task: Increase Coverage for `src/lib/profile_service.ts` (81% -> 90%)
-  - [ ] Write tests for SQLite fallback failures
-  - [ ] Write tests for anonymous onboarding edge cases
+- [x] Task: Increase Coverage for `src/lib/profile_service.ts` (81% -> 90%) 213c6df
+  - [x] Write tests for SQLite fallback failures
+  - [x] Write tests for anonymous onboarding edge cases
 - [ ] Task: Increase Coverage for `src/lib/sync_service.ts` (87% -> 90%)
   - [ ] Write tests for conflict resolution (if any)
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
