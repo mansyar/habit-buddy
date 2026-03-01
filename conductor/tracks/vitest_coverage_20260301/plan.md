@@ -6,25 +6,31 @@
   - [x] Ensure `vitest.config.ts` correctly generates reports in `coverage/`
   - [x] Verify that `v8` provider is working in the current environment
   - [x] Successfully generate a baseline coverage report
-- [ ] Task: Identify Coverage Gaps
-  - [ ] Analyze the baseline report to list all files below their respective targets (80% for app, 90% for lib)
+- [x] Task: Identify Coverage Gaps 6afcb40
+  - [x] Analyze the baseline report to list all files below their respective targets (80% for app, 90% for lib)
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Data Services Coverage (src/lib/)
 
-- [ ] Task: Increase Coverage for `src/lib/sync_service.ts`
-  - [ ] Write tests for network timeout handling
-  - [ ] Write tests for exponential backoff logic
-  - [ ] Write tests for conflict resolution (if any)
-- [ ] Task: Increase Coverage for `src/lib/profile_service.ts`
-  - [ ] Write tests for SQLite fallback failures
-  - [ ] Write tests for anonymous onboarding edge cases
-- [ ] Task: Increase Coverage for `src/lib/habit_log_service.ts`
-  - [ ] Write tests for daily progress reset logic
-  - [ ] Write tests for multi-device sync collisions
-- [ ] Task: Increase Coverage for `src/lib/coupon_service.ts`
+- [ ] Task: Increase Coverage for `src/lib/accessibility_helper.ts` (40% -> 90%)
+  - [ ] Write tests for focus trapping logic
+  - [ ] Write tests for screen reader announcement queue
+- [ ] Task: Increase Coverage for `src/lib/coupon_service.ts` (47% -> 90%)
   - [ ] Write tests for validation errors
   - [ ] Write tests for redemption history filtering
+- [ ] Task: Increase Coverage for `src/lib/network.ts` (57% -> 90%)
+  - [ ] Write tests for fetch fallbacks
+  - [ ] Write tests for connection state transitions
+- [ ] Task: Increase Coverage for `src/lib/haptic_feedback.ts` (62% -> 90%)
+  - [ ] Write tests for intensity levels
+- [ ] Task: Increase Coverage for `src/lib/sqlite.ts` (71% -> 90%)
+  - [ ] Write tests for database initialization errors
+  - [ ] Write tests for migration failure recovery
+- [ ] Task: Increase Coverage for `src/lib/profile_service.ts` (81% -> 90%)
+  - [ ] Write tests for SQLite fallback failures
+  - [ ] Write tests for anonymous onboarding edge cases
+- [ ] Task: Increase Coverage for `src/lib/sync_service.ts` (87% -> 90%)
+  - [ ] Write tests for conflict resolution (if any)
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: State Management Coverage (src/store/)
@@ -39,8 +45,14 @@
   - [ ] Write tests for animation state changes
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
-## Phase 4: UI Screens Coverage (app/)
+## Phase 4: UI Screens & Components Coverage (app/ & src/components/)
 
+- [ ] Task: Increase Coverage for `app/(tabs)/two.tsx` (77% -> 80%)
+  - [ ] Write tests for basic screen elements
+- [ ] Task: Increase Coverage for `src/components/BoltCounter.tsx` (54% -> 80%)
+  - [ ] Write tests for animation triggers on balance change
+- [ ] Task: Increase Coverage for `src/components/ScaleButton.tsx` (66% -> 80%)
+  - [ ] Write tests for scale transform logic
 - [ ] Task: Increase Coverage for Home Screen (`app/(tabs)/index.tsx`)
   - [ ] Write tests for habit card interactions
   - [ ] Write tests for haptic feedback triggers
