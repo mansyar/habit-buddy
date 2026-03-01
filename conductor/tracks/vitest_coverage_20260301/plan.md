@@ -10,7 +10,7 @@
   - [x] Analyze the baseline report to list all files below their respective targets (80% for app, 90% for lib)
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md) 6a7c176
 
-## Phase 2: Data Services Coverage (src/lib/)
+## Phase 2: Data Services Coverage (src/lib/) [checkpoint: 595c6a6]
 
 - [x] Task: Increase Coverage for `src/lib/accessibility_helper.ts` (40% -> 90%) a1530eb
   - [x] Write tests for focus trapping logic
@@ -31,7 +31,7 @@
   - [x] Write tests for anonymous onboarding edge cases
 - [x] Task: Increase Coverage for `src/lib/sync_service.ts` (87% -> 90%) 09e5a6d
   - [x] Write tests for conflict resolution (if any)
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 595c6a6
 
 ## Phase 3: State Management Coverage (src/store/)
 
