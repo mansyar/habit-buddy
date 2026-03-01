@@ -136,4 +136,94 @@ describe('RewardShopScreen - Reward Management', () => {
       expect(couponService.deleteCoupon).toHaveBeenCalledWith('c1');
     });
   });
+
+  it('edits an existing coupon', async () => {
+    const { getByText, getByPlaceholderText, findByText } = render(<RewardShopScreen />);
+
+    // Trigger Parental Gate
+    const gateButton = getByText('Parent');
+    fireEvent.mouseDown(gateButton);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    fireEvent.mouseUp(gateButton);
+
+    const editButton = await findByText('Edit2');
+    fireEvent.click(editButton);
+
+    const titleInput = getByPlaceholderText('Reward title (e.g., Ice Cream)');
+    fireEvent.change(titleInput, { target: { value: 'Updated Title' } });
+
+    const submitButton = getByText('Save Reward');
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(couponService.updateCoupon).toHaveBeenCalledWith(
+        'c1',
+        expect.objectContaining({
+          title: 'Updated Title',
+        }),
+      );
+    });
+  });
+
+  it('handles error when saving reward', async () => {
+    (couponService.createCoupon as any).mockRejectedValue(new Error('Save Failed'));
+    const { getByText, findByText, getByPlaceholderText, getByLabelText } = render(
+      <RewardShopScreen />,
+    );
+
+    // Admin mode
+    const gateButton = getByLabelText('Parent Mode');
+    fireEvent.mouseDown(gateButton);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    fireEvent.mouseUp(gateButton);
+
+    fireEvent.click(await findByText('Add New'));
+    fireEvent.change(getByPlaceholderText('Reward title (e.g., Ice Cream)'), {
+      target: { value: 'New' },
+    });
+    fireEvent.change(getByPlaceholderText('Bolt cost'), { target: { value: '10' } });
+    fireEvent.click(getByText('Save Reward'));
+
+    expect(await findByText('Failed to save reward')).toBeTruthy();
+  });
+
+  it('toggles between active and history view', async () => {
+    const { getByText, findByText, queryByText, getByLabelText } = render(<RewardShopScreen />);
+
+    // Admin mode
+    const gateButton = getByLabelText('Parent Mode');
+    fireEvent.mouseDown(gateButton);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    fireEvent.mouseUp(gateButton);
+
+    expect(await findByText('Delete Me')).toBeTruthy();
+
+    const historyToggle = getByLabelText('View Redeemed History');
+    fireEvent.click(historyToggle);
+
+    expect(await findByText('Redeemed History')).toBeTruthy();
+    expect(queryByText('Delete Me')).toBeNull();
+  });
+
+  it('redeems a reward successfully', async () => {
+    const { getByText, findByText, queryByText } = render(<RewardShopScreen />);
+
+    const redeemButton = await findByText('Redeem');
+    fireEvent.click(redeemButton);
+
+    const confirmButton = await findByText('Yes! Redeem');
+    fireEvent.click(confirmButton);
+
+    await waitFor(() => {
+      expect(couponService.redeemCoupon).toHaveBeenCalledWith('c1');
+    });
+
+    expect(await findByText('Hooray!')).toBeTruthy();
+    expect(await findByText('Awesome!')).toBeTruthy();
+
+    fireEvent.click(getByText('Awesome!'));
+    await waitFor(() => {
+      expect(queryByText('Hooray!')).toBeNull();
+    });
+  });
 });
