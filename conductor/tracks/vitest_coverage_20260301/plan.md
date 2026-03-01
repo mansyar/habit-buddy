@@ -35,9 +35,9 @@
 
 ## Phase 3: State Management Coverage (src/store/)
 
-- [ ] Task: Increase Coverage for `src/store/auth_store.ts`
-  - [ ] Write tests for session persistence
-  - [ ] Write tests for sign-out cleanup
+- [x] Task: Increase Coverage for `src/store/auth_store.ts` 28302de
+  - [x] Write tests for session persistence
+  - [x] Write tests for sign-out cleanup
 - [ ] Task: Increase Coverage for `src/store/habit_store.ts`
   - [ ] Write tests for optimistic updates
   - [ ] Write tests for habit state transitions
