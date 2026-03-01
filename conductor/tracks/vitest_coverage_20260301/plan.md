@@ -15,9 +15,9 @@
 - [x] Task: Increase Coverage for `src/lib/accessibility_helper.ts` (40% -> 90%) a1530eb
   - [x] Write tests for focus trapping logic
   - [x] Write tests for screen reader announcement queue
-- [ ] Task: Increase Coverage for `src/lib/coupon_service.ts` (47% -> 90%)
-  - [ ] Write tests for validation errors
-  - [ ] Write tests for redemption history filtering
+- [x] Task: Increase Coverage for `src/lib/coupon_service.ts` (47% -> 90%) a2a71c0
+  - [x] Write tests for validation errors
+  - [x] Write tests for redemption history filtering
 - [ ] Task: Increase Coverage for `src/lib/network.ts` (57% -> 90%)
   - [ ] Write tests for fetch fallbacks
   - [ ] Write tests for connection state transitions
