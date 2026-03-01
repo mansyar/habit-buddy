@@ -22,3 +22,6 @@ This file records all tracks created during the development process.
       _Link: [./archive/accessibility_20260301/](./archive/accessibility_20260301/)_
 
 ## Planned
+
+- [ ] **Track: identify any unrelated screen or boilerplate or placeholder in the codebase, remove them if it is confirmed unnecessary**
+      _Link: [./tracks/cleanup_boilerplate_20260301/](./tracks/cleanup_boilerplate_20260301/)_
