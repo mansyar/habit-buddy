@@ -21,5 +21,5 @@ This file records all tracks created during the development process.
 
 ## Planned
 
-- [ ] **Track: achieve 85 percent to 90 percent vitest coverage**
+- [x] **Track: achieve 85 percent to 90 percent vitest coverage**
       _Link: [./tracks/vitest_coverage_20260301/](./tracks/vitest_coverage_20260301/)_
