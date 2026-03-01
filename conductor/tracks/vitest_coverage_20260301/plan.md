@@ -2,10 +2,10 @@
 
 ## Phase 1: Baseline & Configuration
 
-- [ ] Task: Fix and Verify Coverage Reporting
-  - [ ] Ensure `vitest.config.ts` correctly generates reports in `coverage/`
-  - [ ] Verify that `v8` provider is working in the current environment
-  - [ ] Successfully generate a baseline coverage report
+- [x] Task: Fix and Verify Coverage Reporting 6afcb40
+  - [x] Ensure `vitest.config.ts` correctly generates reports in `coverage/`
+  - [x] Verify that `v8` provider is working in the current environment
+  - [x] Successfully generate a baseline coverage report
 - [ ] Task: Identify Coverage Gaps
   - [ ] Analyze the baseline report to list all files below their respective targets (80% for app, 90% for lib)
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
