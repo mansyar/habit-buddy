@@ -76,41 +76,72 @@ describe('ProfileService', () => {
       expect(profile.child_name).toBe('Buddy');
     });
 
-    test('should fetch profile from Supabase', async () => {
-      // Setup mock return for getProfile
+    test('should handle createProfile sync error', async () => {
       (supabase.maybeSingle as any).mockResolvedValueOnce({
-        data: { id: 'user-123', child_name: 'Buddy' },
+        data: null,
+        error: { message: 'Sync Error' },
+      });
+
+      await profileService.createProfile({ child_name: 'Buddy' }, 'user-123');
+
+      // Should add to sync_queue
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT INTO sync_queue'),
+        'profiles',
+        'UPSERT',
+        expect.any(String),
+      );
+    });
+
+    test('should cache profile to SQLite when fetched from Supabase', async () => {
+      mockDb.getFirstAsync.mockResolvedValueOnce(null); // Not found locally
+      (supabase.maybeSingle as any).mockResolvedValueOnce({
+        data: {
+          id: 'remote-123',
+          user_id: 'auth-123',
+          child_name: 'Remote Buddy',
+          avatar_id: 'bear',
+          selected_buddy: 'bear',
+          bolt_balance: 50,
+          created_at: '2023-01-01',
+          updated_at: '2023-01-01',
+        },
         error: null,
       });
 
-      const profile = await profileService.getProfile('user-123');
-      expect(profile?.child_name).toBe('Buddy');
-      expect(supabase.from).toHaveBeenCalledWith('profiles');
-      expect(supabase.or).toHaveBeenCalledWith(expect.stringContaining('id.eq.user-123'));
+      const profile = await profileService.getProfile('remote-123');
+      expect(profile?.child_name).toBe('Remote Buddy');
+
+      // Should cache to SQLite
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT OR REPLACE INTO profiles'),
+        'remote-123',
+        'auth-123',
+        'Remote Buddy',
+        'bear',
+        'bear',
+        50,
+        0,
+        'synced',
+        expect.any(String),
+        '2023-01-01',
+        '2023-01-01',
+      );
     });
   });
 
   describe('Offline/Guest Mode', () => {
-    test('should create a profile in SQLite when offline', async () => {
-      // Mock Network as offline
+    test('should queue creation in sync_queue if authenticated but offline', async () => {
       (checkIsOnline as any).mockResolvedValueOnce(false);
 
-      const profileData = { child_name: 'Offline Buddy' };
-      await profileService.createProfile(profileData, null);
+      await profileService.createProfile({ child_name: 'Offline Auth' }, 'user-123');
 
+      // Should add to sync_queue (since not a guest)
       expect(mockDb.runAsync).toHaveBeenCalledWith(
-        expect.stringContaining('INSERT INTO profiles'),
-        expect.any(String), // id
-        null, // user_id
-        'Offline Buddy', // child_name
-        expect.anything(), // avatar_id
-        expect.anything(), // selected_buddy
-        expect.anything(), // bolt_balance
-        1, // is_guest
-        'pending', // sync_status
-        expect.anything(), // last_modified
-        expect.anything(), // created_at
-        expect.anything(), // updated_at
+        expect.stringContaining('INSERT INTO sync_queue'),
+        'profiles',
+        'UPSERT',
+        expect.stringContaining('"user_id":"user-123"'),
       );
     });
 
@@ -125,6 +156,52 @@ describe('ProfileService', () => {
         expect.stringContaining('SELECT * FROM profiles'),
         'local-123',
         'local-123',
+      );
+    });
+  });
+
+  describe('migrateGuestToUser', () => {
+    test('should migrate guest profile to authenticated user', async () => {
+      mockDb.getFirstAsync.mockResolvedValueOnce({
+        id: 'guest-123',
+        is_guest: 1,
+        child_name: 'Guest',
+      });
+      (supabase.maybeSingle as any).mockResolvedValueOnce({
+        data: { id: 'guest-123', user_id: 'auth-123' },
+        error: null,
+      });
+
+      const profile = await profileService.migrateGuestToUser('guest-123', 'auth-123');
+
+      expect(profile?.user_id).toBe('auth-123');
+      expect(profile?.is_guest).toBe(false);
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('UPDATE profiles SET user_id = ?, is_guest = 0'),
+        'auth-123',
+        'synced',
+        expect.any(String),
+        expect.any(String),
+        'guest-123',
+      );
+    });
+
+    test('should handle migration sync failure', async () => {
+      mockDb.getFirstAsync.mockResolvedValueOnce({
+        id: 'guest-123',
+        is_guest: 1,
+        child_name: 'Guest',
+      });
+      (supabase.maybeSingle as any).mockResolvedValueOnce({ error: { message: 'Migrate Fail' } });
+
+      await profileService.migrateGuestToUser('guest-123', 'auth-123');
+
+      // Should queue for sync
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT INTO sync_queue'),
+        'profiles',
+        'UPSERT',
+        expect.stringContaining('"user_id":"auth-123"'),
       );
     });
   });
@@ -171,6 +248,24 @@ describe('ProfileService', () => {
         'profiles',
         'UPDATE',
         expect.stringContaining('"bolt_balance":8'),
+      );
+    });
+
+    test('should handle updateBoltBalance sync failure', async () => {
+      const profileId = 'p1';
+      mockDb.getFirstAsync.mockResolvedValueOnce({ id: 'p1', bolt_balance: 5, is_guest: 0 });
+      (supabase.update as any).mockReturnValueOnce({
+        eq: vi.fn(() => Promise.resolve({ error: { message: 'Balance Sync Error' } })),
+      });
+
+      await profileService.updateBoltBalance(profileId, 5);
+
+      // Should mark as pending and queue
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT INTO sync_queue'),
+        'profiles',
+        'UPDATE',
+        expect.stringContaining('"bolt_balance":10'),
       );
     });
   });
