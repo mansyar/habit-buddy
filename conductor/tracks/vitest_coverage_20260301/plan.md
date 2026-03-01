@@ -23,9 +23,9 @@
   - [x] Write tests for connection state transitions
 - [x] Task: Increase Coverage for `src/lib/haptic_feedback.ts` (62% -> 90%) 4d4099d
   - [x] Write tests for intensity levels
-- [ ] Task: Increase Coverage for `src/lib/sqlite.ts` (71% -> 90%)
-  - [ ] Write tests for database initialization errors
-  - [ ] Write tests for migration failure recovery
+- [x] Task: Increase Coverage for `src/lib/sqlite.ts` (71% -> 90%) b4f9fb3
+  - [x] Write tests for database initialization errors
+  - [x] Write tests for migration failure recovery
 - [ ] Task: Increase Coverage for `src/lib/profile_service.ts` (81% -> 90%)
   - [ ] Write tests for SQLite fallback failures
   - [ ] Write tests for anonymous onboarding edge cases
