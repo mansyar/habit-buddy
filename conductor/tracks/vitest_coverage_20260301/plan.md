@@ -49,8 +49,8 @@
 
 - [x] Task: Increase Coverage for `app/(tabs)/two.tsx` (77% -> 80%) 3ea261f
   - [x] Write tests for basic screen elements
-- [ ] Task: Increase Coverage for `src/components/BoltCounter.tsx` (54% -> 80%)
-  - [ ] Write tests for animation triggers on balance change
+- [x] Task: Increase Coverage for `src/components/BoltCounter.tsx` (54% -> 80%) 1ab6e5d
+  - [x] Write tests for animation triggers on balance change
 - [ ] Task: Increase Coverage for `src/components/ScaleButton.tsx` (66% -> 80%)
   - [ ] Write tests for scale transform logic
 - [ ] Task: Increase Coverage for Home Screen (`app/(tabs)/index.tsx`)
