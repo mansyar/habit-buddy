@@ -210,4 +210,71 @@ describe('MissionScreen', () => {
       { timeout: 5000 },
     );
   });
+
+  it('toggles mute state', () => {
+    const { getByTestId, getByLabelText } = render(<MissionScreen />);
+    const muteButton = getByTestId('mute-toggle');
+
+    fireEvent.click(muteButton);
+    expect(audioService.setMute).toHaveBeenCalledWith(true);
+    expect(getByLabelText('Unmute sounds')).toBeTruthy();
+
+    fireEvent.click(muteButton);
+    expect(audioService.setMute).toHaveBeenCalledWith(false);
+    expect(getByLabelText('Mute sounds')).toBeTruthy();
+  });
+
+  it('triggers voice instructions when habit title is pressed', () => {
+    const { getByText } = render(<MissionScreen />);
+    const habitTitle = getByText('Brush Your Teeth');
+
+    fireEvent.click(habitTitle);
+    expect(audioService.playSound).toHaveBeenCalledWith('vo-instruction', expect.anything());
+  });
+
+  it('handles cancel button press', () => {
+    const { getByLabelText } = render(<MissionScreen />);
+    const cancelButton = getByLabelText('Cancel Mission and go back');
+
+    fireEvent.click(cancelButton);
+    expect(mockBack).toHaveBeenCalled();
+  });
+
+  it('triggers halfway and almost done VO during countdown', () => {
+    // Tooth brushing is 2 mins = 120 secs. Halfway = 60, Quarter = 30.
+    const { getByLabelText } = render(<MissionScreen />);
+
+    // Start
+    act(() => {
+      fireEvent.click(getByLabelText('Start Mission'));
+    });
+
+    // Advance to 60 seconds (halfway)
+    act(() => {
+      vi.advanceTimersByTime(60000);
+    });
+    expect(audioService.playSound).toHaveBeenCalledWith('vo-halfway', expect.anything());
+
+    // Advance to 30 seconds (quarter)
+    act(() => {
+      vi.advanceTimersByTime(30000);
+    });
+    expect(audioService.playSound).toHaveBeenCalledWith('vo-almost', expect.anything());
+  });
+
+  it('triggers sleepy state when timer reaches zero', async () => {
+    const { getByLabelText, getByTestId } = render(<MissionScreen />);
+
+    act(() => {
+      fireEvent.click(getByLabelText('Start Mission'));
+    });
+
+    // Advance to end (120 seconds)
+    act(() => {
+      vi.advanceTimersByTime(120000);
+    });
+
+    expect(getByTestId('buddy-animation').getAttribute('data-state')).toBe('sleepy');
+    expect(audioService.playSound).toHaveBeenCalledWith('vo-sleepy', expect.anything());
+  });
 });

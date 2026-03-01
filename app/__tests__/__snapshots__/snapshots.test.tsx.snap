@@ -19,6 +19,8 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
         <div
           accessibilitylabel="Online"
           accessibilityrole="image"
+          aria-label="Online"
+          role="image"
           style="margin-right: 10px;"
         >
           <div
@@ -32,6 +34,8 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
         <div
           accessibilitylabel="Gold Bolt Balance: 50"
           accessibilityrole="text"
+          aria-label="Gold Bolt Balance: 50"
+          role="text"
           style="flex-direction: row; align-items: center; background-color: rgba(251, 191, 36, 0.1); border-radius: 20px; border-width: 1px; border-color: rgb(251, 191, 36); min-height: 36px;"
         >
           <div>
@@ -55,8 +59,10 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
         <button
           accessibilitylabel="Settings. Long press for parent dashboard."
           accessibilityrole="button"
+          aria-label="Settings. Long press for parent dashboard."
           data-testid="settings-button"
           delaylongpress="3000"
+          role="button"
           style="margin-left: 12px; padding: 10px; border-radius: 15px; background-color: rgb(42, 42, 74); border-width: 1px; border-color: rgb(74, 74, 106); min-height: 48px; min-width: 48px; justify-content: center; align-items: center;"
         >
           <div
@@ -70,6 +76,8 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
         <button
           accessibilitylabel="Reward Shop"
           accessibilityrole="button"
+          aria-label="Reward Shop"
+          role="button"
           style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
         >
           <div
@@ -89,6 +97,8 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
       <div
         accessibilitylabel="33% of daily missions completed"
         accessibilityrole="progressbar"
+        aria-label="33% of daily missions completed"
+        role="progressbar"
         style="margin-bottom: 20px;"
       >
         <div
@@ -113,7 +123,9 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
           <button
             accessibilitylabel="Tooth Brushing, 2 minutes, completed"
             accessibilityrole="button"
+            aria-label="Tooth Brushing, 2 minutes, completed"
             data-testid="habit-card-tooth-brushing"
+            role="button"
             style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
           >
             <div />
@@ -156,7 +168,9 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
             accessibilityhint="Tap to start this mission"
             accessibilitylabel="Meal Time, 15 minutes, incomplete"
             accessibilityrole="button"
+            aria-label="Meal Time, 15 minutes, incomplete"
             data-testid="habit-card-meal-time"
+            role="button"
             style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
           >
             <div />
@@ -191,7 +205,9 @@ exports[`Snapshot Tests > HomeScreen snapshot 1`] = `
             accessibilityhint="Tap to start this mission"
             accessibilitylabel="Toy Cleanup, 5 minutes, incomplete"
             accessibilityrole="button"
+            aria-label="Toy Cleanup, 5 minutes, incomplete"
             data-testid="habit-card-toy-cleanup"
+            role="button"
             style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
           >
             <div />
@@ -239,7 +255,9 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
       <button
         accessibilitylabel="Mute sounds"
         accessibilityrole="button"
+        aria-label="Mute sounds"
         data-testid="mute-toggle"
+        role="button"
         style="padding: 10px; background-color: rgb(42, 42, 74); border-radius: 20px; min-height: 48px; min-width: 48px; justify-content: center; align-items: center;"
       >
         <div
@@ -258,6 +276,8 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
       <div
         accessibilitylabel="dino is idle"
         accessibilityrole="image"
+        aria-label="dino is idle"
+        role="image"
       >
         <div
           data-testid="buddy-animation"
@@ -277,6 +297,8 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
       <button
         accessibilitylabel="Mission: Mission. Tap to hear instruction."
         accessibilityrole="button"
+        aria-label="Mission: Mission. Tap to hear instruction."
+        role="button"
       >
         <span>
           Mission
@@ -293,6 +315,8 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
         <div
           accessibilitylabel="Time remaining: 5:00"
           accessibilityrole="timer"
+          aria-label="Time remaining: 5:00"
+          role="timer"
         >
           <div
             style="position: absolute;"
@@ -314,7 +338,9 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
           <button
             accessibilitylabel="Decrease time by 30 seconds"
             accessibilityrole="button"
+            aria-label="Decrease time by 30 seconds"
             data-testid="adjust-minus-30"
+            role="button"
             style="padding: 10px; background-color: rgb(74, 74, 106); border-radius: 8px;"
           >
             <span>
@@ -324,7 +350,9 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
           <button
             accessibilitylabel="Increase time by 30 seconds"
             accessibilityrole="button"
+            aria-label="Increase time by 30 seconds"
             data-testid="adjust-plus-30"
+            role="button"
             style="padding: 10px; background-color: rgb(74, 74, 106); border-radius: 8px;"
           >
             <span>
@@ -335,7 +363,9 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
         <button
           accessibilitylabel="Start Mission"
           accessibilityrole="button"
+          aria-label="Start Mission"
           data-testid="start-mission-button"
+          role="button"
           style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column;"
         >
           <span>
@@ -346,6 +376,8 @@ exports[`Snapshot Tests > MissionScreen snapshot 1`] = `
       <button
         accessibilitylabel="Cancel Mission and go back"
         accessibilityrole="button"
+        aria-label="Cancel Mission and go back"
+        role="button"
         style="padding: 15px;"
       >
         <span>
@@ -367,6 +399,8 @@ exports[`Snapshot Tests > RewardShopScreen snapshot 1`] = `
         <div
           accessibilitylabel="Online"
           accessibilityrole="image"
+          aria-label="Online"
+          role="image"
           style="margin-right: 15px;"
         >
           <div
@@ -380,11 +414,15 @@ exports[`Snapshot Tests > RewardShopScreen snapshot 1`] = `
         <button
           accessibilitylabel="Long press for parents"
           accessibilityrole="button"
+          aria-label="Long press for parents"
+          role="button"
           style="cursor: pointer; border: medium; background: none; padding: 0px; text-align: left; display: flex; flex-direction: column; min-height: 48px; min-width: 48px; justify-content: center; align-items: center;"
         >
           <div
             accessibilitylabel="Parent Mode"
             accessibilityrole="button"
+            aria-label="Parent Mode"
+            role="button"
           >
             <div
               color="#94A3B8"
