@@ -69,4 +69,15 @@ describe('HabitStore', () => {
     await store.loadTodaysHabits('profile-123');
     expect(store.getCompletionPercentage()).toBe(100);
   });
+
+  it('should handle errors when loading habits', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    (habitLogService.getTodaysLogs as any).mockRejectedValue(new Error('Fetch Error'));
+
+    await useHabitStore.getState().loadTodaysHabits('profile-123');
+
+    expect(consoleSpy).toHaveBeenCalledWith("Failed to load today's habits:", expect.any(Error));
+    expect(useHabitStore.getState().isLoading).toBe(false);
+    consoleSpy.mockRestore();
+  });
 });
