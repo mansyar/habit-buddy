@@ -21,8 +21,8 @@
 - [x] Task: Increase Coverage for `src/lib/network.ts` (57% -> 90%) 9490d0b
   - [x] Write tests for fetch fallbacks
   - [x] Write tests for connection state transitions
-- [ ] Task: Increase Coverage for `src/lib/haptic_feedback.ts` (62% -> 90%)
-  - [ ] Write tests for intensity levels
+- [x] Task: Increase Coverage for `src/lib/haptic_feedback.ts` (62% -> 90%) 4d4099d
+  - [x] Write tests for intensity levels
 - [ ] Task: Increase Coverage for `src/lib/sqlite.ts` (71% -> 90%)
   - [ ] Write tests for database initialization errors
   - [ ] Write tests for migration failure recovery
