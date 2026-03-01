@@ -38,9 +38,9 @@
 - [x] Task: Increase Coverage for `src/store/auth_store.ts` 28302de
   - [x] Write tests for session persistence
   - [x] Write tests for sign-out cleanup
-- [ ] Task: Increase Coverage for `src/store/habit_store.ts`
-  - [ ] Write tests for optimistic updates
-  - [ ] Write tests for habit state transitions
+- [x] Task: Increase Coverage for `src/store/habit_store.ts` 81e150a
+  - [x] Write tests for optimistic updates
+  - [x] Write tests for habit state transitions
 - [ ] Task: Increase Coverage for `src/store/buddy_store.ts`
   - [ ] Write tests for animation state changes
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
