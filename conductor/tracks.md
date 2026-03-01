@@ -21,6 +21,6 @@ This file records all tracks created during the development process.
 - [x] **Track: implement Sub-Phase 8C: Accessibility**
       _Link: [./archive/accessibility_20260301/](./archive/accessibility_20260301/)_
 - [x] **Track: identify any unrelated screen or boilerplate or placeholder in the codebase, remove them if it is confirmed unnecessary**
-      _Link: [./tracks/cleanup_boilerplate_20260301/](./tracks/cleanup_boilerplate_20260301/)_
+      _Link: [./archive/cleanup_boilerplate_20260301/](./archive/cleanup_boilerplate_20260301/)_
 
 ## Planned
