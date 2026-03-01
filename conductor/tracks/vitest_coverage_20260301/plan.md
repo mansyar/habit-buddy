@@ -53,9 +53,9 @@
   - [x] Write tests for animation triggers on balance change
 - [x] Task: Increase Coverage for `src/components/ScaleButton.tsx` (66% -> 80%) 31eba69
   - [x] Write tests for scale transform logic
-- [ ] Task: Increase Coverage for Home Screen (`app/(tabs)/index.tsx`)
-  - [ ] Write tests for habit card interactions
-  - [ ] Write tests for haptic feedback triggers
+- [x] Task: Increase Coverage for Home Screen (`app/(tabs)/index.tsx`) 637486a
+  - [x] Write tests for habit card interactions
+  - [x] Write tests for haptic feedback triggers
 - [ ] Task: Increase Coverage for Parent Dashboard (`app/parent-dashboard.tsx`)
   - [ ] Write tests for streak calculation display
   - [ ] Write tests for data reset confirmation
