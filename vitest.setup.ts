@@ -23,10 +23,30 @@ const mockSQLiteDb = {
 // Mock react-native
 vi.mock('react-native', () => {
   return {
-    View: ({ testID, children, style, ...props }: any) =>
-      React.createElement('div', { ...props, 'data-testid': testID, style }, children),
-    Text: ({ testID, children, style, ...props }: any) =>
-      React.createElement('span', { ...props, 'data-testid': testID, style }, children),
+    View: ({ testID, children, style, accessibilityLabel, accessibilityRole, ...props }: any) =>
+      React.createElement(
+        'div',
+        {
+          ...props,
+          'data-testid': testID,
+          style,
+          'aria-label': accessibilityLabel,
+          role: accessibilityRole,
+        },
+        children,
+      ),
+    Text: ({ testID, children, style, accessibilityLabel, accessibilityRole, ...props }: any) =>
+      React.createElement(
+        'span',
+        {
+          ...props,
+          'data-testid': testID,
+          style,
+          'aria-label': accessibilityLabel,
+          role: accessibilityRole,
+        },
+        children,
+      ),
     TouchableOpacity: ({
       testID,
       onPress,
@@ -34,6 +54,8 @@ vi.mock('react-native', () => {
       children,
       style,
       disabled,
+      accessibilityLabel,
+      accessibilityRole,
       ...props
     }: any) =>
       React.createElement(
@@ -50,6 +72,8 @@ vi.mock('react-native', () => {
           },
           style,
           disabled,
+          'aria-label': accessibilityLabel,
+          role: accessibilityRole || 'button',
         },
         children,
       ),
@@ -61,6 +85,8 @@ vi.mock('react-native', () => {
       children,
       style,
       disabled,
+      accessibilityLabel,
+      accessibilityRole,
       ...props
     }: any) =>
       React.createElement(
@@ -84,6 +110,8 @@ vi.mock('react-native', () => {
             ...style,
           },
           disabled,
+          'aria-label': accessibilityLabel,
+          role: accessibilityRole || 'button',
         },
         children,
       ),
@@ -137,15 +165,30 @@ vi.mock('expo-router', () => ({
   Link: ({ children }: any) => children,
   Stack: Object.assign(({ children }: any) => children, {
     Screen: vi.fn(({ options }: any) => {
-      if (options?.headerRight) {
-        const HeaderRight = options.headerRight;
-        return React.createElement(
-          'div',
-          { 'data-testid': 'header-right' },
-          typeof HeaderRight === 'function' ? React.createElement(HeaderRight, null) : HeaderRight,
+      const elements = [];
+      if (options?.headerLeft) {
+        const HeaderLeft = options.headerLeft;
+        elements.push(
+          React.createElement(
+            'div',
+            { key: 'header-left', 'data-testid': 'header-left' },
+            typeof HeaderLeft === 'function' ? React.createElement(HeaderLeft, null) : HeaderLeft,
+          ),
         );
       }
-      return null;
+      if (options?.headerRight) {
+        const HeaderRight = options.headerRight;
+        elements.push(
+          React.createElement(
+            'div',
+            { key: 'header-right', 'data-testid': 'header-right' },
+            typeof HeaderRight === 'function'
+              ? React.createElement(HeaderRight, null)
+              : HeaderRight,
+          ),
+        );
+      }
+      return elements.length > 0 ? React.createElement(React.Fragment, null, elements) : null;
     }),
   }),
   Tabs: ({ children }: any) => children,

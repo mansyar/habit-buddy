@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import ParentDashboardScreen from '../parent-dashboard';
 import { useAuthStore } from '../../src/store/auth_store';
 import { dashboardService } from '../../src/lib/dashboard_service';
@@ -21,9 +21,10 @@ vi.mock('../../src/lib/dashboard_service', () => ({
 // Mock router and components handled by vitest.setup.ts
 // But we need to ensure useRouter returns the mock we expect
 const mockPush = vi.fn();
+const mockBack = vi.fn();
 (useRouter as any).mockReturnValue({
   push: mockPush,
-  back: vi.fn(),
+  back: mockBack,
 });
 
 describe('ParentDashboardScreen', () => {
@@ -60,6 +61,20 @@ describe('ParentDashboardScreen', () => {
     expect(await findByText('Habit 1')).toBeTruthy();
   });
 
+  it('handles navigation from header buttons', async () => {
+    const { findByLabelText } = render(<ParentDashboardScreen />);
+
+    // Header Right (Settings)
+    const settingsButton = await findByLabelText('Settings');
+    fireEvent.click(settingsButton);
+    expect(mockPush).toHaveBeenCalledWith('/settings');
+
+    // Header Left (Back)
+    const backButton = await findByLabelText('Go back');
+    fireEvent.click(backButton);
+    expect(mockBack).toHaveBeenCalled();
+  });
+
   it('shows alert when reset button is pressed', async () => {
     const spy = vi.spyOn(Alert, 'alert');
     const { findByText } = render(<ParentDashboardScreen />);
@@ -77,5 +92,32 @@ describe('ParentDashboardScreen', () => {
     fireEvent.click(manageButton);
 
     expect(mockPush).toHaveBeenCalledWith('/reward-shop');
+  });
+
+  it('performs reset action when confirmed in alert', async () => {
+    // @ts-ignore
+    const { habitLogService } = await import('../../src/lib/habit_log_service');
+    vi.mock('../../src/lib/habit_log_service', () => ({
+      habitLogService: {
+        resetTodayProgress: vi.fn(() => Promise.resolve()),
+      },
+    }));
+
+    // Mock Alert.alert to immediately call the 'onPress' of the 'Reset' button (index 1)
+    vi.spyOn(Alert, 'alert').mockImplementation((title, message, buttons) => {
+      if (buttons && buttons[1] && buttons[1].onPress) {
+        buttons[1].onPress();
+      }
+    });
+
+    const { findByText } = render(<ParentDashboardScreen />);
+    const resetButton = await findByText("Reset Today's Progress");
+
+    await act(async () => {
+      fireEvent.click(resetButton);
+    });
+
+    expect(habitLogService.resetTodayProgress).toHaveBeenCalledWith('p1');
+    expect(dashboardService.getDashboardStats).toHaveBeenCalledTimes(2); // Initial + after reset
   });
 });
