@@ -32,8 +32,16 @@ vi.mock('react-native', async (importActual) => {
   const actual: any = await importActual();
   return {
     ...actual,
-    TouchableOpacity: ({ children, onPress, accessibilityLabel, testID }: any) => (
-      <button onClick={onPress} aria-label={accessibilityLabel} data-testid={testID}>
+    TouchableOpacity: ({ children, onPress, onLongPress, accessibilityLabel, testID }: any) => (
+      <button
+        onClick={onPress}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          onLongPress?.();
+        }}
+        aria-label={accessibilityLabel}
+        data-testid={testID}
+      >
         {children}
       </button>
     ),
@@ -123,6 +131,14 @@ describe('HomeScreen', () => {
 
     fireEvent.click(settingsButton);
     expect(mockPush).toHaveBeenCalledWith('/settings');
+  });
+
+  it('navigates to parent dashboard on long press', () => {
+    const { getByTestId } = render(<HomeScreen />);
+    const settingsButton = getByTestId('settings-button');
+
+    fireEvent.contextMenu(settingsButton);
+    expect(mockPush).toHaveBeenCalledWith('/parent-dashboard');
   });
 
   it('navigates to reward shop on press', () => {
