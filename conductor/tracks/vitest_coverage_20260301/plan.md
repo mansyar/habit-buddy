@@ -29,8 +29,8 @@
 - [x] Task: Increase Coverage for `src/lib/profile_service.ts` (81% -> 90%) 213c6df
   - [x] Write tests for SQLite fallback failures
   - [x] Write tests for anonymous onboarding edge cases
-- [ ] Task: Increase Coverage for `src/lib/sync_service.ts` (87% -> 90%)
-  - [ ] Write tests for conflict resolution (if any)
+- [x] Task: Increase Coverage for `src/lib/sync_service.ts` (87% -> 90%) 09e5a6d
+  - [x] Write tests for conflict resolution (if any)
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: State Management Coverage (src/store/)
