@@ -45,7 +45,7 @@
   - [x] Write tests for animation state changes (Already 100%)
 - [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) afa584d
 
-## Phase 4: UI Screens & Components Coverage (app/ & src/components/)
+## Phase 4: UI Screens & Components Coverage (app/ & src/components/) [checkpoint: 8c65a77]
 
 - [x] Task: Increase Coverage for `app/(tabs)/two.tsx` (77% -> 80%) 3ea261f
   - [x] Write tests for basic screen elements
@@ -62,10 +62,10 @@
 - [x] Task: Increase Coverage for Reward Shop (`app/reward-shop.tsx`) 454a5bd
   - [x] Write tests for parental gate interaction
   - [x] Write tests for bolt balance updates after redemption
-- [ ] Task: Increase Coverage for Mission Screen (`app/mission/[id].tsx`)
-  - [ ] Write tests for timer completion flow
-  - [ ] Write tests for "Read to me" audio cues
-- [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+- [x] Task: Increase Coverage for Mission Screen (`app/mission/[id].tsx`)
+  - [x] Write tests for timer completion flow
+  - [x] Write tests for "Read to me" audio cues
+- [x] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md) 8c65a77
 
 ## Phase 5: Final Validation & Checkpoint
 
